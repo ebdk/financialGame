@@ -34,17 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MessageResponse createUser(UserDto userRequest) {
-        userRepository.save(new User(userRequest));
-        return new MessageResponse(new Pair("message", "Agregado" + userRequest.getUserName() + " correctamente."));
+    public MessageResponse createUser(String username) {
+        User newUser = new User(username);
+        userRepository.save(newUser);
+        return new MessageResponse(new Pair("message", "Agregado" + newUser.getUserName() + " correctamente."));
     }
 
     @Override
-    public Response getById(Long id) {
-        Optional<User> persona = userRepository.findById(id);
+    public Response getByUsername(String username) {
+        Optional<User> persona = userRepository.findByUserName(username);
         return persona.isPresent() ?
                 new UserDto(persona.get()) :
-                new MessageResponse(new Pair("error", "Error, no pudo ser encontrada la persona con id " + id));
+                new MessageResponse(new Pair("error", "Error, no pudo ser encontrada la persona con id " + username));
     }
 
     @Override

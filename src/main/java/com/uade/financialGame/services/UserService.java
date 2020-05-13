@@ -10,9 +10,9 @@ public interface UserService {
 
     Response retrieveFirstUser();
 
-    MessageResponse createUser(UserDto userDto);
+    MessageResponse createUser(String userDto);
 
-    Response getById(Long id);
+    Response getByUsername(String username);
 
     Response validateByUserNameAndPassword(String userName, String password);
 }

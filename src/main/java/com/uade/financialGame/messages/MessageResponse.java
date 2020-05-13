@@ -19,4 +19,8 @@ public class MessageResponse implements Response {
 
     public MessageResponse() {
     }
+
+    public java.util.Map<String, String> getMapMessage() {
+        return mapMessage;
+    }
 }
