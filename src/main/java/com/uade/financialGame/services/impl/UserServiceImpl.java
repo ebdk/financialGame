@@ -20,9 +20,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public MessageResponse sayHello() {
-        //return new MessageResponse(new Pair("prueba", "Hola Mundo"));
-        return new MessageResponse(new Pair("message", "Invalido"),
-                new Pair("reason", "Error, usuario no encontrado"));
+        return new MessageResponse(new Pair("prueba", "Hola Mundo"));
+        /*return new MessageResponse(new Pair("message", "Invalido"),
+                new Pair("reason", "Error, usuario no encontrado"));*/
     }
 
     @Override
