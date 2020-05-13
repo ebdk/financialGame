@@ -57,7 +57,7 @@ public class UserController {
     }
 
 
-    
+
     @ApiOperation(
             value = "Looks up a user by username",
             notes = "Self explanatory")

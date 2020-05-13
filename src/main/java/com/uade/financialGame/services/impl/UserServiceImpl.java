@@ -6,7 +6,7 @@ import com.uade.financialGame.messages.UserDto;
 import com.uade.financialGame.models.User;
 import com.uade.financialGame.repositories.UserDAO;
 import com.uade.financialGame.services.UserService;
-import javafx.util.Pair;
+import com.uade.financialGame.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

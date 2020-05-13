@@ -1,6 +1,6 @@
 package com.uade.financialGame.messages;
 
-import javafx.util.Pair;
+import com.uade.financialGame.utils.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class MessageResponse implements Response {
     public MessageResponse() {
     }
 
-    public java.util.Map<String, String> getMapMessage() {
+    public Map<String, String> getMapMessage() {
         return mapMessage;
     }
 }
