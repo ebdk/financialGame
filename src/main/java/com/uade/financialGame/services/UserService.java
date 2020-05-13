@@ -10,7 +10,7 @@ public interface UserService {
 
     Response retrieveFirstUser();
 
-    MessageResponse createUser(String userDto);
+    MessageResponse createUser(String username, String password);
 
     Response getByUsername(String username);
 

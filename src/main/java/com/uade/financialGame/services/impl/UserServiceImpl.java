@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MessageResponse createUser(String username) {
-        User newUser = new User(username);
+    public MessageResponse createUser(String username, String password) {
+        User newUser = new User(username, password);
         userRepository.save(newUser);
         return new MessageResponse(new Pair("message", "Agregado" + newUser.getUserName() + " correctamente."));
     }

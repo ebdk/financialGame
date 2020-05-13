@@ -1,6 +1,5 @@
 package com.uade.financialGame.controller;
 
-import com.uade.financialGame.messages.MessageResponse;
 import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.messages.UserDto;
 import com.uade.financialGame.services.UserService;
@@ -11,11 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -64,12 +59,28 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
     })
-    @GetMapping(path="userSave/{username}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="userSave/{username}/", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response> getUserSave(
             @ApiParam(value = "The day that will be predicted", required = true)
-            @PathVariable("username") String username) {
-        return ResponseEntity.ok(service.createUser(username));
+            @PathVariable("username") String username,
+            @PathVariable("password") String password) {
+        return ResponseEntity.ok(service.createUser(username, password));
+    }
+
+    @ApiOperation(
+            value = "Looks up a user by username",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
+    })
+    @GetMapping(path="user/{username}/{password}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Response> getValidation(
+            @ApiParam(value = "The day that will be predicted", required = true)
+            @PathVariable("username") String username,
+            @PathVariable("password") String password) {
+        return ResponseEntity.ok(service.validateByUserNameAndPassword(username, password));
     }
 
 

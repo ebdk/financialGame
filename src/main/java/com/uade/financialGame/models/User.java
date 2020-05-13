@@ -34,6 +34,11 @@ public class User {
         this.userName = username;
     }
 
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
     public Long getPersonaId() {
         return personaId;
     }
