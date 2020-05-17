@@ -60,7 +60,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
     })
-    @GetMapping(path="userSave/{username}/", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="userSave/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response> getUserSave(
             @ApiParam(value = "The day that will be predicted", required = true)
