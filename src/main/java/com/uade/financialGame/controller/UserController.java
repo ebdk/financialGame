@@ -52,6 +52,19 @@ public class UserController {
         return ResponseEntity.ok(service.getByUsername(username));
     }
 
+    @ApiOperation(
+            value = "Looks up a user by username",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The user was found successfully", response = Object.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
+    })
+    @GetMapping(path="user", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getAllUsers() {
+        return ResponseEntity.ok(service.getAllusers());
+    }
+
 
 
     @ApiOperation(

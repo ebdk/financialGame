@@ -10,7 +10,9 @@ import com.uade.financialGame.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +33,12 @@ public class UserServiceImpl implements UserService {
         return persona.isPresent() ?
                 new UserDto(persona.get()) :
                 new MessageResponse(new Pair("error", "No hay usuarios"));
+    }
+
+    @Override
+    public List<UserDto> getAllusers() {
+        List<User> personas = userRepository.findAll();
+        return personas.stream().map(User::toDto).collect(Collectors.toList());
     }
 
     @Override

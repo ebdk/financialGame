@@ -59,4 +59,8 @@ public class User {
         return rank;
     }
 
+    public com.uade.financialGame.messages.UserDto toDto() {
+        return new com.uade.financialGame.messages.UserDto(this);
+    }
+
 }
