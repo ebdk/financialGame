@@ -41,7 +41,8 @@ public class UserController {
             value = "Looks up a user by username",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was found successfully", response = UserDto.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
     })
     @GetMapping(path="user/{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -74,7 +75,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
     })
-    @GetMapping(path="user/{username}/{password}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="userValidate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response> getValidation(
             @ApiParam(value = "The day that will be predicted", required = true)
