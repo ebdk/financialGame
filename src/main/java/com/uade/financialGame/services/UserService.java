@@ -12,7 +12,7 @@ public interface UserService {
 
     Response getByUsername(String username);
 
-    Response validateByUserNameAndPassword(String userName, String password);
+    MessageResponse validateByUserNameAndPassword(String userName, String password);
 
     MessageResponse createUser(UserDto userDto);
 }

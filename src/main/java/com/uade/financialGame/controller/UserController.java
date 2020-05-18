@@ -1,5 +1,6 @@
 package com.uade.financialGame.controller;
 
+import com.uade.financialGame.messages.MessageResponse;
 import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.messages.UserDto;
 import com.uade.financialGame.services.UserService;
@@ -26,7 +27,7 @@ public class UserController {
             notes = "Self explanatory")
     @ApiResponses({
             @ApiResponse(code = 200, message = "The user was found successfully", response = UserDto.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = MessageResponse.class),
     })
     @GetMapping(path="user/{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -41,8 +42,8 @@ public class UserController {
             value = "Looks up ALL users from the database",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The users were found successfully", response = Object.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
+            @ApiResponse(code = 200, message = "The users were found successfully", response = UserDto.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = MessageResponse.class),
     })
     @GetMapping(path="user", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -55,7 +56,7 @@ public class UserController {
             value = "Validates data from User",
             notes = "Looks up the user and tries to match it's password with the one given")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was validated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was validated successfully", response = MessageResponse.class),
     })
     @GetMapping(path="userValidate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -72,11 +73,11 @@ public class UserController {
             value = "Creates a user",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was crated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was crated successfully", response = MessageResponse.class),
     })
     @PostMapping(path = "user", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public com.uade.financialGame.messages.MessageResponse createPersona(@RequestBody com.uade.financialGame.messages.UserDto userDto) {
+    public MessageResponse createPersona(@RequestBody UserDto userDto) {
         return service.createUser(userDto);
     }
 

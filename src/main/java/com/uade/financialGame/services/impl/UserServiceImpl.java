@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response validateByUserNameAndPassword(String userName, String password) {
+    public MessageResponse validateByUserNameAndPassword(String userName, String password) {
         Optional<User> persona = userRepository.findByUserName(userName);
 
         return persona.isPresent() ?
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public MessageResponse createUser(UserDto userDto) {
         userRepository.save(new User(userDto));
-        return new MessageResponse("Agregado" + userDto.getUserName() + " correctamente.");
+        return new MessageResponse("Agregado " + userDto.getUserName() + " correctamente.");
     }
 
 
