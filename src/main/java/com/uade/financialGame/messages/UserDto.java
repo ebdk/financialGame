@@ -22,24 +22,4 @@ public class UserDto implements Response {
 
     public UserDto() {
     }
-
-    public Long getPersonaId() {
-        return personaId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public String getRank() {
-        return rank;
-    }
 }

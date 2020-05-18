@@ -7,8 +7,10 @@ import java.util.Map;
 
 public class MessageResponse implements Response {
 
+    //ATTRIBUTES
     private Map<String, String> mapMessage;
 
+    //BUILDERS
     public MessageResponse(Pair... args) {
         super();
         this.mapMessage = new HashMap<>();
@@ -26,6 +28,7 @@ public class MessageResponse implements Response {
     public MessageResponse() {
     }
 
+    //GETTERS AND SETTERS
     public Map<String, String> getMapMessage() {
         return mapMessage;
     }

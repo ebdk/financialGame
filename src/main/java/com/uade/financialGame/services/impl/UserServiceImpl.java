@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public com.uade.financialGame.messages.MessageResponse createUser(com.uade.financialGame.messages.UserDto userDto) {
+    public MessageResponse createUser(UserDto userDto) {
         userRepository.save(new User(userDto));
         return new MessageResponse("Agregado" + userDto.getUserName() + " correctamente.");
     }

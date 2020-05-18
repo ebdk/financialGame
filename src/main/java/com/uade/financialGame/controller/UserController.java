@@ -36,7 +36,6 @@ public class UserController {
     }
 
 
-
     @ApiOperation(
             value = "Looks up a user by username",
             notes = "Self explanatory")
@@ -52,6 +51,7 @@ public class UserController {
         return ResponseEntity.ok(service.getByUsername(username));
     }
 
+
     @ApiOperation(
             value = "Looks up ALL users from the database",
             notes = "Self explanatory")
@@ -64,7 +64,6 @@ public class UserController {
     public ResponseEntity<Object> getAllUsers() {
         return ResponseEntity.ok(service.getAllusers());
     }
-
 
 
     @ApiOperation(
@@ -83,6 +82,7 @@ public class UserController {
         return ResponseEntity.ok(service.validateByUserNameAndPassword(username, password));
     }
 
+
     @ApiOperation(
             value = "Creates a user",
             notes = "Self explanatory")
@@ -94,86 +94,5 @@ public class UserController {
     public com.uade.financialGame.messages.MessageResponse createPersona(@RequestBody com.uade.financialGame.messages.UserDto userDto) {
         return service.createUser(userDto);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    @ApiOperation(
-            value = "Calculates the forecast of the weather condition of a given day",
-            notes = "The forecast is limited to just 3650 days, or 10 years ")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = DayDto.class),
-    })
-    @GetMapping(path="user/{username}/{password}", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map> validateUser(
-            @ApiParam(value = "The day that will be predicted", allowableValues = "range[1,3650]", required = true)
-            @PathVariable("day") int day) {
-        return ResponseEntity.ok(service.predictWeather(day));
-    }
-    */
-
-
-
-
-/*
-    @ApiOperation(
-            value = "Looks up a user by username",
-            notes = "Self explanatory")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
-    })
-    @GetMapping(path="userSave/{username}/{password}", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Response> getUserSave(
-            @ApiParam(value = "The day that will be predicted", required = true)
-            @PathVariable("username") String username,
-            @ApiParam(value = "The day that will be predicted", required = true)
-            @PathVariable("password") String password) {
-        return ResponseEntity.ok(service.createUser(username, password));
-    }
-    */
-
-
-
-
-    /*
-    @ApiOperation(
-            value = "Calculates the forecast of the weather condition of a given day",
-            notes = "The forecast is limited to just 3650 days, or 10 years ")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = DayDto.class),
-    })
-    @GetMapping(path="/{day}", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<DayDto> forecastDay(
-            @ApiParam(value = "The day that will be predicted", allowableValues = "range[1,3650]", required = true)
-            @PathVariable("day") int day) {
-        return ResponseEntity.ok(service.predictWeather(day));
-    }
-
-    @ApiOperation(
-            value = "Calculates the forecast of the weather condition of the next 3600 days",
-            notes = "This prediction includes: number of drought days, number of rainy days, "
-                    + "day with maximum amount of rain and days with optimum weather conditions")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The prediction was calculated successfully", response = PredictionDto.class),
-    })
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<PredictionDto> weatherForecast() {
-        return ResponseEntity.ok(service.weatherForecast());
-    }
-    */
 
 }
