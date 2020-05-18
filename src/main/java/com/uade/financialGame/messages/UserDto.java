@@ -6,14 +6,16 @@ import lombok.Getter;
 @Getter
 public class UserDto implements Response {
 
-    private Long personaId;
+    //ATTRIBUTES
+    private Long userId;
     private String userName;
     private String password;
     private int gold;
     private String rank;
 
+    //BUILDERS
     public UserDto(User user) {
-        this.personaId = user.getPersonaId();
+        this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.gold = user.getGold();
@@ -22,4 +24,5 @@ public class UserDto implements Response {
 
     public UserDto() {
     }
+
 }

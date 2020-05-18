@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -22,19 +20,6 @@ public class UserController {
 
     @Autowired
     private UserService service;
-
-    @ApiOperation(
-            value = "Test",
-            notes = "Returns 'Hello World'")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The test was donde succesfully", response = Map.class),
-    })
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Map> sayHelloWorld() {
-        return ResponseEntity.ok(service.sayHello().getMapMessage());
-    }
-
 
     @ApiOperation(
             value = "Looks up a user by username",

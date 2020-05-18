@@ -21,31 +21,9 @@ public class UserServiceImpl implements UserService {
     private UserDAO userRepository;
 
     @Override
-    public MessageResponse sayHello() {
-        return new MessageResponse(new Pair("prueba", "Hola Mundo"));
-        /*return new MessageResponse(new Pair("message", "Invalido"),
-                new Pair("reason", "Error, usuario no encontrado"));*/
-    }
-
-    @Override
-    public Response retrieveFirstUser() {
-        Optional<User> persona = userRepository.findById((long) 1);
-        return persona.isPresent() ?
-                new UserDto(persona.get()) :
-                new MessageResponse(new Pair("error", "No hay usuarios"));
-    }
-
-    @Override
     public List<UserDto> getAllusers() {
         List<User> personas = userRepository.findAll();
         return personas.stream().map(User::toDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public MessageResponse createUser(String username, String password) {
-        User newUser = new User(username, password);
-        userRepository.save(newUser);
-        return new MessageResponse(new Pair("message", "Agregado" + newUser.getUserName() + " correctamente."));
     }
 
     @Override

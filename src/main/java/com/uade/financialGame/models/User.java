@@ -15,7 +15,7 @@ public class User {
     //ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long personaId;
+    private Long userId;
     private String userName;
     private String password;
     private int gold;
@@ -23,7 +23,7 @@ public class User {
 
     //BUILDERS
     public User(UserDto userDto) {
-        this.personaId = userDto.getPersonaId();
+        this.userId = userDto.getUserId();
         this.userName = userDto.getUserName();
         this.password = userDto.getPassword();
         this.gold = userDto.getGold();
@@ -31,15 +31,6 @@ public class User {
     }
 
     public User() {
-    }
-
-    public User(String username) {
-        this.userName = username;
-    }
-
-    public User(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
     }
 
     //METHODS

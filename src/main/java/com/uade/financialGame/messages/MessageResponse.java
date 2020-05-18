@@ -1,10 +1,12 @@
 package com.uade.financialGame.messages;
 
 import com.uade.financialGame.utils.Pair;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class MessageResponse implements Response {
 
     //ATTRIBUTES
@@ -15,7 +17,7 @@ public class MessageResponse implements Response {
         super();
         this.mapMessage = new HashMap<>();
         for (Pair arg : args) {
-            mapMessage.put(arg.getKey().toString(), arg.getValue().toString());
+            mapMessage.put(arg.getKey(), arg.getValue());
         }
     }
 
@@ -28,8 +30,4 @@ public class MessageResponse implements Response {
     public MessageResponse() {
     }
 
-    //GETTERS AND SETTERS
-    public Map<String, String> getMapMessage() {
-        return mapMessage;
-    }
 }
