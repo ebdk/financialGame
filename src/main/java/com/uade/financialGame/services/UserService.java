@@ -20,4 +20,6 @@ public interface UserService {
     Response getByUsername(String username);
 
     Response validateByUserNameAndPassword(String userName, String password);
+
+    com.uade.financialGame.messages.MessageResponse createUser(com.uade.financialGame.messages.UserDto userDto);
 }

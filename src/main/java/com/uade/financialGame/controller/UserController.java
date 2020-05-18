@@ -47,16 +47,16 @@ public class UserController {
     @GetMapping(path="user/{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response> getUser(
-            @ApiParam(value = "The day that will be predicted", required = true)
+            @ApiParam(value = "The user's username", required = true)
             @PathVariable("username") String username) {
         return ResponseEntity.ok(service.getByUsername(username));
     }
 
     @ApiOperation(
-            value = "Looks up a user by username",
+            value = "Looks up ALL users from the database",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was found successfully", response = Object.class),
+            @ApiResponse(code = 200, message = "The users were found successfully", response = Object.class),
             @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
     })
     @GetMapping(path="user", produces = APPLICATION_JSON_VALUE)
@@ -68,34 +68,43 @@ public class UserController {
 
 
     @ApiOperation(
-            value = "Looks up a user by username",
-            notes = "Self explanatory")
+            value = "Validates data from User",
+            notes = "Looks up the user and tries to match it's password with the one given")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
-    })
-    @GetMapping(path="userSave/{username}/{password}", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Response> getUserSave(
-            @ApiParam(value = "The day that will be predicted", required = true)
-            @PathVariable("username") String username,
-            @PathVariable("password") String password) {
-        return ResponseEntity.ok(service.createUser(username, password));
-    }
-
-    @ApiOperation(
-            value = "Looks up a user by username",
-            notes = "Self explanatory")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was validated successfully", response = UserDto.class),
     })
     @GetMapping(path="userValidate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response> getValidation(
-            @ApiParam(value = "The day that will be predicted", required = true)
+            @ApiParam(value = "The user's username", required = true)
             @PathVariable("username") String username,
+            @ApiParam(value = "The user's password", required = true)
             @PathVariable("password") String password) {
         return ResponseEntity.ok(service.validateByUserNameAndPassword(username, password));
     }
+
+    @ApiOperation(
+            value = "Creates a user",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The user was crated successfully", response = UserDto.class),
+    })
+    @PostMapping(path = "user", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public com.uade.financialGame.messages.MessageResponse createPersona(@RequestBody com.uade.financialGame.messages.UserDto userDto) {
+        return service.createUser(userDto);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     /*
@@ -117,6 +126,23 @@ public class UserController {
 
 
 
+/*
+    @ApiOperation(
+            value = "Looks up a user by username",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The forecast was calculated successfully", response = UserDto.class),
+    })
+    @GetMapping(path="userSave/{username}/{password}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Response> getUserSave(
+            @ApiParam(value = "The day that will be predicted", required = true)
+            @PathVariable("username") String username,
+            @ApiParam(value = "The day that will be predicted", required = true)
+            @PathVariable("password") String password) {
+        return ResponseEntity.ok(service.createUser(username, password));
+    }
+    */
 
 
 

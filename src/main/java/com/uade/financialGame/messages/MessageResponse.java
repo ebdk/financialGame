@@ -17,6 +17,12 @@ public class MessageResponse implements Response {
         }
     }
 
+    public MessageResponse(String string) {
+        super();
+        this.mapMessage = new HashMap<>();
+        mapMessage.put("message", string);
+    }
+
     public MessageResponse() {
     }
 
