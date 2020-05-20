@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService {
                 (persona.get().getPassword().equals(password) ?
                         new MessageResponse(new Pair("message", "Valido")).getMapMessage() :
                         new MessageResponse(new Pair("message", "Invalido"),
-                                new Pair("reason", "Error, usuario y contraseña no concuerdan")).getMapMessage()
+                                new Pair("error", "Usuario y contraseña no concuerdan")).getMapMessage()
                         ) :
                 new MessageResponse(new Pair("message", "Invalido"),
-                        new Pair("reason", "Error, usuario no encontrado")).getMapMessage();
+                        new Pair("error", "Usuario no encontrado")).getMapMessage();
 
     }
 
