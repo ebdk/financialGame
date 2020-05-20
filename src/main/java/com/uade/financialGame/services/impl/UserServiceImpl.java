@@ -27,32 +27,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response getByUsername(String username) {
+    public Object getByUsername(String username) {
         Optional<User> persona = userRepository.findByUserName(username);
         return persona.isPresent() ?
                 new UserDto(persona.get()) :
-                new MessageResponse(new Pair("error", "Error, no pudo ser encontrada la persona con id " + username));
+                new MessageResponse(new Pair("error", "Error, no pudo ser encontrada la persona con id " + username)).getMapMessage();
     }
 
     @Override
-    public MessageResponse validateByUserNameAndPassword(String userName, String password) {
+    public Object validateByUserNameAndPassword(String userName, String password) {
         Optional<User> persona = userRepository.findByUserName(userName);
 
         return persona.isPresent() ?
                 (persona.get().getPassword().equals(password) ?
-                        new MessageResponse(new Pair("message", "Valido")) :
+                        new MessageResponse(new Pair("message", "Valido")).getMapMessage() :
                         new MessageResponse(new Pair("message", "Invalido"),
-                                new Pair("reason", "Error, usuario y contraseña no concuerdan"))
+                                new Pair("reason", "Error, usuario y contraseña no concuerdan")).getMapMessage()
                         ) :
                 new MessageResponse(new Pair("message", "Invalido"),
-                        new Pair("reason", "Error, usuario no encontrado"));
+                        new Pair("reason", "Error, usuario no encontrado")).getMapMessage();
 
     }
 
     @Override
-    public MessageResponse createUser(UserDto userDto) {
+    public Object createUser(UserDto userDto) {
         userRepository.save(new User(userDto));
-        return new MessageResponse("Agregado " + userDto.getUserName() + " correctamente.");
+        return new MessageResponse("Agregado " + userDto.getUserName() + " correctamente.").getMapMessage();
     }
 
 

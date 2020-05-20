@@ -10,9 +10,9 @@ public interface UserService {
 
     List<UserDto> getAllusers();
 
-    Response getByUsername(String username);
+    Object getByUsername(String username);
 
-    MessageResponse validateByUserNameAndPassword(String userName, String password);
+    Object validateByUserNameAndPassword(String userName, String password);
 
-    MessageResponse createUser(UserDto userDto);
+    Object createUser(UserDto userDto);
 }
