@@ -26,7 +26,11 @@ public class GameUser {
 
     private List<GameTurn> gameTurns;
 
+
     //BUILDERS
+    public GameUser(com.uade.financialGame.models.User user) {
+    }
+
 
     //METHODS
     public GameUserDto toDto() {

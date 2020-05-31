@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("financial_game/api")
+@RequestMapping("financial_game/api/user")
 public class UserController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The user was found successfully", response = UserDto.class),
     })
-    @GetMapping(path="user/{username}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getUser(
             @ApiParam(value = "The user's username", required = true)
@@ -43,7 +43,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "The users were found successfully", response = Object.class),
             @ApiResponse(code = 500, message = "Internal server error", response = Response.class),
     })
-    @GetMapping(path="user", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getAllUsers() {
         return ResponseEntity.ok(service.getAllusers());
@@ -56,7 +56,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The user was validated successfully", response = Object.class),
     })
-    @GetMapping(path="userValidate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="validate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getValidation(
             @ApiParam(value = "The user's username", required = true)
@@ -73,7 +73,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The user was crated successfully", response = UserDto.class),
     })
-    @PostMapping(path = "user", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object createPersona(@RequestBody com.uade.financialGame.messages.UserDto userDto) {
         return service.createUser(userDto);
