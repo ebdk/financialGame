@@ -2,33 +2,39 @@ package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.GameUserDto;
 import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "GameUser")
+@Table(name = "game_user")
 @Getter
+@Setter
 public class GameUser {
 
     //ATTRIBUTES
     @Id
+    @Column(name="GAME_USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameUserId;
 
+    @ManyToOne
     private User user;
 
+    @ManyToOne
     private Game game;
 
+    @ManyToOne
     private Profession profession;
 
+    @OneToMany(mappedBy = "gameUser")
     private List<GameTurn> gameTurns;
 
 
     //BUILDERS
-    public GameUser(com.uade.financialGame.models.User user) {
+    public GameUser(User user) {
+        this.user = user;
     }
 
 

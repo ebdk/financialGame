@@ -3,24 +3,24 @@ package com.uade.financialGame.models;
 import com.uade.financialGame.messages.UserDto;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "User")
+@Table(name = "user")
 @Getter
 public class User {
 
     //ATTRIBUTES
     @Id
+    @Column(name="USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     private String userName;
     private String password;
     private UserRank rank;
 
+    @OneToMany(mappedBy = "user")
     private List<GameUser> games;
 
     public enum UserRank {

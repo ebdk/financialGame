@@ -3,15 +3,13 @@ package com.uade.financialGame.models;
 import com.uade.financialGame.messages.GameDto;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 
-@Entity
+@Entity(name = "Game")
+@Table(name = "game")
 @Getter
 public class Game {
 
@@ -19,11 +17,13 @@ public class Game {
 
     //ATTRIBUTES
     @Id
+    @Column(name="GAME_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameId;
     private GameType gameType;
     private GameDifficulty gameDifficulty;
 
+    @OneToMany(mappedBy = "game")
     private List<GameUser> users;
 
     public enum GameType {

@@ -74,6 +74,7 @@ public class GameServiceImpl implements GameService {
 
         if(!(FULL.equals(game.getStatus()))){
             game.addGameUser(gameUser);
+            gameUser.setGame(game);
         } else {
             return new MessageResponse(new Pair("message", "Invalido"),
                     new Pair("error", "Se intento unir a usuario en un juego lleno.")).getMapMessage();

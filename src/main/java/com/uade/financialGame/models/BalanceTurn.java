@@ -1,14 +1,12 @@
-package com.uade.financialGame.models;
+/*package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.BalanceTurnDto;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+@Entity(name = "BalanceTurn")
+@Table(name = "balance_turn")
 @Getter
 public class BalanceTurn {
 
@@ -21,7 +19,8 @@ public class BalanceTurn {
     private int active;
     private int passive;
 
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_turn_id")
     private GameTurn gameTurn;
 
 
@@ -33,3 +32,4 @@ public class BalanceTurn {
     }
 
 }
+*/
