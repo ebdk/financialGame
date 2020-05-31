@@ -1,6 +1,7 @@
 package com.uade.financialGame.services;
 
 import com.uade.financialGame.messages.customRequests.CreateGameTurnRequest;
+import com.uade.financialGame.messages.customRequests.GetGameTurnsRequest;
 import com.uade.financialGame.messages.customRequests.GetGameUserTurnsRequest;
 
 public interface GameTurnService {

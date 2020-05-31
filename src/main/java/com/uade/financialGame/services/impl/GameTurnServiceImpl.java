@@ -10,7 +10,7 @@ import com.uade.financialGame.repositories.GameDAO;
 import com.uade.financialGame.repositories.GameTurnDAO;
 import com.uade.financialGame.repositories.GameUserDAO;
 import com.uade.financialGame.services.GameTurnService;
-import com.uade.financialGame.services.GetGameTurnsRequest;
+import com.uade.financialGame.messages.customRequests.GetGameTurnsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

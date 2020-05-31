@@ -1,6 +1,9 @@
 package com.uade.financialGame.messages;
 
-@lombok.Getter
+import com.uade.financialGame.models.Profession;
+import lombok.Getter;
+
+@Getter
 public class ProfessionDto {
 
     private String name;
@@ -8,6 +11,6 @@ public class ProfessionDto {
     private String description;
 
 
-    public ProfessionDto(com.uade.financialGame.models.Profession profession) {
+    public ProfessionDto(Profession profession) {
     }
 }
