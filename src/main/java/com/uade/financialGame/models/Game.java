@@ -15,6 +15,8 @@ import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 @Getter
 public class Game {
 
+    private static int GAME_FULL_NUMBER = 6;
+
     //ATTRIBUTES
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +52,7 @@ public class Game {
     //METHODS
     public GameLobbyStatus getStatus(){
         return users.isEmpty() ? EMPTY :
-                (users.size() >= 6 ? FULL : AWAITING_PLAYERS);
+                (users.size() >= GAME_FULL_NUMBER ? FULL : AWAITING_PLAYERS);
     }
 
     public int getGameSize(){
