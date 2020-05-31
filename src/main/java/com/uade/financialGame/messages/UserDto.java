@@ -18,8 +18,7 @@ public class UserDto implements Response {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.password = user.getPassword();
-        this.gold = user.getGold();
-        this.rank = user.getRank();
+        this.rank = user.getRank().toString();
     }
 
     public UserDto() {

@@ -18,16 +18,20 @@ public class User {
     private Long userId;
     private String userName;
     private String password;
-    private int gold;
-    private String rank;
+    private UserRank rank;
+
+    private java.util.List<GameUser> games;
+
+    public enum UserRank {
+    }
+
 
     //BUILDERS
     public User(UserDto userDto) {
         this.userId = userDto.getUserId();
         this.userName = userDto.getUserName();
         this.password = userDto.getPassword();
-        this.gold = userDto.getGold();
-        this.rank = userDto.getRank();
+        this.rank = UserRank.valueOf(userDto.getRank());
     }
 
     public User() {
