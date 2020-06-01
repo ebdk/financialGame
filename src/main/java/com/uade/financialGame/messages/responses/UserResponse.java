@@ -16,7 +16,7 @@ public class UserResponse implements Response {
     private String userName;
     private String password;
     private String rank;
-    private List<GameUserResponse> games;
+    private List<GameUserResponse> gameUserIds;
 
     //BUILDERS
     public UserResponse(User user) {
@@ -24,7 +24,7 @@ public class UserResponse implements Response {
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.rank = user.getRank().toString();
-        this.games = user.getGames().stream().map(GameUser::toDto).collect(Collectors.toList());
+        this.gameUserIds = user.getGames().stream().map(GameUser::toDto).collect(Collectors.toList());
     }
 
     public UserResponse() {

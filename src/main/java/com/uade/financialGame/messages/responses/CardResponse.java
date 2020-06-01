@@ -20,7 +20,8 @@ public class CardResponse implements Response {
     private int cardIncome;
     private int cardExpenses;
     private int cardPercentage;
-    private List<GameTurnResponse> gameTurns;
+
+    private List<Long> gameTurnsIds;
 
     public CardResponse(Card card) {
         this.cardId = card.getCardId();
@@ -32,7 +33,7 @@ public class CardResponse implements Response {
         this.cardIncome = card.getCardIncome();
         this.cardExpenses = card.getCardExpenses();
         this.cardPercentage = card.getCardPercentage();
-        this.gameTurns = card.getGameTurns().stream().map(GameTurn::toDto).collect(Collectors.toList());
+        this.gameTurnsIds = card.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList());
     }
 
     public CardResponse() {

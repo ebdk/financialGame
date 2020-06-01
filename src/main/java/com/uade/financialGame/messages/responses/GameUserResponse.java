@@ -11,16 +11,18 @@ import java.util.stream.Collectors;
 @Getter
 public class GameUserResponse implements Response {
 
-    private UserResponse user;
+    private Long id;
+    private Long userId;
     private ProfessionResponse profession;
     private GameResponse game;
-    private List<GameTurnResponse> gameTurns;
+    private List<Long> gameTurnsIds;
 
     public GameUserResponse(GameUser gameUser) {
-        this.user = new UserResponse(gameUser.getUser());
+        this.id = gameUser.getGameUserId();
+        this.userId = gameUser.getUser().getUserId();
         this.profession = new ProfessionResponse(gameUser.getProfession());
         this.game = new GameResponse(gameUser.getGame());
-        this.gameTurns =  gameUser.getGameTurns().stream().map(GameTurn::toDto).collect(Collectors.toList());
+        this.gameTurnsIds =  gameUser.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList());
     }
 
     public GameUserResponse() {
