@@ -31,7 +31,7 @@ public class GameTurnController {
     })
     @PostMapping(path="game", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<GameTurnResponse> getUserTurns(@RequestBody GetGameUserTurnsRequest getGameUserTurnsRequest) {
+    public Object getUserTurns(@RequestBody GetGameUserTurnsRequest getGameUserTurnsRequest) {
         return service.getGameUserTurns(getGameUserTurnsRequest);
     }
 
@@ -43,7 +43,7 @@ public class GameTurnController {
     })
     @PostMapping(path="game_user", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<GameTurnResponse> getAllGameTurns(@RequestBody GetGameTurnsRequest getGameUserTurnsRequest) {
+    public Object getAllGameTurns(@RequestBody GetGameTurnsRequest getGameUserTurnsRequest) {
         return service.getGameTurns(getGameUserTurnsRequest);
     }
 

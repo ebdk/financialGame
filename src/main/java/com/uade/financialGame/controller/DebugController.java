@@ -31,7 +31,7 @@ public class DebugController {
     })
     @GetMapping(path="ping", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> ping() {
+    public Object ping() {
         return ResponseEntity.ok(service.ping());
     }
 
@@ -44,7 +44,7 @@ public class DebugController {
     })
     @GetMapping(path="entities", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getAllEntities() {
+    public Object getAllEntities() {
         return ResponseEntity.ok(service.getAllEntities());
     }
 }

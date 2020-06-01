@@ -28,7 +28,7 @@ public class UserController {
     })
     @GetMapping(path="{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getUser(
+    public Object getUser(
             @ApiParam(value = "The user's username", required = true)
             @PathVariable("username") String username) {
         return ResponseEntity.ok(service.getByUsername(username));
@@ -44,7 +44,7 @@ public class UserController {
     })
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getAllUsers() {
+    public Object getAllUsers() {
         return ResponseEntity.ok(service.getAllusers());
     }
 
@@ -57,7 +57,7 @@ public class UserController {
     })
     @GetMapping(path="validate/{username}/{password}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getValidation(
+    public Object getValidation(
             @ApiParam(value = "The user's username", required = true)
             @PathVariable("username") String username,
             @ApiParam(value = "The user's password", required = true)

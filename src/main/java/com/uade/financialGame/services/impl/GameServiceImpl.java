@@ -59,13 +59,13 @@ public class GameServiceImpl implements GameService {
                 .filter(x -> (gameType.equals(x.getGameType())) && (gameDifficulty.equals(x.getGameDifficulty())) )
                 .collect(groupingBy(Game::getStatus));
 
-        if(!(games.get(AWAITING_PLAYERS).isEmpty())){
+        if(!(games.getOrDefault(AWAITING_PLAYERS, new java.util.ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(AWAITING_PLAYERS)
                     .stream()
                     .sorted(comparing(Game::getGameSize))
                     .collect(Collectors.toList());
             game = availableGames.get(0);
-        } else if(!(games.get(EMPTY).isEmpty())){
+        } else if(!(games.getOrDefault(EMPTY, new java.util.ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(EMPTY);
             game = availableGames.get(0);
         } else {
