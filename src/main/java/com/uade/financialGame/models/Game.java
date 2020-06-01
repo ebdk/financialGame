@@ -1,6 +1,5 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.GameDto;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -63,8 +62,8 @@ public class Game {
         users.add(gameUser);
     }
 
-    public GameDto toDto() {
-        return new GameDto(this);
+    public com.uade.financialGame.messages.responses.GameResponse toDto() {
+        return new com.uade.financialGame.messages.responses.GameResponse(this);
     }
 
 }

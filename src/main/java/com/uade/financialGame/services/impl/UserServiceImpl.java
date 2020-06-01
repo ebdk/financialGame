@@ -1,8 +1,8 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.MessageResponse;
-import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.messages.UserDto;
+import com.uade.financialGame.messages.requests.UserRequest;
+import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.models.User;
 import com.uade.financialGame.repositories.UserDAO;
 import com.uade.financialGame.services.UserService;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userRepository;
 
     @Override
-    public List<UserDto> getAllusers() {
+    public List<UserResponse> getAllusers() {
         List<User> personas = userRepository.findAll();
         return personas.stream().map(User::toDto).collect(Collectors.toList());
     }
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     public Object getByUsername(String username) {
         Optional<User> persona = userRepository.findByUserName(username);
         return persona.isPresent() ?
-                new UserDto(persona.get()) :
+                new UserResponse(persona.get()) :
                 new MessageResponse(new Pair("error", "Error, no pudo ser encontrada la persona con id " + username)).getMapMessage();
     }
 
@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object createUser(UserDto userDto) {
-        userRepository.save(new User(userDto));
-        return new MessageResponse("Agregado " + userDto.getUserName() + " correctamente.").getMapMessage();
+    public Object createUser(UserRequest userRequest) {
+        userRepository.save(new User(userRequest));
+        return new MessageResponse("Agregado " + userRequest.getUserName() + " correctamente.").getMapMessage();
     }
 
 

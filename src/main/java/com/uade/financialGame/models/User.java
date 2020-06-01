@@ -1,6 +1,7 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.UserDto;
+import com.uade.financialGame.messages.requests.UserRequest;
+import com.uade.financialGame.messages.responses.UserResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -23,6 +24,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<GameUser> games;
 
+
+
     public enum UserRank {
         BEGGINER,
         PROFESSIONAL,
@@ -31,19 +34,18 @@ public class User {
 
 
     //BUILDERS
-    public User(UserDto userDto) {
-        this.userId = userDto.getUserId();
-        this.userName = userDto.getUserName();
-        this.password = userDto.getPassword();
-        this.rank = UserRank.valueOf(userDto.getRank());
+    public User(UserRequest userRequest) {
+        this.userName = userRequest.getUserName();
+        this.password = userRequest.getPassword();
+        this.rank = UserRank.valueOf(userRequest.getRank());
     }
 
     public User() {
     }
 
     //METHODS
-    public UserDto toDto() {
-        return new UserDto(this);
+    public UserResponse toDto() {
+        return new UserResponse(this);
     }
 
 }

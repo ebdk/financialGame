@@ -1,6 +1,5 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.GameTurnDto;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -31,8 +30,8 @@ public class GameTurn {
     //BUILDERS
 
     //METHODS
-    public GameTurnDto toDto() {
-        return new GameTurnDto(this);
+    public com.uade.financialGame.messages.responses.GameTurnResponse toDto() {
+        return new com.uade.financialGame.messages.responses.GameTurnResponse(this);
     }
 
 }

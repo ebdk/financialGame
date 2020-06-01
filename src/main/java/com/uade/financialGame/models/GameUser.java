@@ -1,6 +1,5 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.GameUserDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,11 +38,8 @@ public class GameUser {
 
 
     //METHODS
-    public GameUserDto toDto() {
-        return new GameUserDto(this);
-    }
-
-    public void soemthing(){
+    public com.uade.financialGame.messages.responses.GameUserResponse toDto() {
+        return new com.uade.financialGame.messages.responses.GameUserResponse(this);
     }
 
 }

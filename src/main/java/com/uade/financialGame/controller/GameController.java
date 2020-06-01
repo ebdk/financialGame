@@ -1,6 +1,5 @@
 package com.uade.financialGame.controller;
 
-import com.uade.financialGame.messages.UserDto;
 import com.uade.financialGame.messages.customRequests.CreateGameRequest;
 import com.uade.financialGame.services.GameService;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,7 @@ public class GameController {
             value = "Creates a game",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The game was crated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The game was crated successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
     })
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

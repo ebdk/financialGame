@@ -1,6 +1,5 @@
 package com.uade.financialGame.services.impl;
 
-import com.uade.financialGame.messages.GameTurnDto;
 import com.uade.financialGame.messages.customRequests.CreateGameTurnRequest;
 import com.uade.financialGame.messages.customRequests.GetGameUserTurnsRequest;
 import com.uade.financialGame.models.Game;
@@ -37,7 +36,7 @@ public class GameTurnServiceImpl implements GameTurnService {
     @Override
     public Object getGameUserTurns(GetGameUserTurnsRequest getGameUserTurnsRequest) {
         GameUser gameUser = gameUserRepository.getOne(getGameUserTurnsRequest.getGameUserId());
-        List<GameTurnDto> gameTurns = gameUser.getGameTurns()
+        List<com.uade.financialGame.messages.responses.GameTurnResponse> gameTurns = gameUser.getGameTurns()
                 .stream()
                 .map(GameTurn::toDto)
                 .collect(Collectors.toList());
@@ -48,7 +47,7 @@ public class GameTurnServiceImpl implements GameTurnService {
     @Override
     public Object getGameTurns(GetGameTurnsRequest getGameTurnsRequest) {
         Game game = gameRepository.getOne(getGameTurnsRequest.getGameId());
-        List<GameTurnDto> gameTurns = game.getUsers()
+        List<com.uade.financialGame.messages.responses.GameTurnResponse> gameTurns = game.getUsers()
                 .stream()
                 .flatMap(c -> c.getGameTurns().stream()) //transforms each user's turns into a singe list
                 .map(GameTurn::toDto)

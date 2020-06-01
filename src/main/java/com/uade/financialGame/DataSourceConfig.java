@@ -4,7 +4,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -18,7 +17,7 @@ public class DataSourceConfig {
     private static final String SQL_PASSWORD_KEY = "JknxjcYsmthszLU9sJ";
     private static final String DEFAULT_SQL_HOST = "localhost:3306";
 
-    DataSourceConfig(Environment environment) {
+    DataSourceConfig() {
     }
 
     @Bean(name = "database")

@@ -1,7 +1,6 @@
 package com.uade.financialGame.controller;
 
 import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.messages.UserDto;
 import com.uade.financialGame.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,7 +24,7 @@ public class UserController {
             value = "Looks up a user by username",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was found successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was found successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
     })
     @GetMapping(path="{username}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -71,12 +70,12 @@ public class UserController {
             value = "Creates a user",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was crated successfully", response = UserDto.class),
+            @ApiResponse(code = 200, message = "The user was crated successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
     })
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object createPersona(@RequestBody com.uade.financialGame.messages.UserDto userDto) {
-        return service.createUser(userDto);
+    public Object createPersona(@RequestBody com.uade.financialGame.messages.requests.UserRequest userRequest) {
+        return service.createUser(userRequest);
     }
 
 }
