@@ -1,10 +1,11 @@
 package com.uade.financialGame.messages.responses;
 
+import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.Profession;
 import lombok.Getter;
 
 @Getter
-public class ProfessionResponse {
+public class ProfessionResponse implements Response {
 
     private Long id;
     private String name;

@@ -1,5 +1,6 @@
 package com.uade.financialGame.messages.responses;
 
+import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.Card;
 import com.uade.financialGame.models.GameTurn;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class CardResponse {
+public class CardResponse implements Response {
 
     private Long cardId;
     private String cardName;

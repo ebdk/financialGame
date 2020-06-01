@@ -1,5 +1,6 @@
 package com.uade.financialGame.messages.responses;
 
+import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.GameUser;
 import com.uade.financialGame.models.User;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class UserResponse implements com.uade.financialGame.messages.Response {
+public class UserResponse implements Response {
 
     //ATTRIBUTES
     private Long userId;

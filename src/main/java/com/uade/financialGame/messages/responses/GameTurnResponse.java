@@ -1,9 +1,11 @@
 package com.uade.financialGame.messages.responses;
 
+import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.GameTurn;
+import lombok.Getter;
 
-@lombok.Getter
-public class GameTurnResponse {
+@Getter
+public class GameTurnResponse implements Response {
 
     private Long gameTurnId;
     private int months;

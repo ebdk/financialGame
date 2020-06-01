@@ -1,7 +1,9 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.customRequests.CreateGameTurnRequest;
+import com.uade.financialGame.messages.customRequests.GetGameTurnsRequest;
 import com.uade.financialGame.messages.customRequests.GetGameUserTurnsRequest;
+import com.uade.financialGame.messages.responses.GameTurnResponse;
 import com.uade.financialGame.models.Game;
 import com.uade.financialGame.models.GameTurn;
 import com.uade.financialGame.models.GameUser;
@@ -9,7 +11,6 @@ import com.uade.financialGame.repositories.GameDAO;
 import com.uade.financialGame.repositories.GameTurnDAO;
 import com.uade.financialGame.repositories.GameUserDAO;
 import com.uade.financialGame.services.GameTurnService;
-import com.uade.financialGame.messages.customRequests.GetGameTurnsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,9 @@ public class GameTurnServiceImpl implements GameTurnService {
     }
 
     @Override
-    public Object getGameUserTurns(GetGameUserTurnsRequest getGameUserTurnsRequest) {
+    public List<GameTurnResponse> getGameUserTurns(GetGameUserTurnsRequest getGameUserTurnsRequest) {
         GameUser gameUser = gameUserRepository.getOne(getGameUserTurnsRequest.getGameUserId());
-        List<com.uade.financialGame.messages.responses.GameTurnResponse> gameTurns = gameUser.getGameTurns()
+        List<GameTurnResponse> gameTurns = gameUser.getGameTurns()
                 .stream()
                 .map(GameTurn::toDto)
                 .collect(Collectors.toList());
@@ -45,9 +46,9 @@ public class GameTurnServiceImpl implements GameTurnService {
     }
 
     @Override
-    public Object getGameTurns(GetGameTurnsRequest getGameTurnsRequest) {
+    public List<GameTurnResponse> getGameTurns(GetGameTurnsRequest getGameTurnsRequest) {
         Game game = gameRepository.getOne(getGameTurnsRequest.getGameId());
-        List<com.uade.financialGame.messages.responses.GameTurnResponse> gameTurns = game.getUsers()
+        List<GameTurnResponse> gameTurns = game.getUsers()
                 .stream()
                 .flatMap(c -> c.getGameTurns().stream()) //transforms each user's turns into a singe list
                 .map(GameTurn::toDto)

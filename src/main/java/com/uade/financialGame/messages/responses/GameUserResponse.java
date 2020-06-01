@@ -1,13 +1,15 @@
 package com.uade.financialGame.messages.responses;
 
+import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.GameTurn;
 import com.uade.financialGame.models.GameUser;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@lombok.Getter
-public class GameUserResponse {
+@Getter
+public class GameUserResponse implements Response {
 
     private UserResponse user;
     private ProfessionResponse profession;
