@@ -1,8 +1,10 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.GameResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
@@ -46,6 +48,10 @@ public class Game {
     public Game(GameType gameType, GameDifficulty gameDifficulty) {
         this.gameType = gameType;
         this.gameDifficulty = gameDifficulty;
+        this.users = new ArrayList<>();
+    }
+
+    public Game() {
     }
 
     //METHODS
@@ -62,8 +68,8 @@ public class Game {
         users.add(gameUser);
     }
 
-    public com.uade.financialGame.messages.responses.GameResponse toDto() {
-        return new com.uade.financialGame.messages.responses.GameResponse(this);
+    public GameResponse toDto() {
+        return new GameResponse(this);
     }
 
 }

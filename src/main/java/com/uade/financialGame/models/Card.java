@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.CardResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -36,9 +37,13 @@ public class Card {
 
     //BUILDERS
 
+
+    public Card() {
+    }
+
     //METHODS
-    public com.uade.financialGame.messages.responses.CardResponse toDto() {
-        return new com.uade.financialGame.messages.responses.CardResponse(this);
+    public CardResponse toDto() {
+        return new CardResponse(this);
     }
 
 }

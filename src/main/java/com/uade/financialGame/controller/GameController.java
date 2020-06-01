@@ -20,7 +20,7 @@ public class GameController {
 
     @ApiOperation(
             value = "Creates a game",
-            notes = "Self explanatory")
+            notes = "GameTypes: NORMAL, GameDifficulties: EASY, MEDIUM, HARD")
     @ApiResponses({
             @ApiResponse(code = 200, message = "The game was crated successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
     })

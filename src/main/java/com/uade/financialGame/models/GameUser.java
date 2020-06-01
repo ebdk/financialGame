@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.GameUserResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,7 @@ public class GameUser {
     @ManyToOne
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Game game;
 
     @ManyToOne
@@ -36,10 +37,12 @@ public class GameUser {
         this.user = user;
     }
 
+    public GameUser() {
+    }
 
     //METHODS
-    public com.uade.financialGame.messages.responses.GameUserResponse toDto() {
-        return new com.uade.financialGame.messages.responses.GameUserResponse(this);
+    public GameUserResponse toDto() {
+        return new GameUserResponse(this);
     }
 
 }

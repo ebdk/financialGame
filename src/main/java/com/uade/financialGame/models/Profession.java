@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.ProfessionResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -24,9 +25,13 @@ public class Profession {
 
     //BUILDERS
 
+
+    public Profession() {
+    }
+
     //METHODS
-    public com.uade.financialGame.messages.responses.ProfessionResponse toDto() {
-        return new com.uade.financialGame.messages.responses.ProfessionResponse(this);
+    public ProfessionResponse toDto() {
+        return new ProfessionResponse(this);
     }
 
 }
