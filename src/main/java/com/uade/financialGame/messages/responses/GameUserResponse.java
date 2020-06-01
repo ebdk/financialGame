@@ -18,11 +18,14 @@ public class GameUserResponse implements Response {
     private List<Long> gameTurnsIds;
 
     public GameUserResponse(GameUser gameUser) {
-        this.id = gameUser.getGameUserId();
-        this.userId = gameUser.getUser().getUserId();
-        this.profession = new ProfessionResponse(gameUser.getProfession());
-        this.game = new GameResponse(gameUser.getGame());
-        this.gameTurnsIds =  gameUser.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList());
+        if(gameUser != null){
+            this.id = gameUser.getGameUserId() != null ? gameUser.getGameUserId() : null;
+            this.userId = gameUser.getUser().getUserId() != null ? gameUser.getUser().getUserId() : null;
+            this.profession = gameUser.getProfession() != null ? new ProfessionResponse(gameUser.getProfession()) : null;
+            this.game = gameUser.getGame() != null ? new GameResponse(gameUser.getGame()): null;
+            this.gameTurnsIds =  gameUser.getGameTurns() != null ?
+                    gameUser.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList()) : null;
+        }
     }
 
     public GameUserResponse() {

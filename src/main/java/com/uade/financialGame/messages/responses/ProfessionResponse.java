@@ -18,11 +18,14 @@ public class ProfessionResponse implements Response {
     private List<Long> gameUserIds;
 
     public ProfessionResponse(Profession profession) {
-        this.id = profession.getProfessionId();
-        this.name = profession.getProfessionName();
-        this.imgUrl = profession.getProfessionImgUrl();
-        this.description = profession.getProfessionDescription();
-        this.gameUserIds = profession.getGameUser().stream().map(GameUser::getGameUserId).collect(Collectors.toList());
+        if(profession != null){
+            this.id = profession.getProfessionId() != null ? profession.getProfessionId() : null;
+            this.name = profession.getProfessionName() != null ? profession.getProfessionName() : null;
+            this.imgUrl = profession.getProfessionImgUrl() != null ? profession.getProfessionImgUrl() : null;
+            this.description = profession.getProfessionDescription() != null ?  profession.getProfessionDescription() : null;
+            this.gameUserIds = profession.getGameUser() != null ?
+                    profession.getGameUser().stream().map(GameUser::getGameUserId).collect(Collectors.toList()) : null;
+        }
     }
 
     public ProfessionResponse() {

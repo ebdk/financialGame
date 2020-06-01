@@ -17,11 +17,13 @@ public class GameResponse implements Response {
     private List<Long> gameUserIds;
 
     public GameResponse(Game game) {
-        this.gameId = game.getGameId() != null ? game.getGameId() : null;
-        this.gameType = game.getGameType() != null ? game.getGameType().toString() : null;
-        this.gameDifficulty = game.getGameDifficulty() != null ? game.getGameDifficulty().toString() : null;
-        this.gameUserIds = game.getUsers() != null
-                ? game.getUsers().stream().map(GameUser::getGameUserId).collect(Collectors.toList()) : null;
+        if(game != null){
+            this.gameId = game.getGameId() != null ? game.getGameId() : null;
+            this.gameType = game.getGameType() != null ? game.getGameType().toString() : null;
+            this.gameDifficulty = game.getGameDifficulty() != null ? game.getGameDifficulty().toString() : null;
+            this.gameUserIds = game.getUsers() != null
+                    ? game.getUsers().stream().map(GameUser::getGameUserId).collect(Collectors.toList()) : null;
+        }
     }
 
     public GameResponse() {

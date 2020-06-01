@@ -18,14 +18,16 @@ public class GameTurnResponse implements Response {
     private CardResponse card;
 
     public GameTurnResponse(GameTurn gameTurn) {
-        this.gameTurnId = gameTurn.getGameTurnId();
-        this.months = gameTurn.getMonths();
-        this.balanceIncome = gameTurn.getBalanceIncome();
-        this.balanceExpenses = gameTurn.getBalanceExpenses();
-        this.balanceActive = gameTurn.getBalanceActive();
-        this.balancePassive = gameTurn.getBalancePassive();
-        this.gameUser = new GameUserResponse(gameTurn.getGameUser());
-        this.card = new CardResponse(gameTurn.getCard());
+        if(gameTurn != null){
+            this.gameTurnId = gameTurn.getGameTurnId() != null ? gameTurn.getGameTurnId() : null;
+            this.months = gameTurn.getMonths();
+            this.balanceIncome = gameTurn.getBalanceIncome();
+            this.balanceExpenses = gameTurn.getBalanceExpenses();
+            this.balanceActive = gameTurn.getBalanceActive();
+            this.balancePassive = gameTurn.getBalancePassive();
+            this.gameUser = gameTurn.getGameUser() != null ? new GameUserResponse(gameTurn.getGameUser()) : null;
+            this.card = gameTurn.getCard() != null ? new CardResponse(gameTurn.getCard()) : null;
+        }
     }
 
     public GameTurnResponse() {

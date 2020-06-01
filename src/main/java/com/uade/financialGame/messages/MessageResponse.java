@@ -11,6 +11,7 @@ public class MessageResponse implements Response {
 
     //ATTRIBUTES
     private Map<String, String> mapMessage;
+    private Map<String, Object> mapObject;
 
     //BUILDERS
     public MessageResponse(Pair... args) {
@@ -18,6 +19,14 @@ public class MessageResponse implements Response {
         this.mapMessage = new HashMap<>();
         for (Pair arg : args) {
             mapMessage.put(arg.getKey(), arg.getValue());
+        }
+    }
+
+    public MessageResponse(com.uade.financialGame.utils.PairObject... args) {
+        super();
+        this.mapObject = new HashMap<>();
+        for (com.uade.financialGame.utils.PairObject arg : args) {
+            mapObject.put(arg.getKey(), arg.getValue());
         }
     }
 

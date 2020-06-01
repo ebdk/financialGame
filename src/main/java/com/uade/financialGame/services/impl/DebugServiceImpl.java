@@ -1,14 +1,15 @@
 package com.uade.financialGame.services.impl;
 
-import com.google.gson.Gson;
 import com.uade.financialGame.messages.MessageResponse;
+import com.uade.financialGame.messages.responses.*;
 import com.uade.financialGame.models.*;
 import com.uade.financialGame.repositories.*;
 import com.uade.financialGame.services.DebugService;
-import com.uade.financialGame.utils.Pair;
+import com.uade.financialGame.utils.PairObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,55 +40,54 @@ public class DebugServiceImpl implements DebugService {
 
     @Override
     public Object getAllEntities() {
-        return new MessageResponse(new Pair("users", getAllUsers()),
-                new Pair("cards", getAllCards()),
-                new Pair("games", getAllGames()),
-                new Pair("gameTurns", getAllGameTurns()),
-                new Pair("gameUsers", getAllGameUsers()),
-                new Pair("professions", getAllProfessions())).getMapMessage()
-                ;
+        return new MessageResponse(new PairObject("users", getAllUsers()),
+                new PairObject("cards", getAllCards()),
+                new PairObject("games", getAllGames()),
+                new PairObject("gameTurns", getAllGameTurns()),
+                new PairObject("gameUsers", getAllGameUsers()),
+                new PairObject("professions", getAllProfessions())).getMapObject();
     }
 
-    private String getAllUsers() {
-        return new Gson().toJson(userRepository.findAll()
+    private List<UserResponse> getAllUsers() {
+        return userRepository.findAll()
                 .stream()
                 .map(User::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
-    private String getAllCards() {
-        return new Gson().toJson(cardRepository.findAll()
+    private List<CardResponse> getAllCards() {
+        return cardRepository.findAll()
                 .stream()
                 .map(Card::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
-    private String getAllGames() {
-        return new Gson().toJson(gameRepository.findAll()
+    private List<GameResponse> getAllGames() {
+        return gameRepository.findAll()
                 .stream()
                 .map(Game::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
-    private String getAllGameTurns() {
-        return new Gson().toJson(gameTurnRepository.findAll()
+    private List<GameTurnResponse> getAllGameTurns() {
+        return gameTurnRepository.findAll()
                 .stream()
                 .map(GameTurn::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
-    private String getAllGameUsers() {
-        return new Gson().toJson(gameUserRepository.findAll()
+    private List<GameUserResponse> getAllGameUsers() {
+        return gameUserRepository.findAll()
                 .stream()
                 .map(GameUser::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
-    private String getAllProfessions() {
-        return new Gson().toJson(professionRepository.findAll()
+    private List<ProfessionResponse> getAllProfessions() {
+        return professionRepository.findAll()
                 .stream()
                 .map(Profession::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
 }

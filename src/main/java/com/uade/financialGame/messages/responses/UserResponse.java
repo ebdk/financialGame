@@ -20,11 +20,14 @@ public class UserResponse implements Response {
 
     //BUILDERS
     public UserResponse(User user) {
-        this.userId = user.getUserId();
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
-        this.rank = user.getRank().toString();
-        this.gameUserIds = user.getGames().stream().map(GameUser::toDto).collect(Collectors.toList());
+        if(user != null){
+            this.userId = user.getUserId() != null ? user.getUserId() : null;
+            this.userName = user.getUserName() != null ? user.getUserName() : null;
+            this.password = user.getPassword() != null ? user.getPassword() : null;
+            this.rank = user.getRank() != null ? user.getRank().toString() : null;
+            this.gameUserIds = user.getGames() != null ?
+                    user.getGames().stream().map(GameUser::toDto).collect(Collectors.toList()) : null;
+        }
     }
 
     public UserResponse() {
