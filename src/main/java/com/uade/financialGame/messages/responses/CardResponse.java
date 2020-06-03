@@ -2,6 +2,7 @@ package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.Card;
+import com.uade.financialGame.models.FinancialTransaction;
 import com.uade.financialGame.models.GameTurn;
 import lombok.Getter;
 
@@ -17,11 +18,9 @@ public class CardResponse implements Response {
     private String cardDescription;
     private String cardLevel;
     private String cardType;
-    private int cardIncome;
-    private int cardExpenses;
-    private int cardPercentage;
 
     private List<Long> gameTurnsIds;
+    private List<FinancialTransactionResponse> transactions;
 
     public CardResponse(Card card) {
         if(card != null){
@@ -31,11 +30,10 @@ public class CardResponse implements Response {
             this.cardDescription = card.getCardDescription() != null ? card.getCardDescription() : null;
             this.cardLevel = card.getCardDifficulty().toString() != null ? card.getCardDifficulty().toString() : null;
             this.cardType = card.getCardType().toString() != null ? card.getCardType().toString() : null;
-            this.cardIncome = card.getCardIncome();
-            this.cardExpenses = card.getCardExpenses();
-            this.cardPercentage = card.getCardPercentage();
             this.gameTurnsIds = card.getGameTurns() != null ?
                     card.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList()) : null;
+            this.transactions = card.getTransactions() != null ?
+                    card.getTransactions().stream().map(FinancialTransaction::toDto).collect(Collectors.toList()) : null;
         }
     }
 

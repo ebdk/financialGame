@@ -22,14 +22,16 @@ public class Card {
     private String cardDescription;
     private GameDifficulty cardDifficulty;
     private CardType cardType;
-    private int cardIncome;
-    private int cardExpenses;
-    private int cardActive;
-    private int cardPassive;
-    private int cardPercentage;
 
     @OneToMany(mappedBy = "card")
     private List<GameTurn> gameTurns;
+
+    @ManyToMany
+    @JoinTable(
+            name = "card_transaction",
+            joinColumns = @JoinColumn(name = "CARD_ID"),
+            inverseJoinColumns = @JoinColumn(name = "FINANCIAL_TRANSACTION_ID"))
+    private List<FinancialTransaction> transactions;
 
     public enum CardType {
         EXPENSES,
@@ -39,8 +41,6 @@ public class Card {
 
 
     //BUILDERS
-
-
     public Card() {
     }
 

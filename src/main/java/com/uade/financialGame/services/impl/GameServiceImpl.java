@@ -50,7 +50,6 @@ public class GameServiceImpl implements GameService {
         } else {
             return new MessageResponse(new Pair("message", "Invalido"),
                     new Pair("error", "Usuario no encontrado.")).getMapMessage();
-
         }
 
         Map<GameLobbyStatus, List<Game>> games = gameRepository.findAll()

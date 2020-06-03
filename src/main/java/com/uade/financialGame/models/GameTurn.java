@@ -1,10 +1,16 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.responses.GameTurnResponse;
+import com.uade.financialGame.models.FinancialTransaction.TransactionType;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Entity(name = "GameTurn")
 @Table(name = "game_turn")
@@ -41,9 +47,17 @@ public class GameTurn {
     }
 
     public void calculateBalance(){
-        Card card = this.card;
+
+        Map<TransactionType, List<FinancialTransaction>> cardTransactions = card.getTransactions()
+                .stream()
+                .collect(groupingBy(FinancialTransaction::getTransactionType));
+
         Profession profession = gameUser.getProfession();
-        List<GameTurn> previousTurns = gameUser.getGameTurns();
+
+        List<GameTurn> previousTurns = gameUser.getGameTurns()
+                .stream()
+                .sorted(comparing(GameTurn::getTurnNumber))
+                .collect(toList());
     }
 
 }
