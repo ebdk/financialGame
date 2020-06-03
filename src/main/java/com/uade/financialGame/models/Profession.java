@@ -19,6 +19,9 @@ public class Profession {
     private String professionName;
     private String professionImgUrl;
     private String professionDescription;
+    private Game.GameDifficulty professionDifficulty;
+    private int professionIncome;
+    private int professionExpenses;
 
     @OneToMany(mappedBy = "profession")
     private List<GameUser> gameUser;

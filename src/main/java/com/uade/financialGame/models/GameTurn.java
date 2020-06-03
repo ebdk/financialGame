@@ -4,6 +4,7 @@ import com.uade.financialGame.messages.responses.GameTurnResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "GameTurn")
 @Table(name = "game_turn")
@@ -15,7 +16,7 @@ public class GameTurn {
     @Column(name="GAME_TURN_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameTurnId;
-    private int months;
+    private int turnNumber;
 
     private int balanceIncome;
     private int balanceExpenses;
@@ -37,6 +38,12 @@ public class GameTurn {
     //METHODS
     public GameTurnResponse toDto() {
         return new GameTurnResponse(this);
+    }
+
+    public void calculateBalance(){
+        Card card = this.card;
+        Profession profession = gameUser.getProfession();
+        List<GameTurn> previousTurns = gameUser.getGameTurns();
     }
 
 }

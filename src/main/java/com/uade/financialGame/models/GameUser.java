@@ -19,6 +19,11 @@ public class GameUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameUserId;
 
+    private int balanceIncome;
+    private int balanceExpenses;
+    private int balanceActive;
+    private int balancePassive;
+
     @ManyToOne
     private User user;
 
@@ -43,6 +48,25 @@ public class GameUser {
     //METHODS
     public GameUserResponse toDto() {
         return new GameUserResponse(this);
+    }
+
+    public void calculateBalance(){
+        this.balanceIncome = gameTurns
+                .stream()
+                .mapToInt(GameTurn::getBalanceIncome)
+                .sum();
+        this.balanceExpenses = gameTurns
+                .stream()
+                .mapToInt(GameTurn::getBalanceExpenses)
+                .sum();
+        this.balanceActive = gameTurns
+                .stream()
+                .mapToInt(GameTurn::getBalanceActive)
+                .sum();
+        this.balancePassive = gameTurns
+                .stream()
+                .mapToInt(GameTurn::getBalancePassive)
+                .sum();
     }
 
 }

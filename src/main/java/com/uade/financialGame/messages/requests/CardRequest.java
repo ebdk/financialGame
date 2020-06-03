@@ -16,7 +16,7 @@ public class CardRequest {
         this.cardName = card.getCardName();
         this.cardImgUrl = card.getCardImgUrl();
         this.cardDescription = card.getCardDescription();
-        this.cardLevel = card.getCardLevel().toString();
+        this.cardLevel = card.getCardDifficulty().toString();
         this.cardType = card.getCardType().toString();
         this.cardIncome = card.getCardIncome();
         this.cardExpenses = card.getCardExpenses();

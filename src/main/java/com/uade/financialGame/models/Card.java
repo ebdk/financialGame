@@ -1,6 +1,7 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.responses.CardResponse;
+import com.uade.financialGame.models.Game.GameDifficulty;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -19,19 +20,21 @@ public class Card {
     private String cardName;
     private String cardImgUrl;
     private String cardDescription;
-    private CardLevel cardLevel;
+    private GameDifficulty cardDifficulty;
     private CardType cardType;
     private int cardIncome;
     private int cardExpenses;
+    private int cardActive;
+    private int cardPassive;
     private int cardPercentage;
 
     @OneToMany(mappedBy = "card")
     private List<GameTurn> gameTurns;
 
-    public enum CardLevel {
-    }
-
     public enum CardType {
+        EXPENSES,
+        DREAM,
+        OPPORTUNITY
     }
 
 

@@ -1,8 +1,9 @@
 package com.uade.financialGame.controller;
 
-import com.uade.financialGame.messages.customRequests.CreateGameRequest;
+import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.services.GameService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,20 @@ public class GameController {
 
     @ApiOperation(
             value = "Creates a game",
-            notes = "GameTypes: NORMAL, GameDifficulties: EASY, MEDIUM, HARD")
+            notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The game was crated successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
+            @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
     })
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="{gameType}/{gameDifficulty}/{idUser}",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object createPersona(@RequestBody CreateGameRequest createGameRequest) {
-        return service.createGame(createGameRequest);
+    public Object createGame(
+            @ApiParam(value = "The card's gameType. GameTypes: NORMAL", required = true)
+            @PathVariable("gameType") String gameType,
+            @ApiParam(value = "The card's gameDifficulty. GameDifficulties: EASY, MEDIUM, HARD", required = true)
+            @PathVariable("gameDifficulty") String gameDifficulty,
+            @ApiParam(value = "The card's idUser", required = true)
+            @PathVariable("idUser") String idUser) {
+        return service.createGame(gameType, gameDifficulty, idUser);
     }
 
 }

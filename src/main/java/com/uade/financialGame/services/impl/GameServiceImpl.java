@@ -1,7 +1,6 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.MessageResponse;
-import com.uade.financialGame.messages.customRequests.CreateGameRequest;
 import com.uade.financialGame.models.Game;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import com.uade.financialGame.models.Game.GameLobbyStatus;
@@ -38,10 +37,10 @@ public class GameServiceImpl implements GameService {
     private GameDAO gameRepository;
 
     @Override
-    public Object createGame(CreateGameRequest createGameRequest) {
-        Optional<User> user = userRepository.findById(createGameRequest.getIdUser());
-        GameType gameType = GameType.valueOf(createGameRequest.getGameType());
-        GameDifficulty gameDifficulty = GameDifficulty.valueOf(createGameRequest.getGameDifficulty());
+    public Object createGame(String gameTypeParam, String gameDifficultyParam, String idUser) {
+        Optional<User> user = userRepository.findById(Long.valueOf(idUser));
+        GameType gameType = GameType.valueOf(gameTypeParam);
+        GameDifficulty gameDifficulty = GameDifficulty.valueOf(gameDifficultyParam);
 
         GameUser gameUser;
         Game game;
@@ -83,8 +82,9 @@ public class GameServiceImpl implements GameService {
         gameUserRepository.save(gameUser);
         gameRepository.save(game);
 
-        return new MessageResponse(String.format("Agregrado usuario %s al Juego %s, el juego ahora esta %s",
-                createGameRequest.getIdUser(),
+        return new MessageResponse(String.format("Agregrado usuario id %s (GameUser ID: %s) al Juego %s, el juego ahora esta %s",
+                idUser,
+                gameUser.getGameUserId(),
                 game.getGameId(),
                 game.getStatus().toString()))
                 .getMapMessage();

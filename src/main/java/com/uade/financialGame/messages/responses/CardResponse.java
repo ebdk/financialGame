@@ -29,7 +29,7 @@ public class CardResponse implements Response {
             this.cardName = card.getCardName() != null ? card.getCardName() : null;
             this.cardImgUrl = card.getCardImgUrl() != null ? card.getCardImgUrl() : null;
             this.cardDescription = card.getCardDescription() != null ? card.getCardDescription() : null;
-            this.cardLevel = card.getCardLevel().toString() != null ? card.getCardLevel().toString() : null;
+            this.cardLevel = card.getCardDifficulty().toString() != null ? card.getCardDifficulty().toString() : null;
             this.cardType = card.getCardType().toString() != null ? card.getCardType().toString() : null;
             this.cardIncome = card.getCardIncome();
             this.cardExpenses = card.getCardExpenses();
