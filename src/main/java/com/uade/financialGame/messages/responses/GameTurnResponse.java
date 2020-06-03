@@ -8,7 +8,7 @@ import lombok.Getter;
 public class GameTurnResponse implements Response {
 
     private Long gameTurnId;
-    private int months;
+    private int turnNumber;
     private int balanceIncome;
     private int balanceExpenses;
     private int balanceActive;
@@ -20,7 +20,7 @@ public class GameTurnResponse implements Response {
     public GameTurnResponse(GameTurn gameTurn) {
         if(gameTurn != null){
             this.gameTurnId = gameTurn.getGameTurnId() != null ? gameTurn.getGameTurnId() : null;
-            this.months = gameTurn.getMonths();
+            this.turnNumber = gameTurn.getTurnNumber();
             this.balanceIncome = gameTurn.getBalanceIncome();
             this.balanceExpenses = gameTurn.getBalanceExpenses();
             this.balanceActive = gameTurn.getBalanceActive();
