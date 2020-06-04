@@ -20,9 +20,9 @@ public class ProfessionResponse implements Response {
     public ProfessionResponse(Profession profession) {
         if(profession != null){
             this.id = profession.getProfessionId() != null ? profession.getProfessionId() : null;
-            this.name = profession.getProfessionName() != null ? profession.getProfessionName() : null;
-            this.imgUrl = profession.getProfessionImgUrl() != null ? profession.getProfessionImgUrl() : null;
-            this.description = profession.getProfessionDescription() != null ?  profession.getProfessionDescription() : null;
+            this.name = profession.getName() != null ? profession.getName() : null;
+            this.imgUrl = profession.getImgUrl() != null ? profession.getImgUrl() : null;
+            this.description = profession.getDescription() != null ?  profession.getDescription() : null;
             this.gameUserIds = profession.getGameUser() != null ?
                     profession.getGameUser().stream().map(GameUser::getGameUserId).collect(Collectors.toList()) : null;
         }

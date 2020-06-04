@@ -1,6 +1,7 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.responses.ProfessionResponse;
+import com.uade.financialGame.models.Game.GameDifficulty;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -16,12 +17,10 @@ public class Profession {
     @Column(name="PROFESSION_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long professionId;
-    private String professionName;
-    private String professionImgUrl;
-    private String professionDescription;
-    private Game.GameDifficulty professionDifficulty;
-    private int professionIncome;
-    private int professionExpenses;
+    private String name;
+    private String imgUrl;
+    private String description;
+    private GameDifficulty difficulty;
 
     @OneToMany(mappedBy = "profession")
     private List<GameUser> gameUser;

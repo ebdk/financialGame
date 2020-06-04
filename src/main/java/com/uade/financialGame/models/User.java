@@ -7,6 +7,8 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.uade.financialGame.models.User.UserRank.BEGGINER;
+
 @Entity(name = "User")
 @Table(name = "user")
 @Getter
@@ -24,8 +26,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<GameUser> games;
 
-
-
     public enum UserRank {
         BEGGINER,
         PROFESSIONAL,
@@ -37,7 +37,7 @@ public class User {
     public User(UserRequest userRequest) {
         this.userName = userRequest.getUserName();
         this.password = userRequest.getPassword();
-        this.rank = UserRank.valueOf(userRequest.getRank());
+        this.rank = userRequest.getRank() != null ? UserRank.valueOf(userRequest.getRank()) : BEGGINER;
     }
 
     public User() {

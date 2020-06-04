@@ -9,9 +9,9 @@ public class ProfessionRequest {
 
 
     public ProfessionRequest(com.uade.financialGame.models.Profession profession) {
-        this.name = profession.getProfessionName();
-        this.imgUrl = profession.getProfessionImgUrl();
-        this.description = profession.getProfessionDescription();
+        this.name = profession.getName();
+        this.imgUrl = profession.getImgUrl();
+        this.description = profession.getDescription();
     }
 
     public ProfessionRequest() {

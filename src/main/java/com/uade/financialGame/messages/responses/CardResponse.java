@@ -25,11 +25,11 @@ public class CardResponse implements Response {
     public CardResponse(Card card) {
         if(card != null){
             this.cardId = card.getCardId() != null ? card.getCardId() : null;
-            this.cardName = card.getCardName() != null ? card.getCardName() : null;
-            this.cardImgUrl = card.getCardImgUrl() != null ? card.getCardImgUrl() : null;
-            this.cardDescription = card.getCardDescription() != null ? card.getCardDescription() : null;
-            this.cardLevel = card.getCardDifficulty().toString() != null ? card.getCardDifficulty().toString() : null;
-            this.cardType = card.getCardType().toString() != null ? card.getCardType().toString() : null;
+            this.cardName = card.getName() != null ? card.getName() : null;
+            this.cardImgUrl = card.getImgUrl() != null ? card.getImgUrl() : null;
+            this.cardDescription = card.getDescription() != null ? card.getDescription() : null;
+            this.cardLevel = card.getDifficulty().toString() != null ? card.getDifficulty().toString() : null;
+            this.cardType = card.getType().toString() != null ? card.getType().toString() : null;
             this.gameTurnsIds = card.getGameTurns() != null ?
                     card.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList()) : null;
             this.transactions = card.getTransactions() != null ?

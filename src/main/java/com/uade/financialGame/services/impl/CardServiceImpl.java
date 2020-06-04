@@ -21,7 +21,7 @@ public class CardServiceImpl implements CardService {
         List<Card> allCards = cardRepository.findAll();
         List<Card> filteredCards  = allCards
                 .stream()
-                .filter(x -> (cardType.equals(x.getCardType().toString())) && (cardDifficulty.equals(x.getCardDifficulty().toString())) )
+                .filter(x -> (cardType.equals(x.getType().toString())) && (cardDifficulty.equals(x.getDifficulty().toString())) )
                 .collect(Collectors.toList());
         Random rand = new Random();
         if(!(filteredCards.isEmpty())){
@@ -29,7 +29,7 @@ public class CardServiceImpl implements CardService {
         } else {
             List<Card> sameTypeCards  = allCards
                     .stream()
-                    .filter(x -> cardType.equals(x.getCardType().toString()))
+                    .filter(x -> cardType.equals(x.getType().toString()))
                     .collect(Collectors.toList());
             return sameTypeCards.get(rand.nextInt(sameTypeCards.size()));
         }

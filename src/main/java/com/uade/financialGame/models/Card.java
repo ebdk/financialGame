@@ -17,11 +17,11 @@ public class Card {
     @Column(name="CARD_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cardId;
-    private String cardName;
-    private String cardImgUrl;
-    private String cardDescription;
-    private GameDifficulty cardDifficulty;
-    private CardType cardType;
+    private String name;
+    private String imgUrl;
+    private String description;
+    private GameDifficulty difficulty;
+    private CardType type;
 
     @OneToMany(mappedBy = "card")
     private List<GameTurn> gameTurns;

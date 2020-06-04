@@ -17,7 +17,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     public Object getAllProfessions(String difficulty) {
         return professionRepository.findAll()
                 .stream()
-                .filter(x -> difficulty.equals(x.getProfessionDifficulty().toString()))
+                .filter(x -> difficulty.equals(x.getDifficulty().toString()))
                 .collect(Collectors.toList());
     }
 }
