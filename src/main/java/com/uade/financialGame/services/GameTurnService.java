@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GameTurnService {
 
-    Object createGameTurn(CreateGameTurnRequest createGameTurnRequest);
+    Object createGameTurn(Long userId, Long cardId, Long boxId, Integer turnNumber);
 
     List<GameTurnResponse> getGameUserTurns(String gameUserId);
 

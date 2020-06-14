@@ -50,6 +50,10 @@ public class GameUser {
         return new GameUserResponse(this);
     }
 
+    public Long getUserId(){
+        return user.getUserId();
+    }
+
     public void calculateBalance(){
         this.balanceIncome = gameTurns
                 .stream()

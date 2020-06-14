@@ -65,7 +65,6 @@ public class UserController {
         return ResponseEntity.ok(service.validateByUserNameAndPassword(username, password));
     }
 
-
     @ApiOperation(
             value = "Creates a user",
             notes = "Self explanatory")
@@ -89,7 +88,7 @@ public class UserController {
     public Object updateCoins(
             @ApiParam(value = "The user's username", required = true)
             @PathVariable("username") String username,
-            @ApiParam(value = "The user's username", required = true)
+            @ApiParam(value = "The coins to be added or substracted", required = true)
             @PathVariable("coins_value") String coinsValue) {
         return ResponseEntity.ok(service.updateCoins(username, Integer.valueOf(coinsValue)));
     }

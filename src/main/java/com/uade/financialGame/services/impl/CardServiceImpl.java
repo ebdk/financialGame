@@ -40,8 +40,9 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Object createCard(CardRequest cardRequest) {
-        cardRepository.save(new Card(cardRequest));
-        return new MessageResponse("Agregado " + cardRequest.getName() + " correctamente.").getMapMessage();
+        Card newCard = new Card(cardRequest);
+        cardRepository.save(newCard);
+        return newCard.toDto();
     }
 
 }

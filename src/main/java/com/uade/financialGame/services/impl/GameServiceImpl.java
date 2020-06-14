@@ -81,12 +81,13 @@ public class GameServiceImpl implements GameService {
         gameUserRepository.save(gameUser);
         gameRepository.save(game);
 
-        return new MessageResponse(String.format("Agregrado usuario id %s (GameUser ID: %s) al Juego %s, el juego ahora esta %s",
+        return game.toDto();
+        /*return new MessageResponse(String.format("Agregrado usuario id %s (GameUser ID: %s) al Juego %s, el juego ahora esta %s",
                 idUser,
                 gameUser.getGameUserId(),
                 game.getGameId(),
                 game.getStatus().toString()))
-                .getMapMessage();
+                .getMapMessage();*/
     }
 
 

@@ -51,8 +51,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object createUser(UserRequest userRequest) {
-        userRepository.save(new User(userRequest));
-        return new MessageResponse("Agregado " + userRequest.getUserName() + " correctamente.").getMapMessage();
+        User newUser = new User(userRequest);
+        userRepository.save(newUser);
+        return newUser.toDto();
     }
 
     @Override

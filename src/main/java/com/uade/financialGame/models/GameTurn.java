@@ -22,12 +22,14 @@ public class GameTurn {
     @Column(name="GAME_TURN_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gameTurnId;
-    private int turnNumber;
+    private Integer turnNumber;
 
     private int balanceIncome;
     private int balanceExpenses;
     private int balanceActive;
     private int balancePassive;
+
+
 
     @ManyToOne
     private GameUser gameUser;
@@ -36,9 +38,13 @@ public class GameTurn {
     private Card card;
 
     //BUILDERS
-
-
     public GameTurn() {
+    }
+
+    public GameTurn(GameUser gameUser, Card card, Integer turnNumber) {
+        this.gameUser = gameUser;
+        this.card = card;
+        this.turnNumber = turnNumber;
     }
 
     //METHODS
@@ -47,7 +53,6 @@ public class GameTurn {
     }
 
     public void calculateBalance(){
-
         Map<TransactionType, List<FinancialTransaction>> cardTransactions = card.getTransactions()
                 .stream()
                 .collect(groupingBy(FinancialTransaction::getTransactionType));
@@ -59,7 +64,8 @@ public class GameTurn {
                 .sorted(comparing(GameTurn::getTurnNumber))
                 .collect(toList());
 
-        
+
+
 
     }
 
