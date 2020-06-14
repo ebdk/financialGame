@@ -1,5 +1,6 @@
 package com.uade.financialGame.controller;
 
+import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.services.CardService;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,18 @@ public class CardController {
             @ApiParam(value = "The card's difficulty, based on the game. GameDifficulties: EASY, MEDIUM, HARD", required = true)
             @PathVariable("difficulty") String difficulty) {
         return service.getRandomCard(type, difficulty);
+    }
+
+    @ApiOperation(
+            value = "Creates a card",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The card was crated successfully", response = UserResponse.class),
+    })
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object createCard(@RequestBody CardRequest cardRequest) {
+        return service.createCard(cardRequest);
     }
 
 }

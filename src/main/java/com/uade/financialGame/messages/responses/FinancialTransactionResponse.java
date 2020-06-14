@@ -5,6 +5,7 @@ public class FinancialTransactionResponse implements com.uade.financialGame.mess
 
     private String transactionType;
     private String description;
+    private String numericType;
     private int value;
 
     public FinancialTransactionResponse(com.uade.financialGame.models.FinancialTransaction financialTransaction) {
@@ -13,6 +14,7 @@ public class FinancialTransactionResponse implements com.uade.financialGame.mess
                     ? financialTransaction.getTransactionType().toString() : null;
             this.description = financialTransaction.getDescription() != null ? financialTransaction.getDescription() : null;
             this.value = financialTransaction.getValue();
+            this.numericType = financialTransaction.getNumericType().toString();
         }
     }
 

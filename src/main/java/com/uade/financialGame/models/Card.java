@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.messages.responses.CardResponse;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class Card {
     @OneToMany(mappedBy = "card")
     private List<GameTurn> gameTurns;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "card_transaction",
             joinColumns = @JoinColumn(name = "CARD_ID"),
@@ -41,6 +42,15 @@ public class Card {
 
 
     //BUILDERS
+    public Card(CardRequest cardRequest) {
+        this.name = cardRequest.getName();
+        this.imgUrl = cardRequest.getImgUrl();
+        this.description = cardRequest.getDescription();
+        this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
+        this.type = CardType.valueOf(cardRequest.getType());
+        this.transactions = cardRequest.getFinancialTransactions();
+    }
+
     public Card() {
     }
 

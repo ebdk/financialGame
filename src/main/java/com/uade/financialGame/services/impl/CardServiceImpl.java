@@ -1,5 +1,7 @@
 package com.uade.financialGame.services.impl;
 
+import com.uade.financialGame.messages.MessageResponse;
+import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.models.Card;
 import com.uade.financialGame.repositories.CardDAO;
 import com.uade.financialGame.services.CardService;
@@ -25,13 +27,21 @@ public class CardServiceImpl implements CardService {
                 .collect(Collectors.toList());
         Random rand = new Random();
         if(!(filteredCards.isEmpty())){
-            return filteredCards.get(rand.nextInt(filteredCards.size()));
+            return filteredCards.get(rand.nextInt(filteredCards.size())).toDto();
         } else {
             List<Card> sameTypeCards  = allCards
                     .stream()
                     .filter(x -> cardType.equals(x.getType().toString()))
                     .collect(Collectors.toList());
-            return sameTypeCards.get(rand.nextInt(sameTypeCards.size()));
+            return sameTypeCards.get(rand.nextInt(sameTypeCards.size())).toDto();
         }
     }
+
+
+    @Override
+    public Object createCard(CardRequest cardRequest) {
+        cardRepository.save(new Card(cardRequest));
+        return new MessageResponse("Agregado " + cardRequest.getName() + " correctamente.").getMapMessage();
+    }
+
 }

@@ -78,4 +78,20 @@ public class UserController {
         return service.createUser(userRequest);
     }
 
+    @ApiOperation(
+            value = "Looks up a user by username, and adds or substracts the coins",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The user was found successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
+    })
+    @PatchMapping(path="{username}/{coins_value}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object updateCoins(
+            @ApiParam(value = "The user's username", required = true)
+            @PathVariable("username") String username,
+            @ApiParam(value = "The user's username", required = true)
+            @PathVariable("coins_value") String coinsValue) {
+        return ResponseEntity.ok(service.updateCoins(username, Integer.valueOf(coinsValue)));
+    }
+
 }

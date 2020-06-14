@@ -55,5 +55,21 @@ public class UserServiceImpl implements UserService {
         return new MessageResponse("Agregado " + userRequest.getUserName() + " correctamente.").getMapMessage();
     }
 
+    @Override
+    public Object updateCoins(String username, Integer coinsValue) {
+        Integer result = null;
+        Optional<User> userSearch = userRepository.findByUserName(username);
+        if(userSearch.isPresent()){
+            User user = userSearch.get();
+            result = user.getCoins() + coinsValue;
+            user.setCoins(result);
+            userRepository.save(user);
+        } else {
+            new MessageResponse(new Pair("message", "Invalido"),
+                    new Pair("error", "Usuario no encontrado")).getMapMessage();
+        }
+        return result;
+    }
+
 
 }
