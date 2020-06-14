@@ -18,6 +18,7 @@ public class FinancialTransaction {
     private Long financialTransactionId;
 
     private TransactionType transactionType;
+    private NumericType numericType;
     private String description;
     private int value;
 
@@ -29,6 +30,11 @@ public class FinancialTransaction {
         PASSIVE,
         EXPENSES,
         INCOMES
+    }
+
+    public enum NumericType {
+        PERCENTAGE,
+        NUMBER
     }
 
     //METHODS

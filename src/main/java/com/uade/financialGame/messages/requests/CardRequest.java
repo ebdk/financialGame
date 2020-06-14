@@ -8,6 +8,7 @@ public class CardRequest {
     private String description;
     private String difficulty;
     private String type;
+    //private java.util.List<FinancialTransactionRequest> financialTransactionRequests;
 
     public CardRequest(com.uade.financialGame.models.Card card) {
         this.name = card.getName();
