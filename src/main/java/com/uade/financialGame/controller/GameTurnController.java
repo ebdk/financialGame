@@ -26,12 +26,12 @@ public class GameTurnController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
     })
-    @GetMapping(path="{gameUserId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="{playerId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object getUserTurns(
-            @ApiParam(value = "The Game User's Id", required = true)
-            @PathVariable("gameUserId") String gameUserId) {
-        return service.getGameUserTurns(gameUserId);
+            @ApiParam(value = "The Player's Id", required = true)
+            @PathVariable("playerId") String playerId) {
+        return service.getPlayerTurns(playerId);
     }
 
     @ApiOperation(

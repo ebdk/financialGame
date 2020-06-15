@@ -14,7 +14,7 @@ public class GameTurnResponse implements Response {
     private int balanceActive;
     private int balancePassive;
 
-    private GameUserResponse gameUser;
+    private PlayerResponse player;
     private CardResponse card;
 
     public GameTurnResponse(GameTurn gameTurn) {
@@ -25,7 +25,7 @@ public class GameTurnResponse implements Response {
             this.balanceExpenses = gameTurn.getBalanceExpenses();
             this.balanceActive = gameTurn.getBalanceActive();
             this.balancePassive = gameTurn.getBalancePassive();
-            this.gameUser = gameTurn.getGameUser() != null ? new GameUserResponse(gameTurn.getGameUser()) : null;
+            this.player = gameTurn.getPlayer() != null ? new PlayerResponse(gameTurn.getPlayer()) : null;
             this.card = gameTurn.getCard() != null ? new CardResponse(gameTurn.getCard()) : null;
         }
     }

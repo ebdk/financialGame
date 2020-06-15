@@ -14,7 +14,7 @@ import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 @Getter
 public class Game {
 
-    private static int GAME_FULL_NUMBER = 6;
+    public static int GAME_FULL_NUMBER = 6;
 
     //ATTRIBUTES
     @Id
@@ -25,7 +25,7 @@ public class Game {
     private GameDifficulty gameDifficulty;
 
     @OneToMany(mappedBy = "game")
-    private List<GameUser> users;
+    private List<Player> players;
 
     public enum GameType {
         NORMAL
@@ -48,7 +48,7 @@ public class Game {
     public Game(GameType gameType, GameDifficulty gameDifficulty) {
         this.gameType = gameType;
         this.gameDifficulty = gameDifficulty;
-        this.users = new ArrayList<>();
+        this.players = new ArrayList<>();
     }
 
     public Game() {
@@ -56,16 +56,16 @@ public class Game {
 
     //METHODS
     public GameLobbyStatus getStatus(){
-        return users.isEmpty() ? EMPTY :
-                (users.size() >= GAME_FULL_NUMBER ? FULL : AWAITING_PLAYERS);
+        return players.isEmpty() ? EMPTY :
+                (players.size() >= GAME_FULL_NUMBER ? FULL : AWAITING_PLAYERS);
     }
 
     public int getGameSize(){
-        return users.size();
+        return players.size();
     }
 
-    public void addGameUser(GameUser gameUser) {
-        users.add(gameUser);
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     public GameResponse toDto() {

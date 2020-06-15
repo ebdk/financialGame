@@ -1,15 +1,14 @@
 package com.uade.financialGame.services.impl;
 
-import com.uade.financialGame.messages.customRequests.CreateGameTurnRequest;
 import com.uade.financialGame.messages.responses.GameTurnResponse;
 import com.uade.financialGame.models.Card;
 import com.uade.financialGame.models.Game;
 import com.uade.financialGame.models.GameTurn;
-import com.uade.financialGame.models.GameUser;
+import com.uade.financialGame.models.Player;
 import com.uade.financialGame.repositories.CardDAO;
 import com.uade.financialGame.repositories.GameDAO;
 import com.uade.financialGame.repositories.GameTurnDAO;
-import com.uade.financialGame.repositories.GameUserDAO;
+import com.uade.financialGame.repositories.PlayerDAO;
 import com.uade.financialGame.services.GameTurnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,15 +26,15 @@ public class GameTurnServiceImpl implements GameTurnService {
     private CardDAO cardRepository;
 
     @Autowired
-    private GameUserDAO gameUserRepository;
+    private PlayerDAO playerRepository;
 
     @Autowired
     private GameTurnDAO gameTurnRepository;
 
     @Override
     public Object createGameTurn(Long userId, Long cardId, Long boxId, Integer turnNumber) {
-        List<GameUser> allGameUsers = gameUserRepository.findAll();
-        GameUser gameUser = allGameUsers
+        List<Player> allPlayers = playerRepository.findAll();
+        Player player = allPlayers
                 .stream()
                 .filter(x -> userId.equals(x.getUserId()))
                 .collect(Collectors.toList())
@@ -43,7 +42,7 @@ public class GameTurnServiceImpl implements GameTurnService {
 
         Card card = cardRepository.getOne(cardId);
 
-        GameTurn gameTurn = new GameTurn(gameUser, card, turnNumber);
+        GameTurn gameTurn = new GameTurn(player, card, turnNumber);
         //gameTurn.calculateBalance();
 
 
@@ -53,9 +52,9 @@ public class GameTurnServiceImpl implements GameTurnService {
     }
 
     @Override
-    public List<GameTurnResponse> getGameUserTurns(String gameUserId) {
-        GameUser gameUser = gameUserRepository.getOne(Long.valueOf(gameUserId));
-        List<GameTurnResponse> gameTurns = gameUser.getGameTurns()
+    public List<GameTurnResponse> getPlayerTurns(String playerId) {
+        Player player = playerRepository.getOne(Long.valueOf(playerId));
+        List<GameTurnResponse> gameTurns = player.getGameTurns()
                 .stream()
                 .map(GameTurn::toDto)
                 .collect(Collectors.toList());
@@ -66,7 +65,7 @@ public class GameTurnServiceImpl implements GameTurnService {
     @Override
     public List<GameTurnResponse> getGameTurns(String gameId) {
         Game game = gameRepository.getOne(Long.valueOf(gameId));
-        List<GameTurnResponse> gameTurns = game.getUsers()
+        List<GameTurnResponse> gameTurns = game.getPlayers()
                 .stream()
                 .flatMap(c -> c.getGameTurns().stream()) //transforms each user's turns into a singe list
                 .map(GameTurn::toDto)

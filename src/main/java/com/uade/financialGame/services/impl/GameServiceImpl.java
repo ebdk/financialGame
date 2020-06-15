@@ -5,22 +5,27 @@ import com.uade.financialGame.models.Game;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import com.uade.financialGame.models.Game.GameLobbyStatus;
 import com.uade.financialGame.models.Game.GameType;
-import com.uade.financialGame.models.GameUser;
+import com.uade.financialGame.models.Player;
+import com.uade.financialGame.models.Player.PlayerType;
 import com.uade.financialGame.models.User;
+import com.uade.financialGame.models.User.UserRank;
 import com.uade.financialGame.repositories.GameDAO;
-import com.uade.financialGame.repositories.GameUserDAO;
+import com.uade.financialGame.repositories.PlayerDAO;
 import com.uade.financialGame.repositories.UserDAO;
 import com.uade.financialGame.services.GameService;
 import com.uade.financialGame.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.uade.financialGame.models.Game.GAME_FULL_NUMBER;
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
+import static com.uade.financialGame.models.Player.PlayerType.HUMAN;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -31,7 +36,7 @@ public class GameServiceImpl implements GameService {
     private UserDAO userRepository;
 
     @Autowired
-    private GameUserDAO gameUserRepository;
+    private PlayerDAO playerRepository;
 
     @Autowired
     private GameDAO gameRepository;
@@ -42,11 +47,11 @@ public class GameServiceImpl implements GameService {
         GameType gameType = GameType.valueOf(gameTypeParam);
         GameDifficulty gameDifficulty = GameDifficulty.valueOf(gameDifficultyParam);
 
-        GameUser gameUser;
+        Player player;
         Game game;
 
         if(user.isPresent()){
-            gameUser = new GameUser(user.get());
+            player = new Player(user.get(), HUMAN);
         } else {
             return new MessageResponse(new Pair("message", "Invalido"),
                     new Pair("error", "Usuario no encontrado.")).getMapMessage();
@@ -57,13 +62,13 @@ public class GameServiceImpl implements GameService {
                 .filter(x -> (gameType.equals(x.getGameType())) && (gameDifficulty.equals(x.getGameDifficulty())) )
                 .collect(groupingBy(Game::getStatus));
 
-        if(!(games.getOrDefault(AWAITING_PLAYERS, new java.util.ArrayList<>()).isEmpty())){
+        if(!(games.getOrDefault(AWAITING_PLAYERS, new ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(AWAITING_PLAYERS)
                     .stream()
                     .sorted(comparing(Game::getGameSize))
                     .collect(Collectors.toList());
             game = availableGames.get(0);
-        } else if(!(games.getOrDefault(EMPTY, new java.util.ArrayList<>()).isEmpty())){
+        } else if(!(games.getOrDefault(EMPTY, new ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(EMPTY);
             game = availableGames.get(0);
         } else {
@@ -71,23 +76,44 @@ public class GameServiceImpl implements GameService {
         }
 
         if(!(FULL.equals(game.getStatus()))){
-            game.addGameUser(gameUser);
-            gameUser.setGame(game);
+            game.addPlayer(player);
+            player.setGame(game);
         } else {
             return new MessageResponse(new Pair("message", "Invalido"),
                     new Pair("error", "Se intento unir a usuario en un juego lleno.")).getMapMessage();
         }
 
-        gameUserRepository.save(gameUser);
+        playerRepository.save(player);
         gameRepository.save(game);
 
         return game.toDto();
-        /*return new MessageResponse(String.format("Agregrado usuario id %s (GameUser ID: %s) al Juego %s, el juego ahora esta %s",
-                idUser,
-                gameUser.getGameUserId(),
-                game.getGameId(),
-                game.getStatus().toString()))
-                .getMapMessage();*/
+    }
+
+    @Override
+    public Object fillWithBots(Long gameId) {
+        Game game = gameRepository.getOne(gameId);
+
+        List<User> botUserSearch = userRepository.findByRank(UserRank.CPU);
+        User botUser;
+        if(!botUserSearch.isEmpty()){
+            botUser = botUserSearch.get(0);
+        } else {
+            User newBotUser = new User(PlayerType.CPU);
+            userRepository.save(newBotUser);
+            botUser = newBotUser;
+        }
+
+        int i = game.getPlayers().size();
+        while(i < GAME_FULL_NUMBER) {
+            Player botPlayer = new Player(botUser, PlayerType.CPU);
+            game.addPlayer(botPlayer);
+            botPlayer.setGame(game);
+            playerRepository.save(botPlayer);
+            i++;
+        }
+
+        gameRepository.save(game);
+        return game.toDto();
     }
 
 

@@ -37,4 +37,18 @@ public class GameController {
         return service.createGame(gameType, gameDifficulty, idUser);
     }
 
+    @ApiOperation(
+            value = "Fills a game with bots",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
+    })
+    @PatchMapping(path="{gameId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object fillWithPlayers(
+            @ApiParam(value = "The game's id", required = true)
+            @PathVariable("gameId") Long gameId) {
+        return service.fillWithBots(gameId);
+    }
+
 }

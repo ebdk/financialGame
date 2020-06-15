@@ -1,7 +1,6 @@
 package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.models.GameUser;
 import com.uade.financialGame.models.Profession;
 import lombok.Getter;
 
@@ -15,7 +14,7 @@ public class ProfessionResponse implements Response {
     private String name;
     private String imgUrl;
     private String description;
-    private List<Long> gameUserIds;
+    private List<Long> playerIds;
 
     public ProfessionResponse(Profession profession) {
         if(profession != null){
@@ -23,8 +22,8 @@ public class ProfessionResponse implements Response {
             this.name = profession.getName() != null ? profession.getName() : null;
             this.imgUrl = profession.getImgUrl() != null ? profession.getImgUrl() : null;
             this.description = profession.getDescription() != null ?  profession.getDescription() : null;
-            this.gameUserIds = profession.getGameUser() != null ?
-                    profession.getGameUser().stream().map(GameUser::getGameUserId).collect(Collectors.toList()) : null;
+            this.playerIds = profession.getPlayer() != null ?
+                    profession.getPlayer().stream().map(com.uade.financialGame.models.Player::getPlayerId).collect(Collectors.toList()) : null;
         }
     }
 

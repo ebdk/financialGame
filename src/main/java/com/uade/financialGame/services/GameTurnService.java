@@ -9,7 +9,7 @@ public interface GameTurnService {
 
     Object createGameTurn(Long userId, Long cardId, Long boxId, Integer turnNumber);
 
-    List<GameTurnResponse> getGameUserTurns(String gameUserId);
+    List<GameTurnResponse> getPlayerTurns(String playerId);
 
     List<GameTurnResponse> getGameTurns(String gameId);
 

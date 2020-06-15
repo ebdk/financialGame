@@ -32,7 +32,7 @@ public class GameTurn {
 
 
     @ManyToOne
-    private GameUser gameUser;
+    private Player player;
 
     @ManyToOne
     private Card card;
@@ -41,8 +41,8 @@ public class GameTurn {
     public GameTurn() {
     }
 
-    public GameTurn(GameUser gameUser, Card card, Integer turnNumber) {
-        this.gameUser = gameUser;
+    public GameTurn(Player player, Card card, Integer turnNumber) {
+        this.player = player;
         this.card = card;
         this.turnNumber = turnNumber;
     }
@@ -57,9 +57,9 @@ public class GameTurn {
                 .stream()
                 .collect(groupingBy(FinancialTransaction::getTransactionType));
 
-        Profession profession = gameUser.getProfession();
+        Profession profession = player.getProfession();
 
-        List<GameTurn> previousTurns = gameUser.getGameTurns()
+        List<GameTurn> previousTurns = player.getGameTurns()
                 .stream()
                 .sorted(comparing(GameTurn::getTurnNumber))
                 .collect(toList());

@@ -23,7 +23,7 @@ public class Profession {
     private GameDifficulty difficulty;
 
     @OneToMany(mappedBy = "profession")
-    private List<GameUser> gameUser;
+    private List<Player> player;
 
     //BUILDERS
 

@@ -1,7 +1,6 @@
 package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.models.GameUser;
 import com.uade.financialGame.models.User;
 import lombok.Getter;
 
@@ -16,7 +15,7 @@ public class UserResponse implements Response {
     private String userName;
     private String password;
     private String rank;
-    private List<GameUserResponse> gameUserIds;
+    private List<PlayerResponse> playerIds;
 
     //BUILDERS
     public UserResponse(User user) {
@@ -25,8 +24,8 @@ public class UserResponse implements Response {
             this.userName = user.getUserName() != null ? user.getUserName() : null;
             this.password = user.getPassword() != null ? user.getPassword() : null;
             this.rank = user.getRank() != null ? user.getRank().toString() : null;
-            this.gameUserIds = user.getGames() != null ?
-                    user.getGames().stream().map(GameUser::toDto).collect(Collectors.toList()) : null;
+            this.playerIds = user.getGames() != null ?
+                    user.getGames().stream().map(com.uade.financialGame.models.Player::toDto).collect(Collectors.toList()) : null;
         }
     }
 

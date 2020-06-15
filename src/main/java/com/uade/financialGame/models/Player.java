@@ -1,23 +1,25 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.responses.GameUserResponse;
+import com.uade.financialGame.messages.responses.PlayerMiniResponse;
+import com.uade.financialGame.messages.responses.PlayerResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "GameUser")
-@Table(name = "game_user")
+@Entity(name = "Player")
+@Table(name = "player")
 @Getter
 @Setter
-public class GameUser {
+public class Player {
 
     //ATTRIBUTES
     @Id
-    @Column(name="GAME_USER_ID")
+    @Column(name="PLAYER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long gameUserId;
+    private Long playerId;
+    private PlayerType playerType;
 
     private int balanceIncome;
     private int balanceExpenses;
@@ -33,21 +35,30 @@ public class GameUser {
     @ManyToOne
     private Profession profession;
 
-    @OneToMany(mappedBy = "gameUser")
+    @OneToMany(mappedBy = "player")
     private List<GameTurn> gameTurns;
 
-
-    //BUILDERS
-    public GameUser(User user) {
-        this.user = user;
+    public enum PlayerType {
+        HUMAN,
+        CPU
     }
 
-    public GameUser() {
+    //BUILDERS
+    public Player(User user, PlayerType playerType) {
+        this.user = user;
+        this.playerType = playerType;
+    }
+
+    public Player() {
     }
 
     //METHODS
-    public GameUserResponse toDto() {
-        return new GameUserResponse(this);
+    public PlayerResponse toDto() {
+        return new PlayerResponse(this);
+    }
+
+    public PlayerMiniResponse toMiniDto() {
+        return new PlayerMiniResponse(this);
     }
 
     public Long getUserId(){
