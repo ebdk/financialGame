@@ -1,6 +1,9 @@
 package com.uade.financialGame.messages.requests;
 
-@lombok.Getter
+import com.uade.financialGame.models.Profession;
+import lombok.Getter;
+
+@Getter
 public class ProfessionRequest {
 
     private String name;
@@ -8,7 +11,7 @@ public class ProfessionRequest {
     private String description;
 
 
-    public ProfessionRequest(com.uade.financialGame.models.Profession profession) {
+    public ProfessionRequest(Profession profession) {
         this.name = profession.getName();
         this.imgUrl = profession.getImgUrl();
         this.description = profession.getDescription();

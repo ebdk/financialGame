@@ -1,8 +1,8 @@
 package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.models.GameTurn;
 import com.uade.financialGame.models.Player;
+import com.uade.financialGame.models.Turn;
 import lombok.Getter;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class PlayerMiniResponse implements Response {
     private String type;
     private Long userId;
     private ProfessionResponse profession;
-    private List<Long> gameTurnsIds;
+    private List<Long> turnsIds;
 
     public PlayerMiniResponse(Player player) {
         if(player != null){
@@ -23,8 +23,8 @@ public class PlayerMiniResponse implements Response {
             this.type = player.getPlayerType().toString();
             this.userId = player.getUser().getUserId() != null ? player.getUser().getUserId() : null;
             this.profession = player.getProfession() != null ? new ProfessionResponse(player.getProfession()) : null;
-            this.gameTurnsIds =  player.getGameTurns() != null ?
-                    player.getGameTurns().stream().map(GameTurn::getGameTurnId).collect(Collectors.toList()) : null;
+            this.turnsIds =  player.getTurns() != null ?
+                    player.getTurns().stream().map(Turn::getTurnId).collect(Collectors.toList()) : null;
         }
     }
 

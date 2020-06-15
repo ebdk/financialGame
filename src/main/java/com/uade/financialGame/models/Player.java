@@ -36,7 +36,7 @@ public class Player {
     private Profession profession;
 
     @OneToMany(mappedBy = "player")
-    private List<GameTurn> gameTurns;
+    private List<Turn> turns;
 
     public enum PlayerType {
         HUMAN,
@@ -66,21 +66,21 @@ public class Player {
     }
 
     public void calculateBalance(){
-        this.balanceIncome = gameTurns
+        this.balanceIncome = turns
                 .stream()
-                .mapToInt(GameTurn::getBalanceIncome)
+                .mapToInt(Turn::getBalanceIncome)
                 .sum();
-        this.balanceExpenses = gameTurns
+        this.balanceExpenses = turns
                 .stream()
-                .mapToInt(GameTurn::getBalanceExpenses)
+                .mapToInt(Turn::getBalanceExpenses)
                 .sum();
-        this.balanceActive = gameTurns
+        this.balanceActive = turns
                 .stream()
-                .mapToInt(GameTurn::getBalanceActive)
+                .mapToInt(Turn::getBalanceActive)
                 .sum();
-        this.balancePassive = gameTurns
+        this.balancePassive = turns
                 .stream()
-                .mapToInt(GameTurn::getBalancePassive)
+                .mapToInt(Turn::getBalancePassive)
                 .sum();
     }
 

@@ -1,7 +1,11 @@
 package com.uade.financialGame.messages.requests;
 
-@lombok.Getter
-public class UserRequest implements com.uade.financialGame.messages.Response {
+import com.uade.financialGame.messages.Response;
+import com.uade.financialGame.models.User;
+import lombok.Getter;
+
+@Getter
+public class UserRequest implements Response {
 
     //ATTRIBUTES
     private String userName;
@@ -10,7 +14,7 @@ public class UserRequest implements com.uade.financialGame.messages.Response {
     private Integer coins;
 
     //BUILDERS
-    public UserRequest(com.uade.financialGame.models.User user) {
+    public UserRequest(User user) {
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.rank = user.getRank().toString();

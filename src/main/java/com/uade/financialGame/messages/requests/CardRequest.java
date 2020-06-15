@@ -2,7 +2,7 @@ package com.uade.financialGame.messages.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uade.financialGame.models.Card;
-import com.uade.financialGame.models.FinancialTransaction;
+import com.uade.financialGame.models.Transaction;
 import lombok.Getter;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class CardRequest {
     private String description;
     private String difficulty;
     private String type;
-    private List<FinancialTransactionRequest> financialTransactionRequests;
+    private List<TransactionRequest> transactionRequests;
 
     public CardRequest(Card card) {
         this.name = card.getName();
@@ -30,10 +30,10 @@ public class CardRequest {
     }
 
     @JsonIgnore
-    public List<FinancialTransaction> getFinancialTransactions() {
-        return financialTransactionRequests
+    public List<Transaction> getTransactions() {
+        return transactionRequests
                 .stream()
-                .map(FinancialTransactionRequest::toEntity)
+                .map(TransactionRequest::toEntity)
                 .collect(Collectors.toList());
     }
 

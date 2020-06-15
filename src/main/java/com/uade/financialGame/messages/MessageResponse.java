@@ -1,6 +1,7 @@
 package com.uade.financialGame.messages;
 
 import com.uade.financialGame.utils.Pair;
+import com.uade.financialGame.utils.PairObject;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -22,10 +23,10 @@ public class MessageResponse implements Response {
         }
     }
 
-    public MessageResponse(com.uade.financialGame.utils.PairObject... args) {
+    public MessageResponse(PairObject... args) {
         super();
         this.mapObject = new HashMap<>();
-        for (com.uade.financialGame.utils.PairObject arg : args) {
+        for (PairObject arg : args) {
             mapObject.put(arg.getKey(), arg.getValue());
         }
     }

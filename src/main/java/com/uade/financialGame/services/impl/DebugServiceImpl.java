@@ -25,7 +25,7 @@ public class DebugServiceImpl implements DebugService {
     private PlayerDAO playerRepository;
 
     @Autowired
-    private GameTurnDAO gameTurnRepository;
+    private TurnDAO turnRepository;
 
     @Autowired
     private GameDAO gameRepository;
@@ -43,7 +43,7 @@ public class DebugServiceImpl implements DebugService {
         return new MessageResponse(new PairObject("users", getAllUsers()),
                 new PairObject("cards", getAllCards()),
                 new PairObject("games", getAllGames()),
-                new PairObject("gameTurns", getAllGameTurns()),
+                new PairObject("turns", getAllTurns()),
                 new PairObject("players", getAllPlayers()),
                 new PairObject("professions", getAllProfessions())).getMapObject();
     }
@@ -69,10 +69,10 @@ public class DebugServiceImpl implements DebugService {
                 .collect(Collectors.toList());
     }
 
-    private List<GameTurnResponse> getAllGameTurns() {
-        return gameTurnRepository.findAll()
+    private List<TurnResponse> getAllTurns() {
+        return turnRepository.findAll()
                 .stream()
-                .map(GameTurn::toDto)
+                .map(Turn::toDto)
                 .collect(Collectors.toList());
     }
 

@@ -1,7 +1,7 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.responses.GameTurnResponse;
-import com.uade.financialGame.models.FinancialTransaction.TransactionType;
+import com.uade.financialGame.messages.responses.TurnResponse;
+import com.uade.financialGame.models.Transaction.TransactionType;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -12,16 +12,16 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-@Entity(name = "GameTurn")
-@Table(name = "game_turn")
+@Entity(name = "Turn")
+@Table(name = "turn")
 @Getter
-public class GameTurn {
+public class Turn {
 
     //ATTRIBUTES
     @Id
-    @Column(name="GAME_TURN_ID")
+    @Column(name="TURN_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long gameTurnId;
+    private Long turnId;
     private Integer turnNumber;
 
     private int balanceIncome;
@@ -38,30 +38,30 @@ public class GameTurn {
     private Card card;
 
     //BUILDERS
-    public GameTurn() {
+    public Turn() {
     }
 
-    public GameTurn(Player player, Card card, Integer turnNumber) {
+    public Turn(Player player, Card card, Integer turnNumber) {
         this.player = player;
         this.card = card;
         this.turnNumber = turnNumber;
     }
 
     //METHODS
-    public GameTurnResponse toDto() {
-        return new GameTurnResponse(this);
+    public TurnResponse toDto() {
+        return new TurnResponse(this);
     }
 
     public void calculateBalance(){
-        Map<TransactionType, List<FinancialTransaction>> cardTransactions = card.getTransactions()
+        Map<TransactionType, List<Transaction>> cardTransactions = card.getTransactions()
                 .stream()
-                .collect(groupingBy(FinancialTransaction::getTransactionType));
+                .collect(groupingBy(Transaction::getTransactionType));
 
         Profession profession = player.getProfession();
 
-        List<GameTurn> previousTurns = player.getGameTurns()
+        List<Turn> previousTurns = player.getTurns()
                 .stream()
-                .sorted(comparing(GameTurn::getTurnNumber))
+                .sorted(comparing(Turn::getTurnNumber))
                 .collect(toList());
 
 

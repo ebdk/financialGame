@@ -1,8 +1,7 @@
 package com.uade.financialGame.controller;
 
-import com.uade.financialGame.messages.customRequests.CreateGameTurnRequest;
 import com.uade.financialGame.messages.responses.UserResponse;
-import com.uade.financialGame.services.GameTurnService;
+import com.uade.financialGame.services.TurnService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("financial_game/api/game_turn")
-public class GameTurnController {
+@RequestMapping("financial_game/api/turn")
+public class TurnController {
 
     @Autowired
-    private GameTurnService service;
+    private TurnService service;
 
     @ApiOperation(
             value = "Get turns by user in a game",
@@ -42,10 +41,10 @@ public class GameTurnController {
     })
     @GetMapping(path="{gameId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object getAllGameTurns(
+    public Object getAllTurns(
             @ApiParam(value = "The Game's Id", required = true)
             @PathVariable("gameId") String gameId) {
-        return service.getGameTurns(gameId);
+        return service.getTurns(gameId);
     }
 
     @ApiOperation(
@@ -56,7 +55,7 @@ public class GameTurnController {
     })
     @PostMapping(path="{userId}/{cardId}/{boxId}/{turnNumber}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object createGameTurn(@ApiParam(value = "The user's id", required = true)
+    public Object createTurn(@ApiParam(value = "The user's id", required = true)
                                     @PathVariable("userId") Long userId,
                                 @ApiParam(value = "The card's id", required = true)
                                     @PathVariable("cardId") Long cardId,
@@ -64,7 +63,7 @@ public class GameTurnController {
                                     @PathVariable("boxId") Long boxId,
                                  @ApiParam(value = "The Turn Number", required = true)
                                      @PathVariable("turnNumber") Integer turnNumber) {
-        return service.createGameTurn(userId, cardId, boxId, turnNumber);
+        return service.createTurn(userId, cardId, boxId, turnNumber);
     }
 
 }

@@ -48,7 +48,7 @@ public class User {
     }
 
     public User(PlayerType playerType) {
-        if(com.uade.financialGame.models.Player.PlayerType.CPU.equals(playerType)) {
+        if(PlayerType.CPU.equals(playerType)) {
             //DEFAULT BOT CREATOR
             this.userId = 0L;
             this.userName = "bot_user";

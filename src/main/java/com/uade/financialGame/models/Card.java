@@ -25,14 +25,14 @@ public class Card {
     private CardType type;
 
     @OneToMany(mappedBy = "card")
-    private List<GameTurn> gameTurns;
+    private List<Turn> turns;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "card_transaction",
             joinColumns = @JoinColumn(name = "CARD_ID"),
-            inverseJoinColumns = @JoinColumn(name = "FINANCIAL_TRANSACTION_ID"))
-    private List<FinancialTransaction> transactions;
+            inverseJoinColumns = @JoinColumn(name = "TRANSACTION_ID"))
+    private List<Transaction> transactions;
 
     public enum CardType {
         EXPENSES,
@@ -48,7 +48,7 @@ public class Card {
         this.description = cardRequest.getDescription();
         this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
         this.type = CardType.valueOf(cardRequest.getType());
-        this.transactions = cardRequest.getFinancialTransactions();
+        this.transactions = cardRequest.getTransactions();
     }
 
     public Card() {
