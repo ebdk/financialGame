@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TurnService {
 
-    Object createTurn(Long userId, Long cardId, Long boxId, Integer turnNumber);
+    Object createTurn(Long playerId, Long cardId, Long boxId, Integer turnNumber);
 
     List<TurnResponse> getPlayerTurns(String playerId);
 

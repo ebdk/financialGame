@@ -55,15 +55,15 @@ public class TurnController {
     })
     @PostMapping(path="{userId}/{cardId}/{boxId}/{turnNumber}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object createTurn(@ApiParam(value = "The user's id", required = true)
-                                    @PathVariable("userId") Long userId,
+    public Object createTurn(@ApiParam(value = "The player's id", required = true)
+                                    @PathVariable("playerId") Long playerId,
                                 @ApiParam(value = "The card's id", required = true)
                                     @PathVariable("cardId") Long cardId,
                                 @ApiParam(value = "The box's id", required = true)
                                     @PathVariable("boxId") Long boxId,
                                  @ApiParam(value = "The Turn Number", required = true)
                                      @PathVariable("turnNumber") Integer turnNumber) {
-        return service.createTurn(userId, cardId, boxId, turnNumber);
+        return service.createTurn(playerId, cardId, boxId, turnNumber);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.uade.financialGame.services.impl;
 
+import com.uade.financialGame.messages.MessageResponse;
 import com.uade.financialGame.messages.responses.TurnResponse;
 import com.uade.financialGame.models.Card;
 import com.uade.financialGame.models.Game;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,15 +34,22 @@ public class TurnServiceImpl implements TurnService {
     private TurnDAO turnRepository;
 
     @Override
-    public Object createTurn(Long userId, Long cardId, Long boxId, Integer turnNumber) {
-        List<Player> allPlayers = playerRepository.findAll();
-        Player player = allPlayers
-                .stream()
-                .filter(x -> userId.equals(x.getUserId()))
-                .collect(Collectors.toList())
-                .get(0);
+    public Object createTurn(Long playerId, Long cardId, Long boxId, Integer turnNumber) {
+        Player player;
+        Optional<Player> playerSearch = playerRepository.findById(playerId);
+        if(playerSearch.isPresent()) {
+            player = playerSearch.get();
+        } else {
+            return new MessageResponse("Jugador no existe");
+        }
 
-        Card card = cardRepository.getOne(cardId);
+        Card card;
+        Optional<Card> cardSearch =  cardRepository.findById(cardId);
+        if(cardSearch.isPresent()) {
+            card = cardSearch.get();
+        } else {
+            return new MessageResponse("Carta no existe");
+        }
 
         Turn turn = new Turn(player, card, turnNumber);
         //turn.calculateBalance();

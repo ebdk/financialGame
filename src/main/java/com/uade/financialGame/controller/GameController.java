@@ -28,11 +28,11 @@ public class GameController {
     @PostMapping(path="{gameType}/{gameDifficulty}/{idUser}",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object createGame(
-            @ApiParam(value = "The card's gameType. GameTypes: NORMAL", required = true)
+            @ApiParam(value = "The game's gameType. GameTypes: NORMAL", required = true)
             @PathVariable("gameType") String gameType,
-            @ApiParam(value = "The card's gameDifficulty. GameDifficulties: EASY, MEDIUM, HARD", required = true)
+            @ApiParam(value = "The game's gameDifficulty. GameDifficulties: EASY, MEDIUM, HARD", required = true)
             @PathVariable("gameDifficulty") String gameDifficulty,
-            @ApiParam(value = "The card's idUser", required = true)
+            @ApiParam(value = "The user's id", required = true)
             @PathVariable("idUser") String idUser) {
         return service.createGame(gameType, gameDifficulty, idUser);
     }
