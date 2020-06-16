@@ -1,9 +1,11 @@
 package com.uade.financialGame.services.impl;
 
-import com.uade.financialGame.messages.MessageResponse;
 import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.models.Card;
+import com.uade.financialGame.models.TransactionList;
 import com.uade.financialGame.repositories.CardDAO;
+import com.uade.financialGame.repositories.TransactionDAO;
+import com.uade.financialGame.repositories.TransactionListDAO;
 import com.uade.financialGame.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,12 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     private CardDAO cardRepository;
+
+    @Autowired
+    private TransactionListDAO transactionListRepository;
+
+    @Autowired
+    private TransactionDAO transactionRepository;
 
     @Override
     public Object getRandomCard(String cardType, String cardDifficulty) {
@@ -41,6 +49,9 @@ public class CardServiceImpl implements CardService {
     @Override
     public Object createCard(CardRequest cardRequest) {
         Card newCard = new Card(cardRequest);
+
+        newCard.getTransactionList().getTransactions().forEach(x -> transactionRepository.save(x));
+        transactionListRepository.save(newCard.getTransactionList());
         cardRepository.save(newCard);
         return newCard.toDto();
     }

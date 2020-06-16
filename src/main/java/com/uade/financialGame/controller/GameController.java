@@ -43,12 +43,25 @@ public class GameController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
     })
-    @PatchMapping(path="{gameId}",produces = APPLICATION_JSON_VALUE)
+    @PatchMapping(path="fill_with_bots/{gameId}",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object fillWithPlayers(
             @ApiParam(value = "The game's id", required = true)
             @PathVariable("gameId") Long gameId) {
         return service.fillWithBots(gameId);
+    }
+
+    @ApiOperation(
+            value = "Assigns a random profession to all players",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The users were assigned professions successfully", response = UserResponse.class),
+    })
+    @PatchMapping(path="assign_professions/{gameId}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object modifyPlayersProfessions(@ApiParam(value = "The game's id", required = true)
+                                               @PathVariable("gameId") Long gameId) {
+        return org.springframework.http.ResponseEntity.ok(service.modifyPlayersProfessions(gameId));
     }
 
 }

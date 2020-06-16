@@ -65,6 +65,7 @@ public class Player {
         return user.getUserId();
     }
 
+    /*
     public void calculateBalance(){
         this.balanceIncome = turns
                 .stream()
@@ -83,5 +84,7 @@ public class Player {
                 .mapToInt(Turn::getBalancePassive)
                 .sum();
     }
+    */
+
 
 }

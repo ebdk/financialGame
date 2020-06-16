@@ -81,7 +81,7 @@ public class UserController {
             value = "Looks up a user by username, and adds or substracts the coins",
             notes = "Self explanatory")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The user was found successfully", response = com.uade.financialGame.messages.responses.UserResponse.class),
+            @ApiResponse(code = 200, message = "The user was found and modified successfully ", response = com.uade.financialGame.messages.responses.UserResponse.class),
     })
     @PatchMapping(path="{username}/{coins_value}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

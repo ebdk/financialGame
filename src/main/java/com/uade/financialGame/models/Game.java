@@ -14,7 +14,7 @@ import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 @Getter
 public class Game {
 
-    public static int GAME_FULL_NUMBER = 6;
+    public static int GAME_FULL_NUMBER = 4;
 
     //ATTRIBUTES
     @Id

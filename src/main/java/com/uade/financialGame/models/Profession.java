@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.ProfessionRequest;
 import com.uade.financialGame.messages.responses.ProfessionResponse;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import lombok.Getter;
@@ -25,10 +26,23 @@ public class Profession {
     @OneToMany(mappedBy = "profession")
     private List<Player> player;
 
+    @OneToOne(mappedBy = "profession")
+    private TransactionList transactionList;
+
     //BUILDERS
 
 
     public Profession() {
+    }
+
+    public Profession(ProfessionRequest professionRequest) {
+        this.name = professionRequest.getName();
+        this.imgUrl = professionRequest.getImgUrl();
+        this.description = professionRequest.getDescription();
+        this.difficulty = professionRequest.getDifficulty()!= null
+                ? GameDifficulty.valueOf(professionRequest.getDifficulty()) : null;
+        this.transactionList = professionRequest.getTransactionList();
+        transactionList.setProfession(this);
     }
 
     //METHODS

@@ -1,5 +1,6 @@
 package com.uade.financialGame.controller;
 
+import com.uade.financialGame.messages.requests.ProfessionRequest;
 import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.services.ProfessionService;
 import io.swagger.annotations.ApiOperation;
@@ -27,10 +28,22 @@ public class ProfessionController {
     })
     @GetMapping(path="{difficulty}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object getRandomCard(
+    public Object getAllProfessions(
             @ApiParam(value = "The profession's difficulty, based on the game. GameDifficulties: EASY, MEDIUM, HARD", required = true)
             @PathVariable("difficulty") String difficulty) {
         return service.getAllProfessions(difficulty);
+    }
+
+    @ApiOperation(
+            value = "Creates a profession",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The profession was crated successfully", response = UserResponse.class),
+    })
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object createProfession(@RequestBody ProfessionRequest professionRequest) {
+        return service.createProfession(professionRequest);
     }
 
 }

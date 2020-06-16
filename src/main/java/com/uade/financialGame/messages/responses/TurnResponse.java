@@ -21,10 +21,12 @@ public class TurnResponse implements Response {
         if(turn != null){
             this.turnId = turn.getTurnId() != null ? turn.getTurnId() : null;
             this.turnNumber = turn.getTurnNumber();
+            /*
             this.balanceIncome = turn.getBalanceIncome();
             this.balanceExpenses = turn.getBalanceExpenses();
             this.balanceActive = turn.getBalanceActive();
             this.balancePassive = turn.getBalancePassive();
+            */
             this.player = turn.getPlayer() != null ? new PlayerResponse(turn.getPlayer()) : null;
             this.card = turn.getCard() != null ? new CardResponse(turn.getCard()) : null;
         }

@@ -1,15 +1,12 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.responses.TurnResponse;
-import com.uade.financialGame.models.Transaction.TransactionType;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 @Entity(name = "Turn")
@@ -24,12 +21,12 @@ public class Turn {
     private Long turnId;
     private Integer turnNumber;
 
+    /*
     private int balanceIncome;
     private int balanceExpenses;
     private int balanceActive;
     private int balancePassive;
-
-
+    */
 
     @ManyToOne
     private Player player;
@@ -53,9 +50,11 @@ public class Turn {
     }
 
     public void calculateBalance(){
+        /*
         Map<TransactionType, List<Transaction>> cardTransactions = card.getTransactions()
                 .stream()
                 .collect(groupingBy(Transaction::getTransactionType));
+                */
 
         Profession profession = player.getProfession();
 
@@ -63,10 +62,6 @@ public class Turn {
                 .stream()
                 .sorted(comparing(Turn::getTurnNumber))
                 .collect(toList());
-
-
-
-
     }
 
 }

@@ -16,6 +16,7 @@ public class ProfessionResponse implements Response {
     private String imgUrl;
     private String description;
     private List<Long> playerIds;
+    private TransactionListResponse transactions;
 
     public ProfessionResponse(Profession profession) {
         if(profession != null){
@@ -25,6 +26,8 @@ public class ProfessionResponse implements Response {
             this.description = profession.getDescription() != null ?  profession.getDescription() : null;
             this.playerIds = profession.getPlayer() != null ?
                     profession.getPlayer().stream().map(Player::getPlayerId).collect(Collectors.toList()) : null;
+            this.transactions = profession.getTransactionList() != null ?
+                    profession.getTransactionList().toDto() : null;
         }
     }
 

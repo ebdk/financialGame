@@ -14,10 +14,12 @@ public class TurnRequest {
 
     public TurnRequest(Turn turn) {
         this.turnNumber = turn.getTurnNumber();
+        /*
         this.balanceIncome = turn.getBalanceIncome();
         this.balanceExpenses = turn.getBalanceExpenses();
         this.balanceActive = turn.getBalanceActive();
         this.balancePassive = turn.getBalancePassive();
+        */
     }
 
     public TurnRequest() {

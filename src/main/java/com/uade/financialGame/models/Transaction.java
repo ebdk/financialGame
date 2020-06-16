@@ -5,11 +5,11 @@ import com.uade.financialGame.messages.responses.TransactionResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "Transaction")
 @Table(name = "transaction")
 @Getter
+@lombok.Setter
 public class Transaction {
 
     //ATTRIBUTES
@@ -23,8 +23,8 @@ public class Transaction {
     private String description;
     private int value;
 
-    @ManyToMany(mappedBy = "transactions", cascade = {CascadeType.ALL})
-    private List<Card> cards;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private TransactionList transactionList;
 
     public Transaction(TransactionRequest transactionRequest) {
         this.transactionType = TransactionType.valueOf(transactionRequest.getTransactionType());
@@ -42,6 +42,14 @@ public class Transaction {
         EXPENSES,
         INCOMES
     }
+
+    public enum TransactionCommonName {
+        ACTIVE,
+        PASSIVE,
+        EXPENSES,
+        INCOMES
+    }
+
 
     public enum NumericType {
         PERCENTAGE,

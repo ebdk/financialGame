@@ -7,10 +7,12 @@ import com.uade.financialGame.models.Game.GameLobbyStatus;
 import com.uade.financialGame.models.Game.GameType;
 import com.uade.financialGame.models.Player;
 import com.uade.financialGame.models.Player.PlayerType;
+import com.uade.financialGame.models.Profession;
 import com.uade.financialGame.models.User;
 import com.uade.financialGame.models.User.UserRank;
 import com.uade.financialGame.repositories.GameDAO;
 import com.uade.financialGame.repositories.PlayerDAO;
+import com.uade.financialGame.repositories.ProfessionDAO;
 import com.uade.financialGame.repositories.UserDAO;
 import com.uade.financialGame.services.GameService;
 import com.uade.financialGame.utils.Pair;
@@ -21,13 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.uade.financialGame.models.Game.GAME_FULL_NUMBER;
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 import static com.uade.financialGame.models.Player.PlayerType.HUMAN;
+import static com.uade.financialGame.utils.MathUtils.generateRandomNumber;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -40,6 +43,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameDAO gameRepository;
+
+    @Autowired
+    private ProfessionDAO professionRepository;
 
     @Override
     public Object createGame(String gameTypeParam, String gameDifficultyParam, String idUser) {
@@ -66,7 +72,7 @@ public class GameServiceImpl implements GameService {
             List<Game> availableGames = games.get(AWAITING_PLAYERS)
                     .stream()
                     .sorted(comparing(Game::getGameSize))
-                    .collect(Collectors.toList());
+                    .collect(toList());
             game = availableGames.get(0);
         } else if(!(games.getOrDefault(EMPTY, new ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(EMPTY);
@@ -113,6 +119,36 @@ public class GameServiceImpl implements GameService {
         }
 
         gameRepository.save(game);
+        return game.toDto();
+    }
+
+
+    @Override
+    public Object modifyPlayersProfessions(Long gameId) {
+
+        Game game = gameRepository.getOne(gameId);
+        List<Long> playerIds = game.getPlayers()
+                .stream()
+                .map(Player::getPlayerId)
+                .collect(toList());
+
+        List<Player> players = playerRepository.findAll()
+                .stream().filter(x -> playerIds.contains(x.getPlayerId()))
+                .collect(toList());
+
+        List<Profession> professions = professionRepository.findAll()
+                .stream()
+                .filter(x -> game.getGameDifficulty().equals(x.getDifficulty()))
+                .collect(toList());
+
+        players.forEach(x -> {
+            Profession chosenProfession = professions.get(generateRandomNumber(0, professions.size()));
+            if(x.getProfession() == null || !x.getProfession().equals(chosenProfession)){
+                x.setProfession(chosenProfession);
+                playerRepository.save(x);
+            }
+        });
+
         return game.toDto();
     }
 

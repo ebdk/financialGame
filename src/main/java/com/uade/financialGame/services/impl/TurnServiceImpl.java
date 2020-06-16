@@ -52,7 +52,7 @@ public class TurnServiceImpl implements TurnService {
         }
 
         Turn turn = new Turn(player, card, turnNumber);
-        turn.calculateBalance();
+        //turn.calculateBalance();
 
 
         turnRepository.save(turn);

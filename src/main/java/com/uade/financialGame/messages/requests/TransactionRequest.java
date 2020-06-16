@@ -11,6 +11,7 @@ public class TransactionRequest {
     private String description;
     private int value;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public Transaction toEntity() {
         return new Transaction(this);
     }
