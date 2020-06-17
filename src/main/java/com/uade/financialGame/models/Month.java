@@ -44,6 +44,9 @@ public class Month {
         this.transactionList.addTransactions(transactionList);
     }
 
+    public Month() {
+    }
+
     //METHODS
     public MonthResponse toDto() {
         return new MonthResponse(this);

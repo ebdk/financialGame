@@ -36,8 +36,10 @@ public class ProfessionServiceImpl implements ProfessionService {
     public Object createProfession(ProfessionRequest professionRequest) {
         Profession newProfession = new Profession(professionRequest);
 
-        newProfession.getTransactionList().getTransactions().forEach(x -> transactionRepository.save(x));
+        /*
+        transactionRepository.saveAll(professionRequest.getTransactionList().getTransactions());
         transactionListRepository.save(newProfession.getTransactionList());
+        */
         professionRepository.save(newProfession);
         return newProfession.toDto();
     }

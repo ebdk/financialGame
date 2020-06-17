@@ -32,12 +32,27 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private MonthDAO monthRepository;
 
+    @Autowired
+    private com.uade.financialGame.repositories.TurnDAO turnRepository;
+
     @Override
     public Object payDebt(Long playerId, Integer amount) {
         Player player = playerRepository.getOne(playerId);
-        Turn turn = player.getLatestTurn();
+
+        Turn turn;
+        if(player.getTurns().isEmpty()) {
+            turn = new Turn(player, null, 0);
+        } else {
+            turn = player.getLatestTurn();
+        }
 
         TransactionList balance = player.getBalance();
+        /*
+        TransactionList balance = transactionListRepository.findAll()
+                .stream()
+                .filter(x -> x.getPlayer().getPlayerId().equals(playerId))
+                .collect(java.util.stream.Collectors.toList()).get(0);
+                */
 
         Transaction passiveTransaction = new Transaction("Pay Debt", PASSIVE, NUMBER, CURRENT, (-1) * amount);
         Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
@@ -46,10 +61,11 @@ public class PlayerServiceImpl implements PlayerService {
         TransactionList turnTransactionList = turn.getTransactionList();
         turnTransactionList.addTransactions(transactions);
 
-        balance.addTransaction(expensesTransaction);
+        balance.addTransactions(transactions);
 
         transactionRepository.saveAll(transactions);
         transactionListRepository.saveAll(asList(turnTransactionList, balance));
+        turnRepository.save(turn);
 
         return balance.toDto();
     }
@@ -62,9 +78,9 @@ public class PlayerServiceImpl implements PlayerService {
         TransactionList balance = player.getBalance();
 
         Integer playerSalary = player.getBalanceValuesMap().get(INCOMES);
-        Integer amount = playerSalary - (int)(playerSalary*(10.0f/100.0f)); //10% of the salary
+        Integer amount = (int)(playerSalary*(10.0f/100.0f)); //10% of the salary
 
-        Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
+        Transaction expensesTransaction = new Transaction("Charity", EXPENSES, NUMBER, CURRENT, amount);
 
         TransactionList turnTransactionList = turn.getTransactionList();
         turnTransactionList.addTransaction(expensesTransaction);
@@ -72,9 +88,9 @@ public class PlayerServiceImpl implements PlayerService {
 
         balance.addTransaction(expensesTransaction);
 
-        playerRepository.save(player);
         transactionRepository.save(expensesTransaction);
         transactionListRepository.saveAll(asList(turnTransactionList, balance));
+        playerRepository.save(player);
 
         return balance.toDto();
     }

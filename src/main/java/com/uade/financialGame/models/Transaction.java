@@ -99,15 +99,15 @@ public class Transaction {
     }
 
     public boolean isMonthlyExpenses() {
-        return MONTHLY.equals(transactionType) && EXPENSES.equals(transactionTime);
+        return MONTHLY.equals(transactionTime) && EXPENSES.equals(transactionType);
     }
 
     public boolean isMonthlyIncome() {
-        return MONTHLY.equals(transactionType) && INCOMES.equals(transactionTime) && NUMBER.equals(numericType);
+        return MONTHLY.equals(transactionTime) && INCOMES.equals(transactionType) && NUMBER.equals(numericType);
     }
 
     public boolean isCurrentTransaction() {
-        return CURRENT.equals(transactionType) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && NUMBER.equals(numericType);
     }
 
     public boolean isPercentage() {
@@ -115,23 +115,23 @@ public class Transaction {
     }
 
     public boolean isCurrentPassive() {
-        return CURRENT.equals(transactionType) && PASSIVE.equals(transactionTime) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && PASSIVE.equals(transactionType) && NUMBER.equals(numericType);
     }
 
     public boolean isCurrentIncome() {
-        return CURRENT.equals(transactionType) && INCOMES.equals(transactionTime) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && INCOMES.equals(transactionType) && NUMBER.equals(numericType);
     }
 
     public boolean isCurrentExpenses() {
-        return CURRENT.equals(transactionType) && EXPENSES.equals(transactionTime) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && EXPENSES.equals(transactionType) && NUMBER.equals(numericType);
     }
 
     public boolean isCurrentActive() {
-        return CURRENT.equals(transactionType) && ACTIVE.equals(transactionTime) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && ACTIVE.equals(transactionType) && NUMBER.equals(numericType);
     }
 
     public boolean isCurrent() {
-        return CURRENT.equals(transactionType) && NUMBER.equals(numericType);
+        return CURRENT.equals(transactionTime) && NUMBER.toString().equals(numericType.toString());
     }
 
     public void turnFromMonthlyToTransaction(Integer monthNumber) {

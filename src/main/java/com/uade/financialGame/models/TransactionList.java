@@ -25,7 +25,7 @@ public class TransactionList {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long transactionId;
 
-    @OneToMany(mappedBy = "transactionList")
+    @OneToMany(mappedBy = "transactionList", cascade=CascadeType.ALL)
     private List<Transaction> transactions;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -44,6 +44,16 @@ public class TransactionList {
     private Turn turn;
 
     public TransactionList() {
+        this.transactions = new java.util.ArrayList<>();
+    }
+
+    public TransactionList(Player player) {
+        this.player = player;
+        this.transactions = new java.util.ArrayList<>();
+    }
+
+    public TransactionList(Turn turn) {
+        this.turn = turn;
         this.transactions = new java.util.ArrayList<>();
     }
 
@@ -72,15 +82,13 @@ public class TransactionList {
     }
 
     public List<Transaction> getMonthlyExpenses() {
-        List<Transaction> list = null;
-        return list.stream()
+        return transactions.stream()
                 .filter(Transaction::isMonthlyExpenses)
                 .collect(toList());
     }
 
     public List<Transaction> getMonthlyIncomes() {
-        List<Transaction> list = null;
-        return list.stream()
+        return transactions.stream()
                 .filter(Transaction::isMonthlyIncome)
                 .collect(toList());
     }

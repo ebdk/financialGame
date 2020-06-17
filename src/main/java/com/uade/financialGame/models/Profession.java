@@ -26,7 +26,7 @@ public class Profession {
     @OneToMany(mappedBy = "profession")
     private List<Player> player;
 
-    @OneToOne(mappedBy = "profession")
+    @OneToOne(mappedBy = "profession", cascade=CascadeType.ALL)
     private TransactionList transactionList;
 
     //BUILDERS

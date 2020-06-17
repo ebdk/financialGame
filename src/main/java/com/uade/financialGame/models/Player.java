@@ -33,7 +33,7 @@ public class Player {
     @ManyToOne
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     private Game game;
 
     @ManyToOne
@@ -45,7 +45,7 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Month> months;
 
-    @OneToOne(mappedBy = "player")
+    @OneToOne(mappedBy = "player", cascade=CascadeType.ALL)
     private TransactionList balance;
 
     public enum PlayerType {
@@ -99,26 +99,47 @@ public class Player {
                 .collect(groupingBy(Transaction::getTransactionType));
     }
 
+    public Map<TransactionType, List<Transaction>> getAllBalanceDetailedMap() {
+        return balance.getTransactions().stream()
+                .collect(groupingBy(Transaction::getTransactionType));
+    }
+
     public Map<TransactionType, Integer> getBalanceValuesMap() {
-        Map<TransactionType, List<Transaction>> balanceDetailedMap = getBalanceDetailedMap();
+        Map<TransactionType, List<Transaction>> balanceDetailedMap = getAllBalanceDetailedMap();
 
-        Integer activeValue = balanceDetailedMap.get(ACTIVE).stream()
-                .mapToInt(Transaction::getValue).sum();
+        Integer activeValue = 0;
+        Integer passiveValue = 0;
+        Integer incomeValue = 0;
+        Integer expensesValue = 0;
+        if(balanceDetailedMap.containsKey(ACTIVE)) {
+            activeValue = balanceDetailedMap.get(ACTIVE).stream()
+                    .mapToInt(Transaction::getValue).sum();
+        }
 
-        Integer passiveValue = balanceDetailedMap.get(PASSIVE).stream()
-                .mapToInt(Transaction::getValue).sum();
+        if(balanceDetailedMap.containsKey(PASSIVE)) {
+            passiveValue = balanceDetailedMap.get(PASSIVE).stream()
+                    .mapToInt(Transaction::getValue).sum();
+        }
 
-        Integer incomeValue = balanceDetailedMap.get(INCOMES).stream()
-                .mapToInt(Transaction::getValue).sum();
+        if(balanceDetailedMap.containsKey(INCOMES)) {
+            incomeValue = balanceDetailedMap.get(INCOMES).stream()
+                    .mapToInt(Transaction::getValue).sum();
+        }
 
-        Integer expensesValue = balanceDetailedMap.get(EXPENSES).stream()
-                .mapToInt(Transaction::getValue).sum();
+        if(balanceDetailedMap.containsKey(EXPENSES)) {
+            expensesValue = balanceDetailedMap.get(EXPENSES).stream()
+                    .mapToInt(Transaction::getValue).sum();
+        }
 
+        Integer finalActiveValue = activeValue;
+        Integer finalPassiveValue = passiveValue;
+        Integer finalIncomeValue = incomeValue;
+        Integer finalExpensesValue = expensesValue;
         return  new HashMap<TransactionType, Integer>() {{
-            put(ACTIVE, activeValue);
-            put(PASSIVE, passiveValue);
-            put(INCOMES, incomeValue);
-            put(EXPENSES, expensesValue);
+            put(ACTIVE, finalActiveValue);
+            put(PASSIVE, finalPassiveValue);
+            put(INCOMES, finalIncomeValue);
+            put(EXPENSES, finalExpensesValue);
         }};
     }
 }

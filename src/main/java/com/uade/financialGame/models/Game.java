@@ -24,7 +24,7 @@ public class Game {
     private GameType gameType;
     private GameDifficulty gameDifficulty;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
 
     public enum GameType {
