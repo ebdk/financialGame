@@ -43,7 +43,7 @@ public class GameController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
     })
-    @PatchMapping(path="fill_with_bots/{gameId}",produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="fill_with_bots/{gameId}",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object fillWithPlayers(
             @ApiParam(value = "The game's id", required = true)
@@ -57,7 +57,7 @@ public class GameController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The users were assigned professions successfully", response = UserResponse.class),
     })
-    @PatchMapping(path="assign_professions/{gameId}", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="assign_professions/{gameId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object modifyPlayersProfessions(@ApiParam(value = "The game's id", required = true)
                                                @PathVariable("gameId") Long gameId) {
