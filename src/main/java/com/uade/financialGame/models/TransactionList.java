@@ -3,21 +3,20 @@ package com.uade.financialGame.models;
 import com.uade.financialGame.messages.requests.TransactionListRequest;
 import com.uade.financialGame.messages.responses.TransactionListResponse;
 import com.uade.financialGame.messages.responses.TransactionResponse;
-import com.uade.financialGame.models.Transaction.TransactionType;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.uade.financialGame.models.Transaction.TransactionType.*;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 @Entity(name = "TransactionList")
 @Table(name = "transaction_list")
 @Getter
-@lombok.Setter
+@Setter
 public class TransactionList {
 
     //ATTRIBUTES
@@ -33,9 +32,23 @@ public class TransactionList {
     private Card card;
 
     @OneToOne(cascade = {CascadeType.ALL})
+    private Month month;
+
+    @OneToOne(cascade = {CascadeType.ALL})
     private Profession profession;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Player player;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Turn turn;
+
     public TransactionList() {
+        this.transactions = new java.util.ArrayList<>();
+    }
+
+    public TransactionList(java.util.List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public TransactionList(TransactionListRequest transactionListRequest) {
@@ -48,19 +61,42 @@ public class TransactionList {
         return new TransactionListResponse(this);
     }
 
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        transaction.setTransactionList(this);
+    }
+
+    public void addTransactions(List<Transaction> transactionList) {
+        transactions.addAll(transactionList);
+        transactionList.forEach(x -> x.setTransactionList(this));
+    }
+
+    public List<Transaction> getMonthlyExpenses() {
+        List<Transaction> list = null;
+        return list.stream()
+                .filter(Transaction::isMonthlyExpenses)
+                .collect(toList());
+    }
+
+    public List<Transaction> getMonthlyIncomes() {
+        List<Transaction> list = null;
+        return list.stream()
+                .filter(Transaction::isMonthlyIncome)
+                .collect(toList());
+    }
+
     /*
     public Map<TransactionType, List<Transaction>> mapAllByType() {
         return transactions
                 .stream()
                 .collect(groupingBy(Transaction::getTransactionType));
     }
-    */
 
-    public Map<String, List<TransactionResponse>> mapAllByTypeDto() {
+    public java.util.List<TransactionResponse> getTransactionsDto() {
         return transactions
                 .stream()
                 .map(Transaction::toDto)
-                .collect(groupingBy(TransactionResponse::getTransactionType));
+                .collect(toList());
     }
 
     private List<Transaction> groupByType(TransactionType transactionType) {
@@ -85,13 +121,17 @@ public class TransactionList {
     public List<Transaction> groupByIncome() {
         return groupByType(INCOMES);
     }
+    */
 
-    /*
-    public java.util.List<TransactionResponse> getTransactionsDto() {
+    public Map<String, List<TransactionResponse>> mapAllByTypeDto() {
         return transactions
                 .stream()
                 .map(Transaction::toDto)
-                .collect(toList());
+                .collect(groupingBy(TransactionResponse::getTransactionType));
     }
-    */
+
+
+
+
+
 }

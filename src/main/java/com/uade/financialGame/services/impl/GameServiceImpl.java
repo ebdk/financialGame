@@ -1,19 +1,13 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.MessageResponse;
-import com.uade.financialGame.models.Game;
+import com.uade.financialGame.models.*;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import com.uade.financialGame.models.Game.GameLobbyStatus;
 import com.uade.financialGame.models.Game.GameType;
-import com.uade.financialGame.models.Player;
 import com.uade.financialGame.models.Player.PlayerType;
-import com.uade.financialGame.models.Profession;
-import com.uade.financialGame.models.User;
 import com.uade.financialGame.models.User.UserRank;
-import com.uade.financialGame.repositories.GameDAO;
-import com.uade.financialGame.repositories.PlayerDAO;
-import com.uade.financialGame.repositories.ProfessionDAO;
-import com.uade.financialGame.repositories.UserDAO;
+import com.uade.financialGame.repositories.*;
 import com.uade.financialGame.services.GameService;
 import com.uade.financialGame.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +22,7 @@ import static com.uade.financialGame.models.Game.GAME_FULL_NUMBER;
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 import static com.uade.financialGame.models.Player.PlayerType.HUMAN;
 import static com.uade.financialGame.utils.MathUtils.generateRandomNumber;
+import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -46,6 +41,12 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private ProfessionDAO professionRepository;
+
+    @Autowired
+    private TransactionListDAO transactionListRepository;
+
+    @Autowired
+    private TransactionDAO transactionRepository;
 
     @Override
     public Object createGame(String gameTypeParam, String gameDifficultyParam, String idUser) {
@@ -71,7 +72,7 @@ public class GameServiceImpl implements GameService {
         if(!(games.getOrDefault(AWAITING_PLAYERS, new ArrayList<>()).isEmpty())){
             List<Game> availableGames = games.get(AWAITING_PLAYERS)
                     .stream()
-                    .sorted(comparing(Game::getGameSize))
+                    .sorted(comparing(Game::getGameSize).reversed())
                     .collect(toList());
             game = availableGames.get(0);
         } else if(!(games.getOrDefault(EMPTY, new ArrayList<>()).isEmpty())){
@@ -144,7 +145,20 @@ public class GameServiceImpl implements GameService {
         players.forEach(x -> {
             Profession chosenProfession = professions.get(generateRandomNumber(0, professions.size()));
             if(x.getProfession() == null || !x.getProfession().equals(chosenProfession)){
+                TransactionList balance = x.getBalance() != null ? x.getBalance() : new TransactionList();
+
                 x.setProfession(chosenProfession);
+                TransactionList professionTransactionList = chosenProfession.getTransactionList();
+                List<Transaction> clonedProfessionTransactions = new ArrayList(professionTransactionList.getTransactions());
+
+                balance.addTransactions(clonedProfessionTransactions);
+
+                if(x.getBalance() == null) {
+                    balance.setPlayer(x);
+                }
+
+                transactionRepository.saveAll(clonedProfessionTransactions);
+                transactionListRepository.save(balance);
                 playerRepository.save(x);
             }
         });

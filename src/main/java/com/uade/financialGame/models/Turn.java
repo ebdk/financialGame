@@ -6,9 +6,6 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.List;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
-
 @Entity(name = "Turn")
 @Table(name = "turn")
 @Getter
@@ -21,18 +18,14 @@ public class Turn {
     private Long turnId;
     private Integer turnNumber;
 
-    /*
-    private int balanceIncome;
-    private int balanceExpenses;
-    private int balanceActive;
-    private int balancePassive;
-    */
-
     @ManyToOne
     private Player player;
 
     @ManyToOne
     private Card card;
+
+    @OneToOne(mappedBy = "turn")
+    private TransactionList transactionList;
 
     //BUILDERS
     public Turn() {
@@ -49,19 +42,13 @@ public class Turn {
         return new TurnResponse(this);
     }
 
-    public void calculateBalance(){
-        /*
-        Map<TransactionType, List<Transaction>> cardTransactions = card.getTransactions()
-                .stream()
-                .collect(groupingBy(Transaction::getTransactionType));
-                */
-
-        Profession profession = player.getProfession();
-
-        List<Turn> previousTurns = player.getTurns()
-                .stream()
-                .sorted(comparing(Turn::getTurnNumber))
-                .collect(toList());
+    public void addTransaction(Transaction transaction) {
+        this.transactionList.addTransaction(transaction);
     }
+
+    public void addTransactions(List<Transaction> transactionList) {
+        this.transactionList.addTransactions(transactionList);
+    }
+
 
 }

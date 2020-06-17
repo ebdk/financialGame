@@ -18,6 +18,7 @@ public class PlayerResponse implements Response {
     private GameResponse game;
     private List<Long> turnsIds;
 
+
     public PlayerResponse(Player player) {
         if(player != null){
             this.playerId = player.getPlayerId() != null ? player.getPlayerId() : null;
