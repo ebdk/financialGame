@@ -71,6 +71,14 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(com.uade.financialGame.models.Transaction transaction) {
+        this.description = transaction.getDescription();
+        this.transactionType = transaction.getTransactionType();
+        this.numericType = transaction.getNumericType();
+        this.value = transaction.getValue();
+        this.transactionTime = transaction.getTransactionTime();
+    }
+
     public enum TransactionType {
         ACTIVE,
         PASSIVE,

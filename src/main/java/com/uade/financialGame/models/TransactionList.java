@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,20 +45,20 @@ public class TransactionList {
     private Turn turn;
 
     public TransactionList() {
-        this.transactions = new java.util.ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public TransactionList(Player player) {
         this.player = player;
-        this.transactions = new java.util.ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public TransactionList(Turn turn) {
         this.turn = turn;
-        this.transactions = new java.util.ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
-    public TransactionList(java.util.List<Transaction> transactions) {
+    public TransactionList(List<Transaction> transactions) {
         this.transactions = transactions;
     }
 
@@ -136,6 +137,15 @@ public class TransactionList {
                 .stream()
                 .map(Transaction::toDto)
                 .collect(groupingBy(TransactionResponse::getTransactionType));
+    }
+
+    public List<Transaction> cloneList() {
+        List<Transaction> newTransactions = new ArrayList<>();
+        for(Transaction transaction : transactions) {
+            Transaction newTransaction = new Transaction(transaction);
+            newTransactions.add(newTransaction);
+        }
+        return newTransactions;
     }
 
 

@@ -149,14 +149,15 @@ public class GameServiceImpl implements GameService {
 
                 x.setProfession(chosenProfession);
                 TransactionList professionTransactionList = chosenProfession.getTransactionList();
-                List<Transaction> clonedProfessionTransactions = new ArrayList(professionTransactionList.getTransactions());
+
+                List<Transaction> clonedProfessionTransactions = professionTransactionList.cloneList();
 
                 clonedProfessionTransactions.forEach(y -> y.setTransactionList(balance));
                 balance.addTransactions(clonedProfessionTransactions);
                 x.setBalance(balance);
 
-                //transactionRepository.saveAll(clonedProfessionTransactions);
-                //transactionListRepository.save(balance);
+                transactionRepository.saveAll(clonedProfessionTransactions);
+                transactionListRepository.save(balance);
                 playerRepository.save(x);
             }
         });
