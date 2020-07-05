@@ -1,10 +1,7 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.models.*;
-import com.uade.financialGame.repositories.MonthDAO;
-import com.uade.financialGame.repositories.PlayerDAO;
-import com.uade.financialGame.repositories.TransactionDAO;
-import com.uade.financialGame.repositories.TransactionListDAO;
+import com.uade.financialGame.repositories.*;
 import com.uade.financialGame.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +12,7 @@ import java.util.List;
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
 import static com.uade.financialGame.models.Transaction.TransactionType.*;
+import static com.uade.financialGame.utils.MathUtils.getPercentage;
 import static java.util.Arrays.asList;
 
 @Service
@@ -33,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
     private MonthDAO monthRepository;
 
     @Autowired
-    private com.uade.financialGame.repositories.TurnDAO turnRepository;
+    private TurnDAO turnRepository;
 
     @Override
     public Object payDebt(Long playerId, Integer amount) {
@@ -78,7 +76,8 @@ public class PlayerServiceImpl implements PlayerService {
         TransactionList balance = player.getBalance();
 
         Integer playerSalary = player.getBalanceValuesMap().get(INCOMES);
-        Integer amount = (int)(playerSalary*(10.0f/100.0f)); //10% of the salary
+        //Integer amount = (int)(playerSalary*(10.0f/100.0f)); //10% of the salary
+        Integer amount = getPercentage(playerSalary, 10);
 
         Transaction expensesTransaction = new Transaction("Charity", EXPENSES, NUMBER, CURRENT, amount);
 
@@ -111,6 +110,8 @@ public class PlayerServiceImpl implements PlayerService {
         List<Transaction> thisMonthExpenses = new ArrayList<>();
 
         if(player.isEmployed()) {
+            thisMonthIncomes.addAll(bondsDividends(player));
+            thisMonthIncomes.addAll(shareDividends(player));
             for(Transaction transaction : monthlyIncomes) {
                 Transaction newTransaction = new Transaction(transaction, monthNumber);
                 thisMonthIncomes.add(newTransaction);
@@ -118,7 +119,6 @@ public class PlayerServiceImpl implements PlayerService {
         } else {
             player.setEmployed(true);
             playerRepository.save(player);
-
             Transaction newTransaction = new Transaction("No job for Month " + monthNumber, INCOMES, NUMBER, CURRENT, 0);
             thisMonthIncomes.add(newTransaction);
         }
@@ -126,8 +126,6 @@ public class PlayerServiceImpl implements PlayerService {
             Transaction newTransaction = new Transaction(transaction, monthNumber);
             thisMonthExpenses.add(newTransaction);
         }
-        //monthlyExpenses.forEach(x -> {Transaction newTransaction = new Transaction(x, monthNumber); thisMonthExpenses.add(newTransaction);});
-
         thisMonthIncomes.addAll(thisMonthExpenses);
         balance.addTransactions(thisMonthIncomes);
 
@@ -141,4 +139,27 @@ public class PlayerServiceImpl implements PlayerService {
 
         return balance.toDto();
     }
+
+    private List<Transaction> shareDividends(Player player) {
+        List<Transaction> thisMonthSharesDividends = new ArrayList<>();
+        List<Share> shares = player.getShares();
+        shares.forEach(x -> {
+            Transaction shareTransaction = new Transaction("Shares of " + x.getCompany().getName(),
+                    INCOMES, NUMBER, CURRENT, x.getValueDividends());
+            thisMonthSharesDividends.add(shareTransaction);
+        });
+        return thisMonthSharesDividends;
+    }
+
+    private List<Transaction> bondsDividends(Player player) {
+        List<Transaction> thisMonthBondsDividends = new ArrayList<>();
+        List<Bond> bonds = player.getBonds();
+        bonds.forEach(x -> {
+            Transaction shareTransaction = new Transaction("Shares of " + x.getCompany().getName(),
+                    INCOMES, NUMBER, CURRENT, x.getValueDividends());
+            thisMonthBondsDividends.add(shareTransaction);
+        });
+        return thisMonthBondsDividends;
+    }
+
 }

@@ -48,6 +48,12 @@ public class Player {
     @OneToOne(mappedBy = "player", cascade=CascadeType.ALL)
     private TransactionList balance;
 
+    private List<Bond> bonds;
+
+    private List<com.uade.financialGame.models.Property> properties;
+
+    private List<Share> shares;
+
     public enum PlayerType {
         HUMAN,
         CPU

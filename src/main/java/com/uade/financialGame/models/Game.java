@@ -27,6 +27,8 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
 
+    private List<Company> companies;
+
     public enum GameType {
         NORMAL
     }

@@ -35,7 +35,6 @@ public class Turn {
         this.player = player;
         this.card = card;
         this.turnNumber = turnNumber;
-        this.transactionList = new TransactionList(this);
     }
 
     //METHODS

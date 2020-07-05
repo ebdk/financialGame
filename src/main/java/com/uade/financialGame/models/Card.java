@@ -30,6 +30,16 @@ public class Card {
     @OneToOne(mappedBy = "card")
     private TransactionList transactionList;
 
+    private List<Share> shares;
+
+    private List<Bond> bonds;
+
+    private List<Property> properties;
+
+    private List<CompanyChanges> companyChanges;
+
+    private GlosarySlot glosarySlot;
+
     public enum CardType {
         EVENT,
         DREAM,

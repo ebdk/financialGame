@@ -5,6 +5,7 @@ import com.uade.financialGame.messages.responses.TurnResponse;
 import com.uade.financialGame.models.Card;
 import com.uade.financialGame.models.Game;
 import com.uade.financialGame.models.Player;
+import com.uade.financialGame.models.Transaction;
 import com.uade.financialGame.models.Turn;
 import com.uade.financialGame.repositories.CardDAO;
 import com.uade.financialGame.repositories.GameDAO;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 @Service
 public class TurnServiceImpl implements TurnService {
@@ -32,6 +35,12 @@ public class TurnServiceImpl implements TurnService {
 
     @Autowired
     private TurnDAO turnRepository;
+
+    @Autowired
+    private com.uade.financialGame.repositories.TransactionListDAO transactionListRepository;
+
+    @Autowired
+    private com.uade.financialGame.repositories.TransactionDAO transactionRepository;
 
     @Override
     public Object createTurn(Long playerId, Long cardId, Long boxId, Integer turnNumber) {
@@ -51,11 +60,20 @@ public class TurnServiceImpl implements TurnService {
             return new MessageResponse("Carta no existe");
         }
 
+        List<Transaction> thisTurnTransactions = new java.util.ArrayList<>();
+        thisTurnTransactions.addAll(card.getTransactionList().cloneList());
+
         Turn turn = new Turn(player, card, turnNumber);
         //turn.calculateBalance();
 
 
+
+
+sadsadasdas
+
         turnRepository.save(turn);
+        transactionRepository.save(expensesTransaction);
+        transactionListRepository.saveAll(asList(turnTransactionList, balance));
 
         return turn.toDto();
     }
