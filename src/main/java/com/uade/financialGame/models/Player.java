@@ -29,6 +29,7 @@ public class Player {
     private PlayerType playerType;
     private boolean hasDonated;
     private boolean isEmployed;
+    private Integer currentMonth;
 
     @ManyToOne
     private User user;
@@ -90,26 +91,37 @@ public class Player {
                 .get(0);
     }
 
-    /*
-    private Month getLatestMonth() {
-        return months.isEmpty() ? null : months.stream()
-                .sorted(comparing(Month::getMonthNumber).reversed())
-                .collect(toList())
-                .get(0);
-    }
-    */
+    public void addShares(List<Share> sharesBought) {
 
-    public void addShares(List<Share> shares) {
-
-        shares.forEach(share -> {
-
+        sharesBought.forEach(shareBought -> {
+            Share share = getShareByCompanyName(shareBought.getCompany().getName());
+            share.setQuantity(share.getQuantity() + shareBought.getQuantity());
         });
 
+        this.shares.addAll(shares);
+        shares.forEach(share -> share.setPlayer(this));
     }
 
+
+    public void addProperties(List<Property> cardProperties) {
+        this.properties.addAll(cardProperties);
+        cardProperties.forEach(property -> property.setPlayer(this));
+    }
+
+    public void addBonds(List<Bond> cardBonds) {
+        this.bonds.addAll(cardBonds);
+        cardBonds.forEach(bond -> {
+            bond.setPlayer(this);
+            bond.setBoughtAtMonthNumber(currentMonth);
+        });
+    }
+
+
     public Share getShareByCompanyName(String companyName) {
-        return shares.stream().filter(x -> companyName.equals(x.getCompany().getName()))
-                .collect(toList()).get(0);
+        List<Share> sharesFilterByName = shares.stream().filter(x -> companyName.equals(x.getCompany().getName()))
+                .collect(toList());
+
+        return sharesFilterByName.isEmpty() ? null : sharesFilterByName.get(0);
     }
 
     public Integer getLatestMonthNumber() {

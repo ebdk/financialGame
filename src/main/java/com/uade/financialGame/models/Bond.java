@@ -1,10 +1,12 @@
 package com.uade.financialGame.models;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import static com.uade.financialGame.utils.MathUtils.getPercentage;
 
 @Getter
+@Setter
 public class Bond {
 
     private Company company;
