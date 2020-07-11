@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.uade.financialGame.models.Card.EffectType.*;
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
 import static com.uade.financialGame.models.Transaction.TransactionType.EXPENSES;
-import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -72,31 +70,11 @@ public class TurnServiceImpl implements TurnService {
             return new MessageResponse("Carta no existe");
         }
 
-        TransactionList balance = player.getBalance();
+        //TransactionList balance = player.getBalance();
 
         List<Transaction> thisTurnTransactions = new ArrayList<>();
 
         Turn turn = new Turn(player, card, turnNumber);
-
-        /*
-        switch (card.getEffectType()) {
-            case PROPERTY_BUY:
-
-                break;
-            case SHARE_BUY:
-
-                break;
-            case BOND_BUY:
-
-                break;
-            case COMPANY_VALUE_CHANGE:
-
-                break;
-            default:
-            case TRANSACTION_ONLY:
-                break;
-        }
-         */
 
         if(PROPERTY_BUY.equals(card.getEffectType())) {
 
@@ -107,15 +85,8 @@ public class TurnServiceImpl implements TurnService {
                     .stream()
                     .map(property -> new Transaction("Compra de " + property.getPropertyName().toString(), EXPENSES, NUMBER, CURRENT, property.getBuyValue()))
                     .collect(toList());
+
             thisTurnTransactions.addAll(transactions);
-
-                /*
-                cardProperties.forEach(property -> {
-                    Transaction buyTransaction = new Transaction("Compra de " + property.getPropertyName().toString(), EXPENSES, NUMBER, CURRENT, property.getBuyValue());
-                    thisTurnTransactions.add(buyTransaction);
-                });
-                 */
-
             propertyRepository.saveAll(cardProperties);
         }
         if(SHARE_BUY.equals(card.getEffectType())) {
@@ -128,13 +99,6 @@ public class TurnServiceImpl implements TurnService {
                     .map(share -> new Transaction(String.format("Compra de %s Acciones de la Empresa %s", share.getQuantity(), share.getCompany().getName()), EXPENSES, NUMBER, CURRENT, share.getCompany().getShareValue()))
                     .collect(toList());
             thisTurnTransactions.addAll(transactions);
-
-                /*
-                cardShares.forEach(share -> {
-                    Transaction buyTransaction = new Transaction(String.format("Compra de %s Acciones de la Empresa %s", share.getQuantity(), share.getCompany().getName()), EXPENSES, NUMBER, CURRENT, share.getCompany().getShareValue());
-                    thisTurnTransactions.add(buyTransaction);
-                });
-                 */
 
             playerRepository.save(player);
             shareRepository.saveAll(cardShares);
@@ -149,13 +113,6 @@ public class TurnServiceImpl implements TurnService {
                     .map(bond -> new Transaction(String.format("Compra de %s Bonos de la Empresa %s", bond.getQuantity(), bond.getCompany().getName()), EXPENSES, NUMBER, CURRENT, bond.getCompany().getShareValue()))
                     .collect(toList());
             thisTurnTransactions.addAll(transactions);
-
-                /*
-                cardBonds.forEach(bond -> {
-                    Transaction buyTransaction = new Transaction(String.format("Compra de %s Bonos de la Empresa %s", bond.getQuantity(), bond.getCompany().getName()), EXPENSES, NUMBER, CURRENT, bond.getCompany().getShareValue());
-                    thisTurnTransactions.add(buyTransaction);
-                });
-                 */
 
             bondRepository.saveAll(cardBonds);
         }
@@ -177,20 +134,24 @@ public class TurnServiceImpl implements TurnService {
             if(card.getTargetType().equals(Card.TargetType.PERSONAL)) {
                 thisTurnTransactions = card.getTransactionList().getTransactions();
             } else if (card.getTargetType().equals(Card.TargetType.GLOBAL)) {
-
+                List<Player> players = playerRepository.findByGame(player.getGame());
+                players.forEach(player1 -> {
+                    if(!player.getPlayerId().equals(player1.getPlayerId())) {
+                        player1.addTransactionsToBalance(card.getTransactionList().getTransactions());
+                    }
+                });
+                playerRepository.saveAll(players);
             }
         }
 
+        //balance.addTransactions(thisTurnTransactions);
 
-
-        balance.addTransactions(thisTurnTransactions);
-
+        player.addTransactionsToBalance(thisTurnTransactions);
 
         turnRepository.save(turn);
-        transactionRepository.save(expensesTransaction);
-        transactionListRepository.saveAll(asList(turnTransactionList, balance));
-
-
+        playerRepository.save(player);
+        //transactionRepository.save(expensesTransaction);
+        //transactionListRepository.save(balance);
 
         return turn.toDto();
     }

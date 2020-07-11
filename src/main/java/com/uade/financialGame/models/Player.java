@@ -177,4 +177,8 @@ public class Player {
             put(EXPENSES, finalExpensesValue);
         }};
     }
+
+    public void addTransactionsToBalance(List<Transaction> transactions) {
+        balance.addTransactions(transactions);
+    }
 }
