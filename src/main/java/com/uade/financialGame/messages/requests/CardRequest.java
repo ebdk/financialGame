@@ -19,7 +19,7 @@ public class CardRequest {
         this.imgUrl = card.getImgUrl();
         this.description = card.getDescription();
         this.difficulty = card.getDifficulty().toString();
-        this.type = card.getType().toString();
+        this.type = card.getOptionType().toString();
     }
 
     public CardRequest() {

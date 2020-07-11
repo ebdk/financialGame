@@ -28,7 +28,7 @@ public class CardResponse implements Response {
             this.cardImgUrl = card.getImgUrl() != null ? card.getImgUrl() : null;
             this.cardDescription = card.getDescription() != null ? card.getDescription() : null;
             this.cardLevel = card.getDifficulty().toString() != null ? card.getDifficulty().toString() : null;
-            this.cardType = card.getType().toString() != null ? card.getType().toString() : null;
+            this.cardType = card.getOptionType().toString() != null ? card.getOptionType().toString() : null;
             this.turnsIds = card.getTurns() != null ?
                     card.getTurns().stream().map(Turn::getTurnId).collect(Collectors.toList()) : null;
             this.transactions = card.getTransactionList() != null ?

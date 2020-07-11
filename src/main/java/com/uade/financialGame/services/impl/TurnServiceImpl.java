@@ -2,10 +2,7 @@ package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.MessageResponse;
 import com.uade.financialGame.messages.responses.TurnResponse;
-import com.uade.financialGame.models.Card;
-import com.uade.financialGame.models.Game;
-import com.uade.financialGame.models.Player;
-import com.uade.financialGame.models.Turn;
+import com.uade.financialGame.models.*;
 import com.uade.financialGame.repositories.CardDAO;
 import com.uade.financialGame.repositories.GameDAO;
 import com.uade.financialGame.repositories.PlayerDAO;
@@ -18,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
+import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
+import static com.uade.financialGame.models.Transaction.TransactionType.EXPENSES;
 import static java.util.Arrays.asList;
 
 @Service
@@ -61,27 +61,46 @@ public class TurnServiceImpl implements TurnService {
 
 
         List<Transaction> thisTurnTransactions = new java.util.ArrayList<>();
-        thisTurnTransactions.addAll(card.getTransactionList().cloneList());
+        //thisTurnTransactions.addAll(card.getTransactionList().cloneList());
 
         Turn turn = new Turn(player, card, turnNumber);
         //turn.calculateBalance();
 
 
+        /*
         switch (card.getEffectType()) {
             case PROPERTY_BUY:
-                List<com.uade.financialGame.models.Property> cardProperties = card.getProperties();
+                List<Property> cardProperties = card.getProperties();
                 player.addProperties(cardProperties);
+
+                cardProperties.forEach(property -> {
+                    Transaction buyTransaction = new Transaction("Compra de " + property.getPropertyName().toString(), EXPENSES, NUMBER, CURRENT, property.getBuyValue());
+                    thisTurnTransactions.add(buyTransaction);
+                });
+
+
+
+
+
+
+
                 propertyRepository.saveAll(cardProperties);
 
                 break;
             case SHARE_BUY:
-                List<com.uade.financialGame.models.Property> cardProperties = card.getShares();
-                player.addProperties(cardProperties);
+                List<Share> cardShares = card.getShares();
+                player.addShares(cardShares);
+
+                cardShares.forEach(share -> {
+                    Transaction buyTransaction = new Transaction(String.format("Compra de %s Acciones de la Empresa %s", share.getQuantity(), share.getCompany().getName()), EXPENSES, NUMBER, CURRENT, share.getCompany().getShareValue());
+                    thisTurnTransactions.add(buyTransaction);
+                });
+
                 propertyRepository.saveAll(cardProperties);
 
                 break;
             case BOND_BUY:
-                List<com.uade.financialGame.models.Property> cardProperties = card.getProperties();
+                List<Property> cardProperties = card.getProperties();
                 player.addProperties(cardProperties);
                 propertyRepository.saveAll(cardProperties);
 
@@ -99,9 +118,12 @@ public class TurnServiceImpl implements TurnService {
 
 
 
+
         turnRepository.save(turn);
         transactionRepository.save(expensesTransaction);
         transactionListRepository.saveAll(asList(turnTransactionList, balance));
+
+         */
 
         return turn.toDto();
     }

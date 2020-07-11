@@ -19,8 +19,10 @@ public class TurnResponse implements Response {
             this.turnNumber = turn.getTurnNumber();
             this.player = turn.getPlayer() != null ? new PlayerResponse(turn.getPlayer()) : null;
             this.card = turn.getCard() != null ? new CardResponse(turn.getCard()) : null;
-            this.transactions = turn.getTransactionList() != null ?
+            /*this.transactions = turn.getTransactionList() != null ?
                     turn.getTransactionList().toDto() : null;
+
+             */
         }
     }
 

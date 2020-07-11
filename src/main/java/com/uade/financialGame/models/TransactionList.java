@@ -56,11 +56,6 @@ public class TransactionList {
         this.transactions = new ArrayList<>();
     }
 
-    public TransactionList(Turn turn) {
-        this.turn = turn;
-        this.transactions = new ArrayList<>();
-    }
-
     public TransactionList(List<Transaction> transactions) {
         this.transactions = transactions;
     }

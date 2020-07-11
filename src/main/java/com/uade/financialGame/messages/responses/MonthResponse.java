@@ -1,4 +1,4 @@
-package com.uade.financialGame.messages.responses;
+/*package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
 import com.uade.financialGame.models.Month;
@@ -27,3 +27,4 @@ public class MonthResponse implements Response {
     public MonthResponse() {
     }
 }
+ */

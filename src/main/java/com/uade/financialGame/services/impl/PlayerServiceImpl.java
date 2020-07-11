@@ -1,7 +1,10 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.models.*;
-import com.uade.financialGame.repositories.*;
+import com.uade.financialGame.repositories.PlayerDAO;
+import com.uade.financialGame.repositories.TransactionDAO;
+import com.uade.financialGame.repositories.TransactionListDAO;
+import com.uade.financialGame.repositories.TurnDAO;
 import com.uade.financialGame.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +30,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private TransactionDAO transactionRepository;
 
+    /*
     @Autowired
     private MonthDAO monthRepository;
+     */
 
     @Autowired
     private TurnDAO turnRepository;
@@ -56,13 +61,15 @@ public class PlayerServiceImpl implements PlayerService {
         Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
         List<Transaction> transactions = asList(passiveTransaction, expensesTransaction);
 
+        /*
         TransactionList turnTransactionList = turn.getTransactionList();
         turnTransactionList.addTransactions(transactions);
+         */
 
         balance.addTransactions(transactions);
 
         transactionRepository.saveAll(transactions);
-        transactionListRepository.saveAll(asList(turnTransactionList, balance));
+        transactionListRepository.save(balance);
         turnRepository.save(turn);
 
         return balance.toDto();
@@ -81,14 +88,15 @@ public class PlayerServiceImpl implements PlayerService {
 
         Transaction expensesTransaction = new Transaction("Charity", EXPENSES, NUMBER, CURRENT, amount);
 
-        TransactionList turnTransactionList = turn.getTransactionList();
+        /*TransactionList turnTransactionList = turn.getTransactionList();
         turnTransactionList.addTransaction(expensesTransaction);
+         */
         player.setHasDonated(true);
 
         balance.addTransaction(expensesTransaction);
 
         transactionRepository.save(expensesTransaction);
-        transactionListRepository.saveAll(asList(turnTransactionList, balance));
+        transactionListRepository.save(balance);
         playerRepository.save(player);
 
         return balance.toDto();
@@ -129,13 +137,15 @@ public class PlayerServiceImpl implements PlayerService {
         thisMonthIncomes.addAll(thisMonthExpenses);
         balance.addTransactions(thisMonthIncomes);
 
+        /*
         Month month = new Month(monthNumber, player);
         TransactionList monthTransactionList = new TransactionList(thisMonthIncomes);
         month.setTransactionList(monthTransactionList);
+         */
 
         transactionRepository.saveAll(thisMonthIncomes);
-        transactionListRepository.saveAll(asList(monthTransactionList, balance));
-        monthRepository.save(month);
+        transactionListRepository.save(balance);
+        //monthRepository.save(month);
 
         return balance.toDto();
     }

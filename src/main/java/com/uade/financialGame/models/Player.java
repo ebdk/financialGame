@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +108,7 @@ public class Player {
     }
 
     public Share getShareByCompanyName(String companyName) {
-        return shares.stream().anyMatch(x -> companyName.equals(x.getCompany().getName()))
+        return shares.stream().filter(x -> companyName.equals(x.getCompany().getName()))
                 .collect(toList()).get(0);
     }
 

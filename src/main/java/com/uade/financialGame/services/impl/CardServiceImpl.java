@@ -2,7 +2,6 @@ package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.models.Card;
-import com.uade.financialGame.models.TransactionList;
 import com.uade.financialGame.repositories.CardDAO;
 import com.uade.financialGame.repositories.TransactionDAO;
 import com.uade.financialGame.repositories.TransactionListDAO;
@@ -31,7 +30,7 @@ public class CardServiceImpl implements CardService {
         List<Card> allCards = cardRepository.findAll();
         List<Card> filteredCards  = allCards
                 .stream()
-                .filter(x -> (cardType.equals(x.getType().toString())) && (cardDifficulty.equals(x.getDifficulty().toString())) )
+                .filter(x -> (cardType.equals(x.getOptionType().toString())) && (cardDifficulty.equals(x.getDifficulty().toString())) )
                 .collect(Collectors.toList());
         Random rand = new Random();
         if(!(filteredCards.isEmpty())){
@@ -39,7 +38,7 @@ public class CardServiceImpl implements CardService {
         } else {
             List<Card> sameTypeCards  = allCards
                     .stream()
-                    .filter(x -> cardType.equals(x.getType().toString()))
+                    .filter(x -> cardType.equals(x.getOptionType().toString()))
                     .collect(Collectors.toList());
             return sameTypeCards.get(rand.nextInt(sameTypeCards.size())).toDto();
         }
