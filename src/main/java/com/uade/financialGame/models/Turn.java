@@ -4,7 +4,6 @@ import com.uade.financialGame.messages.responses.TurnResponse;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "Turn")
 @Table(name = "turn")
@@ -24,8 +23,10 @@ public class Turn {
     @ManyToOne
     private Card card;
 
+    /*
     @OneToOne(mappedBy = "turn")
     private TransactionList transactionList;
+    */
 
     //BUILDERS
     public Turn() {
@@ -42,6 +43,7 @@ public class Turn {
         return new TurnResponse(this);
     }
 
+    /*
     public void addTransaction(Transaction transaction) {
         this.transactionList.addTransaction(transaction);
     }
@@ -49,6 +51,7 @@ public class Turn {
     public void addTransactions(List<Transaction> transactionList) {
         this.transactionList.addTransactions(transactionList);
     }
+    */
 
 
 }

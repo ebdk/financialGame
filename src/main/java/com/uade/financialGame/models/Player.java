@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,15 +43,17 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Turn> turns;
 
+    /*
     @OneToMany(mappedBy = "player")
-    private List<Month> months;
+    private List<java.time.Month> months;
+    */
 
     @OneToOne(mappedBy = "player", cascade=CascadeType.ALL)
     private TransactionList balance;
 
     private List<Bond> bonds;
 
-    private List<com.uade.financialGame.models.Property> properties;
+    private List<Property> properties;
 
     private List<Share> shares;
 
@@ -88,15 +91,30 @@ public class Player {
                 .get(0);
     }
 
+    /*
     private Month getLatestMonth() {
         return months.isEmpty() ? null : months.stream()
                 .sorted(comparing(Month::getMonthNumber).reversed())
                 .collect(toList())
                 .get(0);
     }
+    */
+
+    public void addShares(List<Share> shares) {
+
+        shares.forEach(share -> {
+
+        });
+
+    }
+
+    public Share getShareByCompanyName(String companyName) {
+        return shares.stream().anyMatch(x -> companyName.equals(x.getCompany().getName()))
+                .collect(toList()).get(0);
+    }
 
     public Integer getLatestMonthNumber() {
-        return months.isEmpty() ? 0 : getLatestMonth().getMonthNumber();
+        return 1;
     }
 
     public Map<TransactionType, List<Transaction>> getBalanceDetailedMap() {

@@ -22,7 +22,9 @@ public class Card {
     private String imgUrl;
     private String description;
     private GameDifficulty difficulty;
-    private CardType type;
+    private OptionType optionType;
+    private TargetType targetType;
+    private EffectType effectType;
 
     @OneToMany(mappedBy = "card")
     private List<Turn> turns;
@@ -40,10 +42,22 @@ public class Card {
 
     private GlosarySlot glosarySlot;
 
-    public enum CardType {
+    public enum OptionType {
         EVENT,
-        DREAM,
         OPPORTUNITY
+    }
+
+    public enum TargetType {
+        PERSONAL,
+        GLOBAL
+    }
+
+    public enum EffectType {
+        TRANSACTION_ONLY,
+        PROPERTY_BUY,
+        SHARE_BUY,
+        BOND_BUY,
+        COMPANY_VALUE_CHANGE
     }
 
 
@@ -53,7 +67,8 @@ public class Card {
         this.imgUrl = cardRequest.getImgUrl();
         this.description = cardRequest.getDescription();
         this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
-        this.type = CardType.valueOf(cardRequest.getType());
+        this.optionType = OptionType.valueOf(cardRequest.getType());
+        this.targetType = TargetType.valueOf(cardRequest.getType());
         this.transactionList = cardRequest.getTransactionList();
         transactionList.setCard(this);
     }
@@ -63,7 +78,8 @@ public class Card {
         this.imgUrl = cardRequest.getImgUrl();
         this.description = cardRequest.getDescription();
         this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
-        this.type = CardType.valueOf(cardRequest.getType());
+        this.optionType = OptionType.valueOf(cardRequest.getType());
+        this.targetType = TargetType.valueOf(cardRequest.getType());
         this.transactionList = transactionList;
     }
 

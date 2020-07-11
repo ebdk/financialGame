@@ -1,4 +1,4 @@
-package com.uade.financialGame.models;
+/*package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.responses.MonthResponse;
 import lombok.Getter;
@@ -23,8 +23,10 @@ public class Month {
     @ManyToOne
     private Player player;
 
+
     @OneToOne(mappedBy = "month")
     private TransactionList transactionList;
+
 
     public Month(Integer monthNumber, Player player) {
         this.monthNumber = monthNumber;
@@ -54,3 +56,4 @@ public class Month {
 
 
 }
+*/
