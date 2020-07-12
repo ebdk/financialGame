@@ -9,4 +9,10 @@ public interface PlayerService {
     Object newMonth(Long playerId);
 
     Object showPlayerOwnerships(Long playerId);
+
+    Object sellProperty(Long playerId);
+
+    Object rentProperty(Long playerId);
+
+    Object sellShare(Long playerId);
 }

@@ -168,5 +168,20 @@ public class PlayerServiceImpl implements PlayerService {
         return responseMap;
     }
 
+    @Override
+    public Object sellProperty(Long playerId) {
+        return null;
+    }
+
+    @Override
+    public Object rentProperty(Long playerId) {
+        return null;
+    }
+
+    @Override
+    public Object sellShare(Long playerId) {
+        return null;
+    }
+
 
 }

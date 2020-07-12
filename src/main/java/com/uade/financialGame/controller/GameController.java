@@ -61,7 +61,7 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     public Object modifyPlayersProfessions(@ApiParam(value = "The game's id", required = true)
                                                @PathVariable("gameId") Long gameId) {
-        return org.springframework.http.ResponseEntity.ok(service.modifyPlayersProfessions(gameId));
+        return org.springframework.http.ResponseEntity.ok(service.startGame(gameId));
     }
 
 }

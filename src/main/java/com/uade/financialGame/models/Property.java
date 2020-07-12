@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.PropertyRequest;
 import com.uade.financialGame.messages.responses.PropertyResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,20 @@ public class Property {
     @ManyToOne
     private Card card;
 
-    public enum PropertyName {
+	public Property(PropertyRequest propertyRequest) {
+	}
+
+	public Property(PropertyRequest propertyRequest, Card card) {
+	    this.propertyName = PropertyName.valueOf(propertyRequest.getPropertyName());
+	    this.buyValue = propertyRequest.getBuyValue();
+	    this.sellValue = propertyRequest.getSellValue();
+	    this.rentValue = propertyRequest.getRentValue();
+	    this.isRentable = propertyRequest.getIsRentable();
+	    this.canBeSold = propertyRequest.getCanBeSold();
+	    this.beingRented = false;
+	}
+
+	public enum PropertyName {
         HOUSE,
         BLOCK,
         YACHT,

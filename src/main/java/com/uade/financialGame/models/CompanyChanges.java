@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.CompanyChangesRequest;
 import com.uade.financialGame.models.Company.CompanyAttribute;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,4 +28,12 @@ public class CompanyChanges {
     @ManyToOne
     private Card card;
 
+	public CompanyChanges(CompanyChangesRequest companyChangesRequest) {
+	}
+
+	public CompanyChanges(CompanyChangesRequest companyChangesRequest, Card card) {
+		this.attribute = CompanyAttribute.valueOf(companyChangesRequest.getAttribute());
+		this.value = companyChangesRequest.getValue();
+		this.card = card;
+	}
 }

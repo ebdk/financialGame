@@ -1,6 +1,7 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.messages.MessageResponse;
+import com.uade.financialGame.messages.requests.CompanyRequest;
 import com.uade.financialGame.models.*;
 import com.uade.financialGame.models.Game.GameDifficulty;
 import com.uade.financialGame.models.Game.GameLobbyStatus;
@@ -46,6 +47,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private TransactionDAO transactionRepository;
+
+    @Autowired
+    private CompanyDAO companyRepository;
 
     @Override
     public Object createGame(String gameTypeParam, String gameDifficultyParam, String idUser) {
@@ -124,7 +128,7 @@ public class GameServiceImpl implements GameService {
 
 
     @Override
-    public Object modifyPlayersProfessions(Long gameId) {
+    public Object startGame(Long gameId) {
 
         Game game = gameRepository.getOne(gameId);
         List<Long> playerIds = game.getPlayers()
@@ -132,14 +136,24 @@ public class GameServiceImpl implements GameService {
                 .map(Player::getPlayerId)
                 .collect(toList());
 
+        List<Company> companies = companyRepository.findBySaveType(Company.SaveType.STATIC);
+        List<Company> clonedCompanies = new ArrayList<>();
+        companies.forEach(company -> clonedCompanies.add(new Company(company)));
+
+        //List<Player> players = playerRepository.findByPlayerId(playerIds);
+
         List<Player> players = playerRepository.findAll()
                 .stream().filter(x -> playerIds.contains(x.getPlayerId()))
                 .collect(toList());
 
+
+        List<Profession> professions = professionRepository.findByDifficulty(game.getGameDifficulty());
+        /*
         List<Profession> professions = professionRepository.findAll()
                 .stream()
                 .filter(x -> game.getGameDifficulty().equals(x.getDifficulty()))
                 .collect(toList());
+         */
 
         players.forEach(x -> {
             Profession chosenProfession = professions.get(generateRandomNumber(0, professions.size()));
@@ -161,6 +175,8 @@ public class GameServiceImpl implements GameService {
             }
         });
 
+        companyRepository.saveAll(clonedCompanies);
+
         return game.toDto();
     }
 
@@ -170,6 +186,20 @@ public class GameServiceImpl implements GameService {
 
         return null;
     }
+
+    @Override
+    public Object postCompanies(List<CompanyRequest> companyRequestList, Long gameId) {
+        Game game = gameRepository.getOne(gameId);
+        List<Company> companies = companyRequestList
+                .stream()
+                .map(companyRequest -> companyRequest.toEntity(game))
+                .collect(toList());
+
+        companyRepository.saveAll(companies);
+
+        return companies.stream().map(Company::toDto).collect(toList());
+    }
+
 
 
 }

@@ -1,10 +1,15 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.CompanyRequest;
+import com.uade.financialGame.messages.responses.CompanyResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static com.uade.financialGame.models.Company.SaveType.GAME_COMPANY;
+import static com.uade.financialGame.models.Company.SaveType.STATIC;
 
 @Entity(name = "Company")
 @Table(name = "company")
@@ -21,7 +26,12 @@ public class Company {
     private String name;
     private Integer shareValue;
     private Integer shareDividendValue;
-    private Boolean isStatic;
+    private SaveType saveType;
+
+    public enum SaveType {
+        STATIC,
+        GAME_COMPANY
+    }
 
     @ManyToOne
     private Game game;
@@ -37,7 +47,22 @@ public class Company {
         this.shareValue = shareValue;
         this.shareDividendValue = shareDividendValue;
         this.game = gameItBelongs;
-        this.isStatic = false;
+        this.saveType = GAME_COMPANY;
+    }
+
+    public Company(Company company) {
+        this.name = company.getName();
+        this.shareValue = company.getShareValue();
+        this.shareDividendValue = company.getShareDividendValue();
+        this.saveType = GAME_COMPANY;
+    }
+
+    public Company(CompanyRequest companyRequest, Game game) {
+        this.name = companyRequest.getName();
+        this.shareValue = companyRequest.getShareValue();
+        this.shareDividendValue = companyRequest.getShareDividendValue();
+        this.game = game;
+        this.saveType = STATIC;
     }
 
     public enum CompanyAttribute {
@@ -55,5 +80,10 @@ public class Company {
                 setShareValue(shareValue + value);
         }
     }
+
+    public CompanyResponse toDto() {
+        return new CompanyResponse(this);
+    }
+
 
 }

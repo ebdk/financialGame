@@ -52,6 +52,7 @@ public class TurnServiceImpl implements TurnService {
     private BondDAO bondRepository;
 
 
+
     @Override
     public Object createTurn(Long playerId, Long cardId, Long boxId, Integer turnNumber) {
         Player player;

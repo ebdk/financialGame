@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.requests.ShareRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +31,16 @@ public class Share {
     @ManyToOne
     private Card card;
 
-    public Integer getValue() {
+    public Share(ShareRequest shareRequest) {
+        this.quantity = shareRequest.getQuantity();
+    }
+
+	public Share(ShareRequest shareRequest, Card card) {
+        this.quantity = shareRequest.getQuantity();
+        this.card = card;
+	}
+
+	public Integer getValue() {
         return quantity * company.getShareValue();
     }
 

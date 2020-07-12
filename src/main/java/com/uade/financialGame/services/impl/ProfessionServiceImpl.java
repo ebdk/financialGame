@@ -9,6 +9,8 @@ import com.uade.financialGame.services.ProfessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -33,15 +35,14 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
-    public Object createProfession(ProfessionRequest professionRequest) {
-        Profession newProfession = new Profession(professionRequest);
+    public Object createProfession(List<ProfessionRequest> professionRequestList) {
+        List<Profession> professions = professionRequestList
+                .stream()
+                .map(ProfessionRequest::toEntity)
+                .collect(toList());
 
-        /*
-        transactionRepository.saveAll(professionRequest.getTransactionList().getTransactions());
-        transactionListRepository.save(newProfession.getTransactionList());
-        */
-        professionRepository.save(newProfession);
-        return newProfession.toDto();
+        professionRepository.saveAll(professions);
+        return professions.stream().map(Profession::toDto).collect(toList());
     }
 
 }

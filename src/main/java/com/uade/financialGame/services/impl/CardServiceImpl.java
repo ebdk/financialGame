@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class CardServiceImpl implements CardService {
 
@@ -46,13 +48,14 @@ public class CardServiceImpl implements CardService {
 
 
     @Override
-    public Object createCard(CardRequest cardRequest) {
-        Card newCard = new Card(cardRequest);
+    public Object createCard(List<CardRequest> cardRequestList) {
+        List<Card> cards = cardRequestList
+                .stream()
+                .map(CardRequest::toEntity)
+                .collect(toList());
 
-        newCard.getTransactionList().getTransactions().forEach(x -> transactionRepository.save(x));
-        transactionListRepository.save(newCard.getTransactionList());
-        cardRepository.save(newCard);
-        return newCard.toDto();
+        cardRepository.saveAll(cards);
+        return cards.stream().map(Card::toDto).collect(toList());
     }
 
 }

@@ -74,10 +74,15 @@ public class Card {
         this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
         this.optionType = OptionType.valueOf(cardRequest.getType());
         this.targetType = TargetType.valueOf(cardRequest.getType());
-        this.transactionList = cardRequest.getTransactionList();
-        transactionList.setCard(this);
+        this.transactionList = cardRequest.getTransactionList(this);
+        this.shares = cardRequest.getShares(this);
+        this.bonds = cardRequest.getBonds(this);
+        this.properties = cardRequest.getProperties(this);
+        this.companyChanges = cardRequest.getCompanyChanges(this);
+        this.glosarySlot = cardRequest.getGlosarySlot(this);
     }
 
+    /*
     public Card(CardRequest cardRequest, TransactionList transactionList) {
         this.name = cardRequest.getName();
         this.imgUrl = cardRequest.getImgUrl();
@@ -87,6 +92,7 @@ public class Card {
         this.targetType = TargetType.valueOf(cardRequest.getType());
         this.transactionList = transactionList;
     }
+     */
 
     public Card() {
     }
