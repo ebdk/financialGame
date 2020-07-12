@@ -3,24 +3,37 @@ package com.uade.financialGame.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.uade.financialGame.utils.MathUtils.getPercentage;
+import javax.persistence.*;
 
+@Entity(name = "Bond")
+@Table(name = "bond")
 @Getter
 @Setter
 public class Bond {
 
-    private Company company;
-    private Player player;
-    private Integer quantity;
-    private Integer boughtAtMonthNumber;
-    private Integer endsAtMonthNumber;
+    //ATTRIBUTES
+    @Id
+    @Column(name="BOND_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long bondId;
 
-    private Integer getValue() {
-        return quantity * company.getBondValue();
+    private String description;
+    private String smallDescription;
+    private Integer endsAtMonthNumber;
+    private Integer monthNumberLenght;
+    private Integer buyValue;
+    private Integer returnValue;
+    private Boolean charged;
+
+    private Player player;
+
+    public boolean canBeCharged(int monthReference) {
+        return !charged && (monthReference >= endsAtMonthNumber);
     }
 
-    public Integer getValueDividends() {
-        return getPercentage(quantity * company.getBondDividendValue(), 10);
+    public int charge() {
+        charged = true;
+        return returnValue;
     }
 
 }

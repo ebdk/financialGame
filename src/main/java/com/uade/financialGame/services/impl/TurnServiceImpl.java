@@ -70,8 +70,6 @@ public class TurnServiceImpl implements TurnService {
             return new MessageResponse("Carta no existe");
         }
 
-        //TransactionList balance = player.getBalance();
-
         List<Transaction> thisTurnTransactions = new ArrayList<>();
 
         Turn turn = new Turn(player, card, turnNumber);
@@ -110,7 +108,7 @@ public class TurnServiceImpl implements TurnService {
 
             List<Transaction> transactions = cardBonds
                     .stream()
-                    .map(bond -> new Transaction(String.format("Compra de %s Bonos de la Empresa %s", bond.getQuantity(), bond.getCompany().getName()), EXPENSES, NUMBER, CURRENT, bond.getCompany().getShareValue()))
+                    .map(bond -> new Transaction(String.format("Compra de bonos de %s", bond.getSmallDescription()), EXPENSES, NUMBER, CURRENT, bond.getBuyValue()))
                     .collect(toList());
             thisTurnTransactions.addAll(transactions);
 
@@ -144,14 +142,10 @@ public class TurnServiceImpl implements TurnService {
             }
         }
 
-        //balance.addTransactions(thisTurnTransactions);
-
         player.addTransactionsToBalance(thisTurnTransactions);
 
         turnRepository.save(turn);
         playerRepository.save(player);
-        //transactionRepository.save(expensesTransaction);
-        //transactionListRepository.save(balance);
 
         return turn.toDto();
     }

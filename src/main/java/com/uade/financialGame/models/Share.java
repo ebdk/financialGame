@@ -3,15 +3,27 @@ package com.uade.financialGame.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 import static com.uade.financialGame.utils.MathUtils.getPercentage;
 
+@Entity(name = "Share")
+@Table(name = "share")
 @Getter
 @Setter
 public class Share {
 
-    private Company company;
-    private Player player;
+    //ATTRIBUTES
+    @Id
+    @Column(name="SHARE_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long shareId;
+
     private Integer quantity;
+
+    private Company company;
+
+    private Player player;
 
     public Integer getValue() {
         return quantity * company.getShareValue();

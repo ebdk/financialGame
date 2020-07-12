@@ -43,11 +43,6 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Turn> turns;
 
-    /*
-    @OneToMany(mappedBy = "player")
-    private List<java.time.Month> months;
-    */
-
     @OneToOne(mappedBy = "player", cascade=CascadeType.ALL)
     private TransactionList balance;
 
@@ -112,7 +107,7 @@ public class Player {
         this.bonds.addAll(cardBonds);
         cardBonds.forEach(bond -> {
             bond.setPlayer(this);
-            bond.setBoughtAtMonthNumber(currentMonth);
+            bond.setEndsAtMonthNumber(currentMonth + bond.getMonthNumberLenght());
         });
     }
 

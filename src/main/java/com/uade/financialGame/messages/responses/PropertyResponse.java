@@ -1,11 +1,8 @@
 package com.uade.financialGame.messages.responses;
 
 import com.uade.financialGame.messages.Response;
-import com.uade.financialGame.models.Player;
 import com.uade.financialGame.models.Property;
 import lombok.Getter;
-
-import java.util.stream.Collectors;
 
 @Getter
 public class PropertyResponse implements Response {
@@ -23,12 +20,12 @@ public class PropertyResponse implements Response {
         if(property != null){
             this.playerId = property.getPlayer() != null ? property.getPlayer().getPlayerId() : null;
             this.propertyName = property.getPropertyName() != null ? property.getPropertyName().toString() : null;
-            this.buyValue = property.getImgUrl() != null ? property.property() : null;
-            this.sellValue = property.getDescription() != null ?  property.getDescription() : null;
-            this.rentValue = property.getDescription() != null ?  property.getDescription() : null;
-            this.beingRented = property.getDescription() != null ?  property.getDescription() : null;
-            this.isRentable = property.getDescription() != null ?  property.getDescription() : null;
-            this.canBeSold = property.getDescription() != null ?  property.getDescription() : null;
+            this.buyValue = property.getBuyValue() != null ? property.getBuyValue() : null;
+            this.sellValue = property.getSellValue() != null ?  property.getSellValue() : null;
+            this.rentValue = property.getRentValue() != null ?  property.getRentValue() : null;
+            this.beingRented = property.getBeingRented() != null ?  property.getBeingRented() : null;
+            this.isRentable = property.getIsRentable() != null ?  property.getIsRentable() : null;
+            this.canBeSold = property.getCanBeSold() != null ?  property.getCanBeSold() : null;
         }
     }
 

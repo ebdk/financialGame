@@ -3,22 +3,26 @@ package com.uade.financialGame.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity(name = "Game")
-@Table(name = "game")
+@Entity(name = "Company")
+@Table(name = "company")
 @Getter
 @Setter
 public class Company {
 
+    //ATTRIBUTES
+    @Id
+    @Column(name="COMPANY_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long companyId;
+
     private String name;
     private Integer shareValue;
     private Integer shareDividendValue;
-    private Integer bondValue;
-    private Integer bondDividendValue;
-    private Game gameItBelongs;
     private Boolean isStatic;
+
+    private Game gameItBelongs;
 
     public Company() {
     }
@@ -27,29 +31,19 @@ public class Company {
         this.name = name;
         this.shareValue = shareValue;
         this.shareDividendValue = shareDividendValue;
-        this.bondValue = bondValue;
-        this.bondDividendValue = bondDividendValue;
         this.gameItBelongs = gameItBelongs;
         this.isStatic = false;
     }
 
     public enum CompanyAttribute {
         SHARE,
-        SHARE_DIVIDEND,
-        BOND,
-        BOND_DIVIDEND
+        SHARE_DIVIDEND
     }
 
     public void changeCompanyAttribute(CompanyAttribute attribute, Integer value) {
         switch(attribute) {
             case SHARE_DIVIDEND:
                 setShareDividendValue(shareDividendValue + value);
-                break;
-            case BOND:
-                setBondValue(bondValue + value);
-                break;
-            case BOND_DIVIDEND:
-                setBondDividendValue(bondDividendValue + value);
                 break;
             case SHARE:
             default:

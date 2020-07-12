@@ -1,15 +1,23 @@
 package com.uade.financialGame.models;
 
-import com.uade.financialGame.messages.responses.ProfessionResponse;
 import com.uade.financialGame.messages.responses.PropertyResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+@Entity(name = "Property")
+@Table(name = "property")
 @Getter
 @Setter
 public class Property {
 
-    private Player player;
+    //ATTRIBUTES
+    @Id
+    @Column(name="PROPERTY_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long propertyId;
+
     private PropertyName propertyName;
     private Integer buyValue;
     private Integer sellValue;
@@ -17,6 +25,8 @@ public class Property {
     private Boolean beingRented;
     private Boolean isRentable;
     private Boolean canBeSold;
+
+    private Player player;
 
     public enum PropertyName {
         HOUSE,

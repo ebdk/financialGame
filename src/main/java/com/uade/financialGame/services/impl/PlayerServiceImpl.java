@@ -52,48 +52,30 @@ public class PlayerServiceImpl implements PlayerService {
             turn = player.getLatestTurn();
         }
 
-        TransactionList balance = player.getBalance();
-        /*
-        TransactionList balance = transactionListRepository.findAll()
-                .stream()
-                .filter(x -> x.getPlayer().getPlayerId().equals(playerId))
-                .collect(java.util.stream.Collectors.toList()).get(0);
-                */
-
         Transaction passiveTransaction = new Transaction("Pay Debt", PASSIVE, NUMBER, CURRENT, (-1) * amount);
         Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
         List<Transaction> transactions = asList(passiveTransaction, expensesTransaction);
 
-        /*
-        TransactionList turnTransactionList = turn.getTransactionList();
-        turnTransactionList.addTransactions(transactions);
-         */
+        player.addTransactionsToBalance(transactions);
 
-        balance.addTransactions(transactions);
-
+        playerRepository.save(player);
         transactionRepository.saveAll(transactions);
-        transactionListRepository.save(balance);
         turnRepository.save(turn);
 
-        return balance.toDto();
+        return player.getBalanceValuesMap();
     }
 
     @Override
     public Object donateToCharity(Long playerId) {
         Player player = playerRepository.getOne(playerId);
-        Turn turn = player.getLatestTurn();
 
         TransactionList balance = player.getBalance();
 
         Integer playerSalary = player.getBalanceValuesMap().get(INCOMES);
-        //Integer amount = (int)(playerSalary*(10.0f/100.0f)); //10% of the salary
         Integer amount = getPercentage(playerSalary, 10);
 
         Transaction expensesTransaction = new Transaction("Charity", EXPENSES, NUMBER, CURRENT, amount);
 
-        /*TransactionList turnTransactionList = turn.getTransactionList();
-        turnTransactionList.addTransaction(expensesTransaction);
-         */
         player.setHasDonated(true);
 
         balance.addTransaction(expensesTransaction);
@@ -121,7 +103,7 @@ public class PlayerServiceImpl implements PlayerService {
         List<Transaction> thisMonthExpenses = new ArrayList<>();
 
         if(player.isEmployed()) {
-            thisMonthIncomes.addAll(bondsDividends(player));
+            thisMonthIncomes.addAll(chargeBonds(player));
             thisMonthIncomes.addAll(shareDividends(player));
             for(Transaction transaction : monthlyIncomes) {
                 Transaction newTransaction = new Transaction(transaction, monthNumber);
@@ -140,16 +122,8 @@ public class PlayerServiceImpl implements PlayerService {
         thisMonthIncomes.addAll(thisMonthExpenses);
         balance.addTransactions(thisMonthIncomes);
 
-        /*
-        Month month = new Month(monthNumber, player);
-        TransactionList monthTransactionList = new TransactionList(thisMonthIncomes);
-        month.setTransactionList(monthTransactionList);
-         */
-
         transactionRepository.saveAll(thisMonthIncomes);
         transactionListRepository.save(balance);
-        //monthRepository.save(month);
-
         return balance.toDto();
     }
 
@@ -157,20 +131,22 @@ public class PlayerServiceImpl implements PlayerService {
         List<Transaction> thisMonthSharesDividends = new ArrayList<>();
         List<Share> shares = player.getShares();
         shares.forEach(x -> {
-            Transaction shareTransaction = new Transaction("Shares of " + x.getCompany().getName(),
+            Transaction shareTransaction = new Transaction("Dividends of Shares of " + x.getCompany().getName(),
                     INCOMES, NUMBER, CURRENT, x.getValueDividends());
             thisMonthSharesDividends.add(shareTransaction);
         });
         return thisMonthSharesDividends;
     }
 
-    private List<Transaction> bondsDividends(Player player) {
+    private List<Transaction> chargeBonds(Player player) {
         List<Transaction> thisMonthBondsDividends = new ArrayList<>();
         List<Bond> bonds = player.getBonds();
         bonds.forEach(x -> {
-            Transaction shareTransaction = new Transaction("Shares of " + x.getCompany().getName(),
-                    INCOMES, NUMBER, CURRENT, x.getValueDividends());
-            thisMonthBondsDividends.add(shareTransaction);
+            if(x.canBeCharged(player.getCurrentMonth())) {
+                Transaction shareTransaction = new Transaction("Charged Bond of " + x.getSmallDescription(),
+                        INCOMES, NUMBER, CURRENT, x.charge());
+                thisMonthBondsDividends.add(shareTransaction);
+            };
         });
         return thisMonthBondsDividends;
     }

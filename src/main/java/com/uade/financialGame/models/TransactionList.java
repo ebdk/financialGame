@@ -32,14 +32,6 @@ public class TransactionList {
     @OneToOne(cascade = {CascadeType.ALL})
     private Card card;
 
-    /*
-    @OneToOne(cascade = {CascadeType.ALL})
-    private Month month;
-
-    @OneToOne(cascade = {CascadeType.ALL})
-    private Turn turn;
-    */
-
     @OneToOne(cascade = {CascadeType.ALL})
     private Profession profession;
 
