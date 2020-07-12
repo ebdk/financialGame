@@ -1,5 +1,7 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.ProfessionResponse;
+import com.uade.financialGame.messages.responses.PropertyResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +24,12 @@ public class Property {
         YACHT,
         TRUCK,
         CAR
+    }
+
+
+    //METHODS
+    public PropertyResponse toDto() {
+        return new PropertyResponse(this);
     }
 
 }

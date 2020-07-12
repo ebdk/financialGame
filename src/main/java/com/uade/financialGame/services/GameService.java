@@ -7,4 +7,6 @@ public interface GameService {
     Object fillWithBots(Long gameId);
 
     Object modifyPlayersProfessions(Long gameId);
+
+    Object showGameCompanies(Long gameId);
 }

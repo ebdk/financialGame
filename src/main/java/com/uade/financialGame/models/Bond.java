@@ -13,6 +13,7 @@ public class Bond {
     private Player player;
     private Integer quantity;
     private Integer boughtAtMonthNumber;
+    private Integer endsAtMonthNumber;
 
     private Integer getValue() {
         return quantity * company.getBondValue();

@@ -164,5 +164,12 @@ public class GameServiceImpl implements GameService {
         return game.toDto();
     }
 
+    @Override
+    public Object showGameCompanies(Long gameId) {
+        
+
+        return null;
+    }
+
 
 }

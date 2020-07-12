@@ -42,9 +42,6 @@ public class Company {
 
     public void changeCompanyAttribute(CompanyAttribute attribute, Integer value) {
         switch(attribute) {
-            case SHARE:
-                setShareValue(shareValue + value);
-                break;
             case SHARE_DIVIDEND:
                 setShareDividendValue(shareDividendValue + value);
                 break;
@@ -54,6 +51,7 @@ public class Company {
             case BOND_DIVIDEND:
                 setBondDividendValue(bondDividendValue + value);
                 break;
+            case SHARE:
             default:
                 setShareValue(shareValue + value);
         }
