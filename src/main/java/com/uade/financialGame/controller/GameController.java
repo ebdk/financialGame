@@ -1,5 +1,7 @@
 package com.uade.financialGame.controller;
 
+import com.uade.financialGame.messages.requests.CardRequest;
+import com.uade.financialGame.messages.requests.CompanyRequest;
 import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.services.GameService;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +11,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -62,6 +66,31 @@ public class GameController {
     public Object modifyPlayersProfessions(@ApiParam(value = "The game's id", required = true)
                                                @PathVariable("gameId") Long gameId) {
         return org.springframework.http.ResponseEntity.ok(service.startGame(gameId));
+    }
+
+    @ApiOperation(
+            value = "Shows the Companies from a Game",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The companies were retreived succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="show_companies/{gameId}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object showGameCompanies(@ApiParam(value = "The game's id", required = true)
+                                           @PathVariable("gameId") Long gameId) {
+        return org.springframework.http.ResponseEntity.ok(service.showGameCompanies(gameId));
+    }
+
+    @ApiOperation(
+            value = "Posts a Company",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The companies were retreived succesfuly", response = UserResponse.class),
+    })
+    @PostMapping(path="post_company", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object postCompanies(@RequestBody List<CompanyRequest> companyRequests) {
+        return org.springframework.http.ResponseEntity.ok(service.postCompanies(companyRequests));
     }
 
 }

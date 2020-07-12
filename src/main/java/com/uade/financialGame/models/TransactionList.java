@@ -84,6 +84,8 @@ public class TransactionList {
                 .collect(toList());
     }
 
+
+
     /*
     public Map<TransactionType, List<Transaction>> mapAllByType() {
         return transactions

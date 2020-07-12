@@ -43,4 +43,7 @@ public class CompanyChanges {
 		this.card = card;
 		this.company = company;
 	}
+
+	public CompanyChanges() {
+	}
 }

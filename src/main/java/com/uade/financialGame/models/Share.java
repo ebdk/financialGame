@@ -24,6 +24,7 @@ public class Share {
 
     private Integer quantity;
 
+    //@ManyToOne(cascade = CascadeType.MERGE ,fetch = FetchType.LAZY)
     @ManyToOne
     private Company company;
 
@@ -46,6 +47,20 @@ public class Share {
         this.quantity = shareRequest.getQuantity();
         this.card = card;
         this.company = company;
+    }
+
+    public Share(Company company) {
+        this.quantity = 0;
+        this.company = company;
+    }
+
+    public Share(Share share, Player player) {
+        this.quantity = share.getQuantity();
+        this.company = share.getCompany();
+        this.player = player;
+    }
+
+    public Share() {
     }
 
     public Integer getValue() {

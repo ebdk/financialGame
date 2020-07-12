@@ -52,7 +52,7 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Property> properties;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade=CascadeType.ALL)
     private List<Share> shares;
 
     public enum PlayerType {

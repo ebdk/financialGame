@@ -51,6 +51,9 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private CompanyDAO companyRepository;
 
+    @Autowired
+    private ShareDAO shareRepository;
+
     @Override
     public Object createGame(String gameTypeParam, String gameDifficultyParam, String idUser) {
         Optional<User> user = userRepository.findById(Long.valueOf(idUser));
@@ -138,10 +141,9 @@ public class GameServiceImpl implements GameService {
 
         List<Company> companies = companyRepository.findBySaveType(Company.SaveType.STATIC);
         List<Company> clonedCompanies = new ArrayList<>();
-        companies.forEach(company -> clonedCompanies.add(new Company(company)));
+        companies.forEach(company -> clonedCompanies.add(new Company(company, game)));
 
         //List<Player> players = playerRepository.findByPlayerId(playerIds);
-
         List<Player> players = playerRepository.findAll()
                 .stream().filter(x -> playerIds.contains(x.getPlayerId()))
                 .collect(toList());
@@ -155,44 +157,61 @@ public class GameServiceImpl implements GameService {
                 .collect(toList());
          */
 
-        players.forEach(x -> {
-            Profession chosenProfession = professions.get(generateRandomNumber(0, professions.size()));
-            if(x.getProfession() == null || !x.getProfession().equals(chosenProfession)){
-                TransactionList balance = new TransactionList(x);
+        List<Share> shareForEachCompany = createShares(clonedCompanies);
+        companyRepository.saveAll(clonedCompanies);
 
-                x.setProfession(chosenProfession);
+        players.forEach(player -> {
+            Profession chosenProfession = professions.get(generateRandomNumber(0, professions.size()));
+            if(player.getProfession() == null || !player.getProfession().equals(chosenProfession)){
+                TransactionList balance = new TransactionList(player);
+
+                player.setProfession(chosenProfession);
                 TransactionList professionTransactionList = chosenProfession.getTransactionList();
 
                 List<Transaction> clonedProfessionTransactions = professionTransactionList.cloneList();
 
                 clonedProfessionTransactions.forEach(y -> y.setTransactionList(balance));
                 balance.addTransactions(clonedProfessionTransactions);
-                x.setBalance(balance);
+                player.setBalance(balance);
 
-                transactionRepository.saveAll(clonedProfessionTransactions);
-                transactionListRepository.save(balance);
-                playerRepository.save(x);
+                List<Share> clonedShares = cloneShares(shareForEachCompany, player);
+                player.setShares(clonedShares);
+
+                //shareRepository.saveAll(clonedShares);
+                //transactionRepository.saveAll(clonedProfessionTransactions);
+                //transactionListRepository.save(balance);
+                playerRepository.save(player);
             }
         });
-
-        companyRepository.saveAll(clonedCompanies);
 
         return game.toDto();
     }
 
-    @Override
-    public Object showGameCompanies(Long gameId) {
-        
+    private List<Share> createShares(List<Company> clonedCompanies) {
+        List<Share> shares = new ArrayList<>();
+        clonedCompanies.forEach(company -> shares.add(new Share(company)));
+        return shares;
+    }
 
-        return null;
+    private List<Share> cloneShares(List<Share> shares, Player player) {
+        List<Share> clone = new ArrayList<>();
+        shares.forEach(share -> clone.add(new Share(share, player)));
+        return clone;
     }
 
     @Override
-    public Object postCompanies(List<CompanyRequest> companyRequestList, Long gameId) {
+    public Object showGameCompanies(Long gameId) {
         Game game = gameRepository.getOne(gameId);
+        List<Company> companies = companyRepository.findByGame(game);
+
+        return companies.stream().map(Company::toDto).collect(toList());
+    }
+
+    @Override
+    public Object postCompanies(List<CompanyRequest> companyRequestList) {
         List<Company> companies = companyRequestList
                 .stream()
-                .map(companyRequest -> companyRequest.toEntity(game))
+                .map(CompanyRequest::toEntity)
                 .collect(toList());
 
         companyRepository.saveAll(companies);

@@ -11,7 +11,5 @@ import java.util.List;
 public interface CompanyDAO extends JpaRepository<Company, Long> {
 	List<Company> findByGame(Game game);
 
-	//List<Company> findIsStatic(boolean b);
-
 	List<Company> findBySaveType(Company.SaveType saveType);
 }

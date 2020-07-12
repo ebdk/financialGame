@@ -14,5 +14,5 @@ public interface GameService {
 
     Object showGameCompanies(Long gameId);
 
-    Object postCompanies(List<CompanyRequest> companyRequestList, Long gameId);
+    Object postCompanies(List<CompanyRequest> companyRequestList);
 }

@@ -38,7 +38,7 @@ public class Card {
     @OneToMany(mappedBy = "card")
     private List<Bond> bonds;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<Property> properties;
 
     @OneToMany(mappedBy = "card")

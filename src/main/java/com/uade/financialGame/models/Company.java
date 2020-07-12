@@ -50,20 +50,22 @@ public class Company {
         this.saveType = GAME_COMPANY;
     }
 
-    public Company(Company company) {
+    public Company(Company company, Game game) {
         this.name = company.getName();
         this.shareValue = company.getShareValue();
         this.shareDividendValue = company.getShareDividendValue();
+        this.game = game;
         this.saveType = GAME_COMPANY;
     }
 
-    public Company(CompanyRequest companyRequest, Game game) {
+    public Company(CompanyRequest companyRequest) {
         this.name = companyRequest.getName();
         this.shareValue = companyRequest.getShareValue();
         this.shareDividendValue = companyRequest.getShareDividendValue();
-        this.game = game;
         this.saveType = STATIC;
     }
+
+
 
     public enum CompanyAttribute {
         SHARE,

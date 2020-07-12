@@ -6,10 +6,7 @@ import com.uade.financialGame.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
@@ -45,12 +42,15 @@ public class PlayerServiceImpl implements PlayerService {
     public Object payDebt(Long playerId, Integer amount) {
         Player player = playerRepository.getOne(playerId);
 
+        /*
         Turn turn;
         if(player.getTurns().isEmpty()) {
             turn = new Turn(player, null, 0);
         } else {
             turn = player.getLatestTurn();
         }
+
+         */
 
         Transaction passiveTransaction = new Transaction("Pay Debt", PASSIVE, NUMBER, CURRENT, (-1) * amount);
         Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
@@ -59,8 +59,8 @@ public class PlayerServiceImpl implements PlayerService {
         player.addTransactionsToBalance(transactions);
 
         playerRepository.save(player);
-        transactionRepository.saveAll(transactions);
-        turnRepository.save(turn);
+        //transactionRepository.saveAll(transactions);
+        //turnRepository.save(turn);
 
         return player.getBalanceValuesMap();
     }
@@ -78,10 +78,11 @@ public class PlayerServiceImpl implements PlayerService {
 
         player.setHasDonated(true);
 
-        balance.addTransaction(expensesTransaction);
+        //balance.addTransaction(expensesTransaction);
+        player.addTransactionsToBalance(Collections.singletonList(expensesTransaction));
 
-        transactionRepository.save(expensesTransaction);
-        transactionListRepository.save(balance);
+        //transactionRepository.save(expensesTransaction);
+        //transactionListRepository.save(balance);
         playerRepository.save(player);
 
         return balance.toDto();
@@ -122,7 +123,7 @@ public class PlayerServiceImpl implements PlayerService {
         thisMonthIncomes.addAll(thisMonthExpenses);
         balance.addTransactions(thisMonthIncomes);
 
-        transactionRepository.saveAll(thisMonthIncomes);
+        //transactionRepository.saveAll(thisMonthIncomes);
         transactionListRepository.save(balance);
         return balance.toDto();
     }

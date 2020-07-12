@@ -44,6 +44,10 @@ public class Property {
 	    this.isRentable = propertyRequest.getIsRentable();
 	    this.canBeSold = propertyRequest.getCanBeSold();
 	    this.beingRented = false;
+	    this.card = card;
+	}
+
+	public Property() {
 	}
 
 	public enum PropertyName {

@@ -51,6 +51,9 @@ public class Bond {
         this.card = card;
     }
 
+    public Bond() {
+    }
+
     public boolean canBeCharged(int monthReference) {
         return !charged && (monthReference >= endsAtMonthNumber);
     }

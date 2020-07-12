@@ -35,4 +35,7 @@ public class GlosarySlot {
         this.cards = new ArrayList<>();
         cards.add(card);
     }
+
+    public GlosarySlot() {
+    }
 }
