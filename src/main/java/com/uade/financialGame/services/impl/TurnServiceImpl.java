@@ -156,8 +156,6 @@ public class TurnServiceImpl implements TurnService {
         return turn.toDto();
     }
 
-
-
     @Override
     public List<TurnResponse> getPlayerTurns(String playerId) {
         Player player = playerRepository.getOne(Long.valueOf(playerId));

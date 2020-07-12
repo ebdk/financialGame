@@ -1,16 +1,15 @@
 package com.uade.financialGame.services.impl;
 
 import com.uade.financialGame.models.*;
-import com.uade.financialGame.repositories.PlayerDAO;
-import com.uade.financialGame.repositories.TransactionDAO;
-import com.uade.financialGame.repositories.TransactionListDAO;
-import com.uade.financialGame.repositories.TurnDAO;
+import com.uade.financialGame.repositories.*;
 import com.uade.financialGame.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
@@ -30,13 +29,17 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     private TransactionDAO transactionRepository;
 
-    /*
-    @Autowired
-    private MonthDAO monthRepository;
-     */
-
     @Autowired
     private TurnDAO turnRepository;
+
+    @Autowired
+    private PropertyDAO propertyRepository;
+
+    @Autowired
+    private ShareDAO shareRepository;
+
+    @Autowired
+    private BondDAO bondRepository;
 
     @Override
     public Object payDebt(Long playerId, Integer amount) {
@@ -171,5 +174,23 @@ public class PlayerServiceImpl implements PlayerService {
         });
         return thisMonthBondsDividends;
     }
+
+
+    @Override
+    public Object showPlayerOwnerships(Long playerId) {
+        Player player = playerRepository.getOne(playerId);
+
+        List<Property> properties = propertyRepository.findByPlayer(player);
+        List<Share> shares = shareRepository.findByPlayer(player);
+        List<Bond> bonds = bondRepository.findByPlayer(player);
+
+        Map responseMap = new HashMap();
+        responseMap.put("Properties", properties);
+        responseMap.put("Shares", shares);
+        responseMap.put("Bonds", bonds);
+
+        return responseMap;
+    }
+
 
 }

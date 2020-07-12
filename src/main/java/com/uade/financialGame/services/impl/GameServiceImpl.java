@@ -22,7 +22,6 @@ import static com.uade.financialGame.models.Game.GAME_FULL_NUMBER;
 import static com.uade.financialGame.models.Game.GameLobbyStatus.*;
 import static com.uade.financialGame.models.Player.PlayerType.HUMAN;
 import static com.uade.financialGame.utils.MathUtils.generateRandomNumber;
-import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;

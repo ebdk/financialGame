@@ -7,4 +7,6 @@ public interface PlayerService {
     Object donateToCharity(Long playerId);
 
     Object newMonth(Long playerId);
+
+    Object showPlayerOwnerships(Long playerId);
 }

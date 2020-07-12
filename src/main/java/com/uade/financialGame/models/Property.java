@@ -12,8 +12,9 @@ public class Property {
     private Integer buyValue;
     private Integer sellValue;
     private Integer rentValue;
+    private Boolean beingRented;
     private Boolean isRentable;
-    private Boolean canBeRented;
+    private Boolean canBeSold;
 
     public enum PropertyName {
         HOUSE,
