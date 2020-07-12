@@ -65,8 +65,6 @@ public class Company {
         this.saveType = STATIC;
     }
 
-
-
     public enum CompanyAttribute {
         SHARE,
         SHARE_DIVIDEND
