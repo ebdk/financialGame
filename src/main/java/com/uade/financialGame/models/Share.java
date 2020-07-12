@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static com.uade.financialGame.utils.MathUtils.getPercentage;
 
 @Entity(name = "Share")
@@ -40,7 +42,13 @@ public class Share {
         this.card = card;
 	}
 
-	public Integer getValue() {
+    public Share(ShareRequest shareRequest, Card card, Company company) {
+        this.quantity = shareRequest.getQuantity();
+        this.card = card;
+        this.company = company;
+    }
+
+    public Integer getValue() {
         return quantity * company.getShareValue();
     }
 

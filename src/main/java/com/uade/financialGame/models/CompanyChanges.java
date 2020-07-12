@@ -36,4 +36,11 @@ public class CompanyChanges {
 		this.value = companyChangesRequest.getValue();
 		this.card = card;
 	}
+
+	public CompanyChanges(CompanyChangesRequest companyChangesRequest, Card card, Company company) {
+		this.attribute = CompanyAttribute.valueOf(companyChangesRequest.getAttribute());
+		this.value = companyChangesRequest.getValue();
+		this.card = card;
+		this.company = company;
+	}
 }

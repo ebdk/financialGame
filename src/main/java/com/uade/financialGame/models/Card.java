@@ -29,7 +29,7 @@ public class Card {
     @OneToMany(mappedBy = "card")
     private List<Turn> turns;
 
-    @OneToOne(mappedBy = "card")
+    @OneToOne(mappedBy = "card", cascade = {CascadeType.ALL})
     private TransactionList transactionList;
 
     @OneToMany(mappedBy = "card")
@@ -82,6 +82,23 @@ public class Card {
         this.companyChanges = cardRequest.getCompanyChanges(this);
         this.glosarySlot = cardRequest.getGlosarySlot(this);
     }
+
+    public Card(CardRequest cardRequest, List<Company> companiesInvolved) {
+        this.name = cardRequest.getName();
+        this.imgUrl = cardRequest.getImgUrl();
+        this.description = cardRequest.getDescription();
+        this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
+        this.optionType = OptionType.valueOf(cardRequest.getOptionType());
+        this.effectType = EffectType.valueOf(cardRequest.getEffectType());
+        this.targetType = TargetType.valueOf(cardRequest.getTargetType());
+        this.transactionList = cardRequest.getTransactionList(this);
+        this.shares = cardRequest.getShares(this, companiesInvolved);
+        this.bonds = cardRequest.getBonds(this);
+        this.properties = cardRequest.getProperties(this);
+        this.companyChanges = cardRequest.getCompanyChanges(this, companiesInvolved);
+        this.glosarySlot = cardRequest.getGlosarySlot(this);
+    }
+
 
     /*
     public Card(CardRequest cardRequest, TransactionList transactionList) {

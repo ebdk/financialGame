@@ -5,7 +5,6 @@ import com.uade.financialGame.models.*;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -48,12 +47,13 @@ public class CardRequest {
         }
     }
 
-    public Card toEntity() {
-        return new Card(this);
-    }
 
     public List<Share> getShares(Card card) {
         return sharesRequest != null ? sharesRequest.stream().map(shareRequest -> shareRequest.toEntity(card)).collect(toList()) : null;
+    }
+
+    public List<Share> getShares(Card card, List<Company> companiesInvolved) {
+        return sharesRequest != null ? sharesRequest.stream().map(shareRequest -> shareRequest.toEntity(card, companiesInvolved)).collect(toList()) : null;
     }
 
     public List<Bond> getBonds(Card card) {
@@ -68,9 +68,21 @@ public class CardRequest {
         return companyChangesRequest != null ? companyChangesRequest.stream().map(companyChangesRequest1 -> companyChangesRequest1.toEntity(card)).collect(toList()): null;
     }
 
+    public List<CompanyChanges> getCompanyChanges(Card card, List<Company> companiesInvolved) {
+        return companyChangesRequest != null ? companyChangesRequest.stream().map(companyChangesRequest1 -> companyChangesRequest1.toEntity(card, companiesInvolved)).collect(toList()): null;
+    }
+
 
     public GlosarySlot getGlosarySlot(Card card) {
         return glosarySlotRequest != null ? glosarySlotRequest.toEntity(card): null;
+    }
+
+    public Card toEntity(List<Company> companiesInvolved) {
+        return new Card(this, companiesInvolved);
+    }
+
+    public Card toEntity() {
+        return new Card(this);
     }
 
 }
