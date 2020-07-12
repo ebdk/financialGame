@@ -106,15 +106,16 @@ public class TurnServiceImpl implements TurnService {
         if(BOND_BUY.equals(card.getEffectType())) {
 
             List<Bond> cardBonds = card.getBonds();
-            player.addBonds(cardBonds);
+            List<Bond> clonedBonds = cloneBonds(cardBonds);
+            player.addBonds(clonedBonds);
 
             List<Transaction> transactions = cardBonds
                     .stream()
-                    .map(bond -> new Transaction(String.format("Compra de bonos de %s", bond.getSmallDescription()), EXPENSES, NUMBER, CURRENT, bond.getBuyValue()))
+                    .map(bond -> new Transaction("Compra de bonos de " + bond.getSmallDescription(), EXPENSES, NUMBER, CURRENT, bond.getBuyValue()))
                     .collect(toList());
             thisTurnTransactions.addAll(transactions);
 
-            bondRepository.saveAll(cardBonds);
+            bondRepository.saveAll(clonedBonds);
         }
         if(COMPANY_VALUE_CHANGE.equals(card.getEffectType())) {
             List<CompanyChanges> companyChanges = card.getCompanyChanges();
@@ -150,6 +151,14 @@ public class TurnServiceImpl implements TurnService {
         playerRepository.save(player);
 
         return turn.toDto();
+    }
+
+    private List<Bond> cloneBonds(List<Bond> cardBonds) {
+        List<Bond> clonedBonds = new ArrayList<>();
+        cardBonds.forEach(cardBond -> {
+            clonedBonds.add(new Bond(cardBond));
+        });
+        return clonedBonds;
     }
 
     private List<Property> cloneProperties(List<Property> cardProperties, Player player) {

@@ -64,6 +64,9 @@ public class Player {
     public Player(User user, PlayerType playerType) {
         this.user = user;
         this.playerType = playerType;
+        this.currentMonth = 0;
+        this.hasDonated = false;
+        this.isEmployed = true;
     }
 
     public Player() {
@@ -107,11 +110,11 @@ public class Player {
     }
 
     public void addBonds(List<Bond> cardBonds) {
-        this.bonds.addAll(cardBonds);
         cardBonds.forEach(bond -> {
             bond.setPlayer(this);
             bond.setEndsAtMonthNumber(currentMonth + bond.getMonthNumberLenght());
         });
+        bonds.addAll(cardBonds);
     }
 
 

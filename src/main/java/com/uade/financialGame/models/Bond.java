@@ -54,7 +54,16 @@ public class Bond {
     public Bond() {
     }
 
-    public boolean canBeCharged(int monthReference) {
+	public Bond(Bond cardBond) {
+        this.description = cardBond.getDescription();
+        this.smallDescription = cardBond.getSmallDescription();
+        this.monthNumberLenght = cardBond.getMonthNumberLenght();
+        this.buyValue = cardBond.getBuyValue();
+        this.returnValue = cardBond.getReturnValue();
+        this.charged = false;
+	}
+
+	public boolean canBeCharged(int monthReference) {
         return !charged && (monthReference >= endsAtMonthNumber);
     }
 

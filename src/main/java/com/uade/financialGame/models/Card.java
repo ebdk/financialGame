@@ -35,13 +35,13 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<Share> shares;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<Bond> bonds;
 
     @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<Property> properties;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<CompanyChanges> companyChanges;
 
     @ManyToOne
