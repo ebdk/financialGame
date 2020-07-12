@@ -116,7 +116,7 @@ public class TurnServiceImpl implements TurnService {
         }
         if(COMPANY_VALUE_CHANGE.equals(card.getEffectType())) {
             List<CompanyChanges> companyChanges = card.getCompanyChanges();
-            List<Company> companies = companyRepository.findByGameItBelongs(player.getGame());
+            List<Company> companies = companyRepository.findByGame(player.getGame());
 
             companyChanges.forEach(companyChange -> {
                 Company companyToBeChanged = companies

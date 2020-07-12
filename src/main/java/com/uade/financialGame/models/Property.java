@@ -26,7 +26,11 @@ public class Property {
     private Boolean isRentable;
     private Boolean canBeSold;
 
+    @ManyToOne
     private Player player;
+
+    @ManyToOne
+    private Card card;
 
     public enum PropertyName {
         HOUSE,

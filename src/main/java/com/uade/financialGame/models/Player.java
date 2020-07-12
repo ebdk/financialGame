@@ -46,10 +46,13 @@ public class Player {
     @OneToOne(mappedBy = "player", cascade=CascadeType.ALL)
     private TransactionList balance;
 
+    @OneToMany(mappedBy = "player")
     private List<Bond> bonds;
 
+    @OneToMany(mappedBy = "player")
     private List<Property> properties;
 
+    @OneToMany(mappedBy = "player")
     private List<Share> shares;
 
     public enum PlayerType {

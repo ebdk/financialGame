@@ -21,6 +21,10 @@ public class CompanyChanges {
     private CompanyAttribute attribute;
     private Integer value;
 
+    @ManyToOne
     private Company company;
+
+    @ManyToOne
+    private Card card;
 
 }

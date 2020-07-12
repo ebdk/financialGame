@@ -21,9 +21,14 @@ public class Share {
 
     private Integer quantity;
 
+    @ManyToOne
     private Company company;
 
+    @ManyToOne
     private Player player;
+
+    @ManyToOne
+    private Card card;
 
     public Integer getValue() {
         return quantity * company.getShareValue();

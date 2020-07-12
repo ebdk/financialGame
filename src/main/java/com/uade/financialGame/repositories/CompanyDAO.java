@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CompanyDAO extends JpaRepository<Company, Long> {
-	List<Company> findByGameItBelongs(Game game);
+	List<Company> findByGame(Game game);
 }

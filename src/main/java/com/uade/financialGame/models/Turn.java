@@ -23,11 +23,6 @@ public class Turn {
     @ManyToOne
     private Card card;
 
-    /*
-    @OneToOne(mappedBy = "turn")
-    private TransactionList transactionList;
-    */
-
     //BUILDERS
     public Turn() {
     }

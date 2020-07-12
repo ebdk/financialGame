@@ -25,7 +25,11 @@ public class Bond {
     private Integer returnValue;
     private Boolean charged;
 
+    @ManyToOne
     private Player player;
+
+    @ManyToOne
+    private Card card;
 
     public boolean canBeCharged(int monthReference) {
         return !charged && (monthReference >= endsAtMonthNumber);

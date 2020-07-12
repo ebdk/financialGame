@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Company")
 @Table(name = "company")
@@ -22,7 +23,11 @@ public class Company {
     private Integer shareDividendValue;
     private Boolean isStatic;
 
-    private Game gameItBelongs;
+    @ManyToOne
+    private Game game;
+
+    @OneToMany(mappedBy = "company")
+    private List<CompanyChanges> changesInvolved;
 
     public Company() {
     }
@@ -31,7 +36,7 @@ public class Company {
         this.name = name;
         this.shareValue = shareValue;
         this.shareDividendValue = shareDividendValue;
-        this.gameItBelongs = gameItBelongs;
+        this.game = gameItBelongs;
         this.isStatic = false;
     }
 

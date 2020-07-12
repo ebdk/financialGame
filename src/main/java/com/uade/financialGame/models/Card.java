@@ -32,14 +32,19 @@ public class Card {
     @OneToOne(mappedBy = "card")
     private TransactionList transactionList;
 
+    @OneToMany(mappedBy = "card")
     private List<Share> shares;
 
+    @OneToMany(mappedBy = "card")
     private List<Bond> bonds;
 
+    @OneToMany(mappedBy = "card")
     private List<Property> properties;
 
+    @OneToMany(mappedBy = "card")
     private List<CompanyChanges> companyChanges;
 
+    @ManyToOne
     private GlosarySlot glosarySlot;
 
     public enum OptionType {
