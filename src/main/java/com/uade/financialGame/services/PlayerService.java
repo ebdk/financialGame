@@ -6,13 +6,13 @@ public interface PlayerService {
 
     Object donateToCharity(Long playerId);
 
-    Object newMonth(Long playerId);
+    Object nextMonth(Long playerId);
 
     Object showPlayerOwnerships(Long playerId);
 
-    Object sellProperty(Long playerId);
+    Object sellProperty(Long playerId, Long propertyId);
 
-    Object rentProperty(Long playerId);
+    Object rentProperty(Long playerId, Long propertyId);
 
     Object sellShare(Long playerId, Long shareId, Integer quantity);
 }

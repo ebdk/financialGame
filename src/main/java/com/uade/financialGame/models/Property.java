@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import static com.uade.financialGame.models.Property.PropertyStatus.*;
+
 @Entity(name = "Property")
 @Table(name = "property")
 @Getter
@@ -23,9 +25,35 @@ public class Property {
     private Integer buyValue;
     private Integer sellValue;
     private Integer rentValue;
-    private Boolean beingRented;
+    private PropertyStatus propertyStatus;
     private Boolean isRentable;
-    private Boolean canBeSold;
+
+	public void rent() {
+		if(notSold()) {
+			this.propertyStatus = AVAILABLE.equals(propertyStatus) ? RENTING : AVAILABLE;
+		}
+	}
+
+	public void sell() {
+		if(notSold()) {
+			this.propertyStatus = SOLD;
+		}
+	}
+
+	public enum PropertyStatus {
+    	AVAILABLE,
+		RENTING,
+		SOLD
+	}
+
+
+	public enum PropertyName {
+		HOUSE,
+		BLOCK,
+		YACHT,
+		TRUCK,
+		CAR
+	}
 
     @ManyToOne
     private Player player;
@@ -42,8 +70,7 @@ public class Property {
 	    this.sellValue = propertyRequest.getSellValue();
 	    this.rentValue = propertyRequest.getRentValue();
 	    this.isRentable = propertyRequest.getIsRentable();
-	    this.canBeSold = propertyRequest.getCanBeSold();
-	    this.beingRented = false;
+		this.propertyStatus = AVAILABLE;
 	    this.card = card;
 	}
 
@@ -56,19 +83,14 @@ public class Property {
 		this.sellValue = cardProperty.getSellValue();
 		this.rentValue = cardProperty.getRentValue();
 		this.isRentable = cardProperty.getIsRentable();
-		this.canBeSold = cardProperty.getCanBeSold();
-		this.beingRented = false;
+		this.propertyStatus = AVAILABLE;
 		this.player = player;
 
 	}
 
-	public enum PropertyName {
-        HOUSE,
-        BLOCK,
-        YACHT,
-        TRUCK,
-        CAR
-    }
+	public boolean notSold() {
+		return !SOLD.equals(propertyStatus);
+	}
 
     //METHODS
     public PropertyResponse toDto() {

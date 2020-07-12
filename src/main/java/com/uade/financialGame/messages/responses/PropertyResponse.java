@@ -13,9 +13,8 @@ public class PropertyResponse implements Response {
     private Integer buyValue;
     private Integer sellValue;
     private Integer rentValue;
-    private Boolean beingRented;
+    private String propertyStatus;
     private Boolean isRentable;
-    private Boolean canBeSold;
 
     public PropertyResponse(Property property) {
         if(property != null){
@@ -25,9 +24,8 @@ public class PropertyResponse implements Response {
             this.buyValue = property.getBuyValue() != null ? property.getBuyValue() : null;
             this.sellValue = property.getSellValue() != null ?  property.getSellValue() : null;
             this.rentValue = property.getRentValue() != null ?  property.getRentValue() : null;
-            this.beingRented = property.getBeingRented() != null ?  property.getBeingRented() : null;
+            this.propertyStatus = property.getPropertyStatus() != null ?  property.getPropertyStatus().toString() : null;
             this.isRentable = property.getIsRentable() != null ?  property.getIsRentable() : null;
-            this.canBeSold = property.getCanBeSold() != null ?  property.getCanBeSold() : null;
         }
     }
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
@@ -26,12 +27,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     private TransactionListDAO transactionListRepository;
-
-    @Autowired
-    private TransactionDAO transactionRepository;
-
-    @Autowired
-    private TurnDAO turnRepository;
 
     @Autowired
     private PropertyDAO propertyRepository;
@@ -78,7 +73,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Object newMonth(Long playerId) {
+    public Object nextMonth(Long playerId) {
         Player player = playerRepository.getOne(playerId);
         Integer monthNumber = player.getLatestMonthNumber() + 1;
 
@@ -101,7 +96,7 @@ public class PlayerServiceImpl implements PlayerService {
             }
         } else {
             player.setEmployed(true);
-            playerRepository.save(player);
+            //playerRepository.save(player);
             Transaction newTransaction = new Transaction("No job for Month " + monthNumber, INCOMES, NUMBER, CURRENT, 0);
             thisMonthIncomes.add(newTransaction);
         }
@@ -110,10 +105,13 @@ public class PlayerServiceImpl implements PlayerService {
             thisMonthExpenses.add(newTransaction);
         }
         thisMonthIncomes.addAll(thisMonthExpenses);
-        balance.addTransactions(thisMonthIncomes);
+
+        player.addTransactionsToBalance(thisMonthIncomes);
+
 
         //transactionRepository.saveAll(thisMonthIncomes);
-        transactionListRepository.save(balance);
+        //transactionListRepository.save(balance);
+        playerRepository.save(player);
         return balance.toDto();
     }
 
@@ -146,9 +144,12 @@ public class PlayerServiceImpl implements PlayerService {
     public Object showPlayerOwnerships(Long playerId) {
         Player player = playerRepository.getOne(playerId);
 
-        List<Property> properties = propertyRepository.findByPlayer(player);
         List<Share> shares = shareRepository.findByPlayer(player);
         List<Bond> bonds = bondRepository.findByPlayer(player);
+        List<Property> properties = propertyRepository.findByPlayer(player)
+                .stream()
+                .filter(Property::notSold)
+                .collect(Collectors.toList());
 
         Map responseMap = new HashMap();
         responseMap.put("Properties", properties.stream().map(Property::toDto));
@@ -159,13 +160,35 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Object sellProperty(Long playerId) {
-        return null;
+    public Object sellProperty(Long playerId, Long propertyId) {
+        Player player = playerRepository.getOne(playerId);
+
+        Property property = player.getPropertyByPropertyId(propertyId);
+
+        if(!property.notSold()) {
+            return "ERROR se intento vender una casa ya vendida";
+        }
+
+        property.sell();
+
+        player.addTransactionsToBalance(singletonList(new Transaction("Venta de " + property.getPropertyName(),
+                INCOMES, NUMBER, CURRENT, property.getSellValue())));
+
+        playerRepository.save(player);
+
+        return player.getBalance().toDto();
     }
 
     @Override
-    public Object rentProperty(Long playerId) {
-        return null;
+    public Object rentProperty(Long playerId, Long propertyId) {
+        Player player = playerRepository.getOne(playerId);
+
+        Property property = player.getPropertyByPropertyId(propertyId);
+        property.rent();
+
+        playerRepository.save(player);
+
+        return player.getBalance().toDto();
     }
 
     @Override
@@ -173,6 +196,10 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = playerRepository.getOne(playerId);
 
         Share share = player.getShareByShareId(shareId);
+
+        if(share.getQuantity() < quantity) {
+            return "ERROR se intento vender mas acciones de las que hay";
+        }
 
         Integer sellValue = share.getValue(quantity);
         share.setQuantity(share.getQuantity() - quantity);

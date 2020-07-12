@@ -13,7 +13,6 @@ public class PropertyRequest {
     private Integer sellValue;
     private Integer rentValue;
     private Boolean isRentable;
-    private Boolean canBeSold;
 
     @JsonIgnore
     public Property toEntity() {

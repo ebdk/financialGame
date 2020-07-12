@@ -119,17 +119,30 @@ public class Player {
 
 
     public Share getShareByCompanyName(String companyName) {
-        List<Share> sharesFilterByName = shares.stream().filter(share -> companyName.equals(share.getCompany().getName()))
+        List<Share> sharesFilteredByName = shares
+                .stream()
+                .filter(share -> companyName.equals(share.getCompany().getName()))
                 .collect(toList());
 
-        return sharesFilterByName.isEmpty() ? null : sharesFilterByName.get(0);
+        return sharesFilteredByName.isEmpty() ? null : sharesFilteredByName.get(0);
     }
 
     public Share getShareByShareId(Long shareId) {
-        List<Share> sharesFilterByName = shares.stream().filter(share -> shareId.equals(share.getShareId()))
+        List<Share> sharesFilteredById = shares
+                .stream()
+                .filter(share -> shareId.equals(share.getShareId()))
                 .collect(toList());
 
-        return sharesFilterByName.isEmpty() ? null : sharesFilterByName.get(0);
+        return sharesFilteredById.isEmpty() ? null : sharesFilteredById.get(0);
+    }
+
+    public Property getPropertyByPropertyId(Long propertyId) {
+        List<Property> propertiesFilteredById = properties
+                .stream()
+                .filter(property -> propertyId.equals(property.getPropertyId()))
+                .collect(toList());
+
+        return propertiesFilteredById.isEmpty() ? null : propertiesFilteredById.get(0);
     }
 
     public Integer getLatestMonthNumber() {

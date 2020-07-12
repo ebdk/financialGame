@@ -54,12 +54,12 @@ public class PlayerController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The game was crated successfully", response = UserResponse.class),
     })
-    @PostMapping(path="new_month/{playerId}",produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="next_month/{playerId}",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object newMonth(
+    public Object nextMonth(
             @ApiParam(value = "The player's id", required = true)
             @PathVariable("playerId") Long playerId) {
-        return service.newMonth(playerId);
+        return service.nextMonth(playerId);
     }
 
     @ApiOperation(
@@ -77,7 +77,7 @@ public class PlayerController {
     }
 
     @ApiOperation(
-            value = "Gets all of Player's ownerships",
+            value = "Sells a Player's share for a given quantity",
             notes = "Self explanatory")
     @ApiResponses({
             @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
@@ -92,6 +92,38 @@ public class PlayerController {
             @ApiParam(value = "The quantity to be sold", required = true)
             @PathVariable("quantity") Integer quantity) {
         return service.sellShare(playerId, shareId, quantity);
+    }
+
+    @ApiOperation(
+            value = "Puts a Player's property to rent",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @PostMapping(path="rent_property/{playerId}/{propertyId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object rentProperty(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId,
+            @ApiParam(value = "The player's Property's Id", required = true)
+            @PathVariable("propertyId") Long shareId) {
+        return service.rentProperty(playerId, shareId);
+    }
+
+    @ApiOperation(
+            value = "Sells a Player's property",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @PostMapping(path="sell_property/{playerId}/{propertyId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object sellProperty(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId,
+            @ApiParam(value = "The player's Property's Id", required = true)
+            @PathVariable("propertyId") Long shareId) {
+        return service.sellProperty(playerId, shareId);
     }
 
 }
