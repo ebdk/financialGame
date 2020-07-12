@@ -72,8 +72,9 @@ public class Card {
         this.imgUrl = cardRequest.getImgUrl();
         this.description = cardRequest.getDescription();
         this.difficulty = GameDifficulty.valueOf(cardRequest.getDifficulty());
-        this.optionType = OptionType.valueOf(cardRequest.getType());
-        this.targetType = TargetType.valueOf(cardRequest.getType());
+        this.optionType = OptionType.valueOf(cardRequest.getOptionType());
+        this.effectType = EffectType.valueOf(cardRequest.getEffectType());
+        this.targetType = TargetType.valueOf(cardRequest.getTargetType());
         this.transactionList = cardRequest.getTransactionList(this);
         this.shares = cardRequest.getShares(this);
         this.bonds = cardRequest.getBonds(this);

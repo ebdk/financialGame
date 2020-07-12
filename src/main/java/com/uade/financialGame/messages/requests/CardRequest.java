@@ -16,7 +16,9 @@ public class CardRequest {
     private String imgUrl;
     private String description;
     private String difficulty;
-    private String type;
+    private String optionType;
+    private String targetType;
+    private String effectType;
     private TransactionListRequest transactionListRequest;
     private List<ShareRequest> sharesRequest;
     private List<BondRequest> bondsRequest;
@@ -29,7 +31,7 @@ public class CardRequest {
         this.imgUrl = card.getImgUrl();
         this.description = card.getDescription();
         this.difficulty = card.getDifficulty().toString();
-        this.type = card.getOptionType().toString();
+        //this.type = card.getOptionType().toString();
     }
 
     public CardRequest() {
@@ -37,9 +39,13 @@ public class CardRequest {
 
     @JsonIgnore
     public TransactionList getTransactionList(Card card) {
-        TransactionList transactionList = this.getTransactionListRequest().toEntity();
-        transactionList.setCard(card);
-        return transactionList;
+        if(getTransactionListRequest() != null) {
+            TransactionList transactionList = this.getTransactionListRequest().toEntity();
+            transactionList.setCard(card);
+            return transactionList;
+        } else {
+            return null;
+        }
     }
 
     public Card toEntity() {
@@ -47,24 +53,24 @@ public class CardRequest {
     }
 
     public List<Share> getShares(Card card) {
-        return sharesRequest.stream().map(shareRequest -> shareRequest.toEntity(card)).collect(toList());
+        return sharesRequest != null ? sharesRequest.stream().map(shareRequest -> shareRequest.toEntity(card)).collect(toList()) : null;
     }
 
     public List<Bond> getBonds(Card card) {
-        return bondsRequest.stream().map(bondRequest -> bondRequest.toEntity(card)).collect(toList());
+        return bondsRequest != null ? bondsRequest.stream().map(bondRequest -> bondRequest.toEntity(card)).collect(toList()) : null;
     }
 
     public List<Property> getProperties(Card card) {
-        return propertiesRequest.stream().map(propertyRequest -> propertyRequest.toEntity(card)).collect(toList());
+        return propertiesRequest != null ? propertiesRequest.stream().map(propertyRequest -> propertyRequest.toEntity(card)).collect(toList()): null;
     }
 
     public List<CompanyChanges> getCompanyChanges(Card card) {
-        return companyChangesRequest.stream().map(companyChangesRequest1 -> companyChangesRequest1.toEntity(card)).collect(toList());
+        return companyChangesRequest != null ? companyChangesRequest.stream().map(companyChangesRequest1 -> companyChangesRequest1.toEntity(card)).collect(toList()): null;
     }
 
 
     public GlosarySlot getGlosarySlot(Card card) {
-        return glosarySlotRequest.toEntity(card);
+        return glosarySlotRequest != null ? glosarySlotRequest.toEntity(card): null;
     }
 
 }
