@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class BondResponse implements Response {
 
+    private Long bondId;
     private String description;
     private String smallDescription;
     private Long playerId;
@@ -20,6 +21,7 @@ public class BondResponse implements Response {
 
     public BondResponse(Bond bond) {
         if(bond != null) {
+            this.bondId = bond.getBondId();
             this.description = bond.getDescription() != null ? bond.getDescription() : null;
             this.smallDescription = bond.getSmallDescription() != null ? bond.getSmallDescription() : null;
             this.playerId = bond.getPlayer() != null ? bond.getPlayer().getPlayerId() : null;

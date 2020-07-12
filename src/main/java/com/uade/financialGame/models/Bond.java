@@ -1,6 +1,7 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.requests.BondRequest;
+import com.uade.financialGame.messages.responses.BondResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,4 +73,7 @@ public class Bond {
         return returnValue;
     }
 
+	public BondResponse toDto() {
+        return new BondResponse(this);
+	}
 }

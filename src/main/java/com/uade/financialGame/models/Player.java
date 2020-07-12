@@ -119,7 +119,14 @@ public class Player {
 
 
     public Share getShareByCompanyName(String companyName) {
-        List<Share> sharesFilterByName = shares.stream().filter(x -> companyName.equals(x.getCompany().getName()))
+        List<Share> sharesFilterByName = shares.stream().filter(share -> companyName.equals(share.getCompany().getName()))
+                .collect(toList());
+
+        return sharesFilterByName.isEmpty() ? null : sharesFilterByName.get(0);
+    }
+
+    public Share getShareByShareId(Long shareId) {
+        List<Share> sharesFilterByName = shares.stream().filter(share -> shareId.equals(share.getShareId()))
                 .collect(toList());
 
         return sharesFilterByName.isEmpty() ? null : sharesFilterByName.get(0);

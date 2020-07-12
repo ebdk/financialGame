@@ -6,13 +6,17 @@ import com.uade.financialGame.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
 import static com.uade.financialGame.models.Transaction.TransactionType.*;
 import static com.uade.financialGame.utils.MathUtils.getPercentage;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -66,7 +70,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         player.setHasDonated(true);
 
-        player.addTransactionsToBalance(Collections.singletonList(expensesTransaction));
+        player.addTransactionsToBalance(singletonList(expensesTransaction));
 
         playerRepository.save(player);
 
@@ -147,9 +151,9 @@ public class PlayerServiceImpl implements PlayerService {
         List<Bond> bonds = bondRepository.findByPlayer(player);
 
         Map responseMap = new HashMap();
-        responseMap.put("Properties", properties);
-        responseMap.put("Shares", shares);
-        responseMap.put("Bonds", bonds);
+        responseMap.put("Properties", properties.stream().map(Property::toDto));
+        responseMap.put("Shares", shares.stream().map(Share::toDto));
+        responseMap.put("Bonds", bonds.stream().map(Bond::toDto));
 
         return responseMap;
     }
@@ -165,8 +169,21 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Object sellShare(Long playerId) {
-        return null;
+    public Object sellShare(Long playerId, Long shareId, Integer quantity) {
+        Player player = playerRepository.getOne(playerId);
+
+        Share share = player.getShareByShareId(shareId);
+
+        Integer sellValue = share.getValue(quantity);
+        share.setQuantity(share.getQuantity() - quantity);
+
+        player.addTransactionsToBalance(singletonList(new Transaction(String.format("Venta de %s Acciones de %s", quantity, share.getCompany().getName()),
+                INCOMES, NUMBER, CURRENT, sellValue)));
+
+
+        playerRepository.save(player);
+
+        return player.getBalance().toDto();
     }
 
 

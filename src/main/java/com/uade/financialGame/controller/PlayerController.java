@@ -61,4 +61,37 @@ public class PlayerController {
             @PathVariable("playerId") Long playerId) {
         return service.newMonth(playerId);
     }
+
+    @ApiOperation(
+            value = "Gets all of Player's ownerships",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="ownerships/{playerId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object showPlayerOwnerships(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId) {
+        return service.showPlayerOwnerships(playerId);
+    }
+
+    @ApiOperation(
+            value = "Gets all of Player's ownerships",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @PostMapping(path="sell_shares/{playerId}/{shareId}/{quantity}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object sellShare(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId,
+            @ApiParam(value = "The player's Share's Id", required = true)
+            @PathVariable("shareId") Long shareId,
+            @ApiParam(value = "The quantity to be sold", required = true)
+            @PathVariable("quantity") Integer quantity) {
+        return service.sellShare(playerId, shareId, quantity);
+    }
+
 }

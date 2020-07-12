@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class PropertyResponse implements Response {
 
+    private Long propertyId;
     private Long playerId;
     private String propertyName;
     private Integer buyValue;
@@ -18,6 +19,7 @@ public class PropertyResponse implements Response {
 
     public PropertyResponse(Property property) {
         if(property != null){
+            this.propertyId = property.getPropertyId();
             this.playerId = property.getPlayer() != null ? property.getPlayer().getPlayerId() : null;
             this.propertyName = property.getPropertyName() != null ? property.getPropertyName().toString() : null;
             this.buyValue = property.getBuyValue() != null ? property.getBuyValue() : null;

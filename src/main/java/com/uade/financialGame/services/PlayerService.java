@@ -14,5 +14,5 @@ public interface PlayerService {
 
     Object rentProperty(Long playerId);
 
-    Object sellShare(Long playerId);
+    Object sellShare(Long playerId, Long shareId, Integer quantity);
 }

@@ -70,7 +70,6 @@ public class Property {
         CAR
     }
 
-
     //METHODS
     public PropertyResponse toDto() {
         return new PropertyResponse(this);

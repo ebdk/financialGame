@@ -1,6 +1,7 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.requests.ShareRequest;
+import com.uade.financialGame.messages.responses.ShareResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,8 +68,16 @@ public class Share {
         return quantity * company.getShareValue();
     }
 
+    public Integer getValue(Integer quantity) {
+        return quantity * company.getShareValue();
+    }
+
     public Integer getValueDividends() {
         return getPercentage(quantity * company.getShareDividendValue(), 10);
     }
+
+	public ShareResponse toDto() {
+        return new ShareResponse(this);
+	}
 
 }

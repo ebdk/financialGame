@@ -1,6 +1,5 @@
 package com.uade.financialGame.controller;
 
-import com.uade.financialGame.messages.requests.CardRequest;
 import com.uade.financialGame.messages.requests.CompanyRequest;
 import com.uade.financialGame.messages.responses.UserResponse;
 import com.uade.financialGame.services.GameService;
@@ -56,14 +55,14 @@ public class GameController {
     }
 
     @ApiOperation(
-            value = "Assigns a random profession to all players",
-            notes = "Self explanatory")
+            value = "Start Game",
+            notes = "Assigns professions, initiliaze balance and share of every player")
     @ApiResponses({
             @ApiResponse(code = 200, message = "The users were assigned professions successfully", response = UserResponse.class),
     })
-    @PostMapping(path="assign_professions/{gameId}", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="startGame/{gameId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Object modifyPlayersProfessions(@ApiParam(value = "The game's id", required = true)
+    public Object startGame(@ApiParam(value = "The game's id", required = true)
                                                @PathVariable("gameId") Long gameId) {
         return org.springframework.http.ResponseEntity.ok(service.startGame(gameId));
     }
