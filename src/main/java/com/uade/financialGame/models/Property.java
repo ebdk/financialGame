@@ -50,6 +50,18 @@ public class Property {
 	public Property() {
 	}
 
+	public Property(Property cardProperty, Player player) {
+		this.propertyName = cardProperty.getPropertyName();
+		this.buyValue = cardProperty.getBuyValue();
+		this.sellValue = cardProperty.getSellValue();
+		this.rentValue = cardProperty.getRentValue();
+		this.isRentable = cardProperty.getIsRentable();
+		this.canBeSold = cardProperty.getCanBeSold();
+		this.beingRented = false;
+		this.player = player;
+
+	}
+
 	public enum PropertyName {
         HOUSE,
         BLOCK,

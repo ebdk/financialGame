@@ -14,7 +14,6 @@ public class BondRequest {
     private Integer monthNumberLenght;
     private Integer buyValue;
     private Integer returnValue;
-    private Boolean charged;
 
     @JsonIgnore
     public Bond toEntity() {

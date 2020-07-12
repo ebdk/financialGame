@@ -120,7 +120,8 @@ public class GameServiceImpl implements GameService {
         while(i < GAME_FULL_NUMBER) {
             Player botPlayer = new Player(botUser, PlayerType.CPU);
             game.addPlayer(botPlayer);
-            botPlayer.setGame(game);
+            botPlayer.setGame(game); //SIEMPRE FALLA LA PRIMERA VEZ ACA!!!!
+            //Cannot add or update a child row: a foreign key constraint fails (`exterion_bedecarats`.`player`, CONSTRAINT `FKi08poxythxcnmt9x8ui8kii8i` FOREIGN KEY (`user_user_id`) REFERENCES `user` (`user_id`))
             playerRepository.save(botPlayer);
             i++;
         }

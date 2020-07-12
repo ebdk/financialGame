@@ -72,11 +72,11 @@ public class CardServiceImpl implements CardService {
     private List<Long> companiesIdsInvolved(List<CardRequest> cardRequestList)  {
         List<Long> ids = new ArrayList<>();
         cardRequestList.forEach(cardRequest -> {
-            if(COMPANY_VALUE_CHANGE.equals(cardRequest.getEffectType())) {
+            if(COMPANY_VALUE_CHANGE.equals(Card.EffectType.valueOf(cardRequest.getEffectType()))) {
                 cardRequest.getCompanyChangesRequest()
                         .forEach(companyChangesRequest -> ids.add(companyChangesRequest.getCompanyId()));
             }
-            if(SHARE_BUY.equals(cardRequest.getEffectType())){
+            if(SHARE_BUY.equals(Card.EffectType.valueOf(cardRequest.getEffectType()))){
                 cardRequest.getSharesRequest()
                         .forEach(shareRequest -> ids.add(shareRequest.getCompanyId()));
             }
@@ -86,10 +86,11 @@ public class CardServiceImpl implements CardService {
     }
 
     private List<Company> companiesInvolved(List<Long> ids) {
-        return companyRepository.findAll()
+        /*return companyRepository.findAll()
                 .stream()
                 .filter(company -> ids.contains(company.getCompanyId()))
-                .collect(toList());
+                .collect(toList());*/
+        return companyRepository.findAllById(ids);
     }
 
 }

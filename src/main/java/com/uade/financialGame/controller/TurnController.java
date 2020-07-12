@@ -53,7 +53,7 @@ public class TurnController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "The Game Turn was crated successfully", response = UserResponse.class),
     })
-    @PostMapping(path="{userId}/{cardId}/{boxId}/{turnNumber}", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path="{playerId}/{cardId}/{boxId}/{turnNumber}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object createTurn(@ApiParam(value = "The player's id", required = true)
                                     @PathVariable("playerId") Long playerId,

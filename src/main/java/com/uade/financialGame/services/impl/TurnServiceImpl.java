@@ -78,7 +78,8 @@ public class TurnServiceImpl implements TurnService {
         if(PROPERTY_BUY.equals(card.getEffectType())) {
 
             List<Property> cardProperties = card.getProperties();
-            player.addProperties(cardProperties);
+            List<Property> clonedProperties = cloneProperties(cardProperties, player);
+            player.addProperties(clonedProperties);
 
             List<Transaction> transactions = cardProperties
                     .stream()
@@ -86,7 +87,7 @@ public class TurnServiceImpl implements TurnService {
                     .collect(toList());
 
             thisTurnTransactions.addAll(transactions);
-            propertyRepository.saveAll(cardProperties);
+            propertyRepository.saveAll(clonedProperties);
         }
         if(SHARE_BUY.equals(card.getEffectType())) {
 
@@ -131,7 +132,7 @@ public class TurnServiceImpl implements TurnService {
         }
         if(TRANSACTION_ONLY.equals(card.getEffectType())) {
             if(card.getTargetType().equals(Card.TargetType.PERSONAL)) {
-                thisTurnTransactions = card.getTransactionList().getTransactions();
+                thisTurnTransactions = card.getTransactionList().cloneList();
             } else if (card.getTargetType().equals(Card.TargetType.GLOBAL)) {
                 List<Player> players = playerRepository.findByGame(player.getGame());
                 players.forEach(player1 -> {
@@ -149,6 +150,14 @@ public class TurnServiceImpl implements TurnService {
         playerRepository.save(player);
 
         return turn.toDto();
+    }
+
+    private List<Property> cloneProperties(List<Property> cardProperties, Player player) {
+        List<Property> clonedProperties = new ArrayList<>();
+        cardProperties.forEach(cardProperty -> {
+            clonedProperties.add(new Property(cardProperty, player));
+        });
+        return clonedProperties;
     }
 
     @Override

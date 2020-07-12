@@ -32,7 +32,7 @@ public class Card {
     @OneToOne(mappedBy = "card", cascade = {CascadeType.ALL})
     private TransactionList transactionList;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = {CascadeType.ALL})
     private List<Share> shares;
 
     @OneToMany(mappedBy = "card")
