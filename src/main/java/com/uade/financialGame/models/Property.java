@@ -28,7 +28,7 @@ public class Property {
     private PropertyStatus propertyStatus;
     private Boolean isRentable;
 
-	public void rent() {
+	public void putOnRent() {
 		if(notSold()) {
 			this.propertyStatus = AVAILABLE.equals(propertyStatus) ? RENTING : AVAILABLE;
 		}
@@ -38,6 +38,10 @@ public class Property {
 		if(notSold()) {
 			this.propertyStatus = SOLD;
 		}
+	}
+
+	public int rent() {
+		return RENTING.equals(propertyStatus) ? rentValue : 0;
 	}
 
 	public enum PropertyStatus {
@@ -91,6 +95,11 @@ public class Property {
 	public boolean notSold() {
 		return !SOLD.equals(propertyStatus);
 	}
+
+	/*public boolean beingRented() {
+		return RENTING.equals(propertyStatus);
+	}
+	 */
 
     //METHODS
     public PropertyResponse toDto() {

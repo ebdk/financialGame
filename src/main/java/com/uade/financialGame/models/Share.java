@@ -76,6 +76,10 @@ public class Share {
         return getPercentage(quantity * company.getShareDividendValue(), 10);
     }
 
+    public boolean higherThanZeroQuantity() {
+        return quantity > 0;
+    }
+
 	public ShareResponse toDto() {
         return new ShareResponse(this);
 	}

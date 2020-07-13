@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.uade.financialGame.models.Transaction.TransactionType.*;
 import static java.util.Comparator.comparing;
@@ -145,10 +146,6 @@ public class Player {
         return propertiesFilteredById.isEmpty() ? null : propertiesFilteredById.get(0);
     }
 
-    public Integer getLatestMonthNumber() {
-        return 1;
-    }
-
     public Map<TransactionType, List<Transaction>> getBalanceDetailedMap() {
         return balance.getTransactions().stream()
                 .filter(Transaction::isCurrent)
@@ -198,6 +195,36 @@ public class Player {
             put(EXPENSES, finalExpensesValue);
         }};
     }
+
+
+    public void addMonth() {
+        currentMonth = currentMonth + 1;
+    }
+
+    public List<Bond> getActiveBonds() {
+        //DOESN'T SHOW BONDS WHICH HAVE BEEN CONSUMED
+        return bonds
+                .stream()
+                .filter(Bond::notCharged)
+                .collect(Collectors.toList());
+    }
+
+    public List<Share> getActiveShares() {
+        //DOESN'T SHOW SHARES WIHICH HAVE LESS THAN 0
+        return shares
+                .stream()
+                .filter(Share::higherThanZeroQuantity)
+                .collect(Collectors.toList());
+    }
+
+    public List<Property> getActiveProperties() {
+        //DOESN'T SHOW PROPERTIES WIHICH HAVE BEEN SOLD
+        return properties
+                .stream()
+                .filter(Property::notSold)
+                .collect(Collectors.toList());
+    }
+
 
     public void addTransactionsToBalance(List<Transaction> transactions) {
         balance.addTransactions(transactions);

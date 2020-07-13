@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
 import static com.uade.financialGame.models.Transaction.TransactionType.*;
+import static com.uade.financialGame.utils.MathUtils.getPercantageBewteenTwoRandom;
 import static com.uade.financialGame.utils.MathUtils.getPercentage;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -75,7 +75,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Object nextMonth(Long playerId) {
         Player player = playerRepository.getOne(playerId);
-        Integer monthNumber = player.getLatestMonthNumber() + 1;
+        Integer monthNumber = player.getCurrentMonth() + 1;
 
         TransactionList balance = player.getBalance();
 
@@ -87,41 +87,80 @@ public class PlayerServiceImpl implements PlayerService {
         List<Transaction> thisMonthIncomes = new ArrayList<>();
         List<Transaction> thisMonthExpenses = new ArrayList<>();
 
-        if(player.isEmployed()) {
-            thisMonthIncomes.addAll(chargeBonds(player));
-            thisMonthIncomes.addAll(shareDividends(player));
+        if(player.isEmployed()) {//INGRESOS MENSUALES
+            //thisMonthIncomes.addAll(chargeBonds(player));
+            //thisMonthIncomes.addAll(shareDividends(player));
             for(Transaction transaction : monthlyIncomes) {
                 Transaction newTransaction = new Transaction(transaction, monthNumber);
                 thisMonthIncomes.add(newTransaction);
             }
-        } else {
+        } else {//SI JUGADOR NO ESTA EMPLEADO, NO TIENE INGRESOS ESE MES
             player.setEmployed(true);
-            //playerRepository.save(player);
             Transaction newTransaction = new Transaction("No job for Month " + monthNumber, INCOMES, NUMBER, CURRENT, 0);
             thisMonthIncomes.add(newTransaction);
-        }
+        }//GASTOS MENSUALES
         for(Transaction transaction : monthlyExpenses) {
             Transaction newTransaction = new Transaction(transaction, monthNumber);
             thisMonthExpenses.add(newTransaction);
         }
-        thisMonthIncomes.addAll(thisMonthExpenses);
+
+        //PROPIEDADES
+        /*
+        List<Property> propertiesOnRent = player.getActiveProperties()
+                .stream()
+                .filter(Property::beingRented)
+                .collect(Collectors.toList());
+         */
+        List<Property> activeProperties = player.getActiveProperties();
+        if(!activeProperties.isEmpty()) {
+            Integer rentValue = activeProperties.stream().mapToInt(Property::rent).sum();
+            if(rentValue > 0) {
+                Transaction newIncomeTransaction = new Transaction("Cobro de los Alquileres Mes " + monthNumber, INCOMES, NUMBER, CURRENT, rentValue);
+                thisMonthIncomes.add(newIncomeTransaction);
+                Transaction newExpenseTransaction = new Transaction("Gasto de mantenimiento Propiedades en Alquiler Mes " + monthNumber, EXPENSES, NUMBER, CURRENT, getPercantageBewteenTwoRandom(rentValue, 5, 15));
+                thisMonthExpenses.add(newExpenseTransaction);
+            }
+        }
+
+        //ACCIONES
+        List<Share> shares = player.getActiveShares();
+        if(!shares.isEmpty()) {
+            Integer dividendsValue = shares.stream().mapToInt(Share::getValueDividends).sum();
+            if(dividendsValue > 0) {
+                Transaction newIncomeTransaction = new Transaction("Cobro de los Dividendos de las Acciones Mes " + monthNumber, INCOMES, NUMBER, CURRENT, dividendsValue);
+                thisMonthIncomes.add(newIncomeTransaction);
+            }
+        }
+
+        //BOND
+        List<Bond> bonds = player.getActiveBonds();
+        if(!bonds.isEmpty()) {
+            Integer chargedBonds = bonds.stream().mapToInt(bond -> bond.charge(monthNumber)).sum();
+            if(chargedBonds > 0) {
+                Transaction shareTransaction = new Transaction("Cobrado Bonos Mes  " + monthNumber,
+                        INCOMES, NUMBER, CURRENT, chargedBonds);
+                thisMonthIncomes.add(shareTransaction);
+            }
+        }
 
         player.addTransactionsToBalance(thisMonthIncomes);
+        player.addTransactionsToBalance(thisMonthExpenses);
 
-
-        //transactionRepository.saveAll(thisMonthIncomes);
-        //transactionListRepository.save(balance);
+        player.addMonth();
         playerRepository.save(player);
         return balance.toDto();
     }
 
+    /*
     private List<Transaction> shareDividends(Player player) {
         List<Transaction> thisMonthSharesDividends = new ArrayList<>();
         List<Share> shares = player.getShares();
-        shares.forEach(x -> {
-            Transaction shareTransaction = new Transaction("Dividends of Shares of " + x.getCompany().getName(),
-                    INCOMES, NUMBER, CURRENT, x.getValueDividends());
-            thisMonthSharesDividends.add(shareTransaction);
+        shares.forEach(share -> {
+            if(share.getValueDividends() >= 0) {
+                Transaction shareTransaction = new Transaction("Dividends of Shares of " + share.getCompany().getName(),
+                        INCOMES, NUMBER, CURRENT, share.getValueDividends());
+                thisMonthSharesDividends.add(shareTransaction);
+            }
         });
         return thisMonthSharesDividends;
     }
@@ -129,27 +168,25 @@ public class PlayerServiceImpl implements PlayerService {
     private List<Transaction> chargeBonds(Player player) {
         List<Transaction> thisMonthBondsDividends = new ArrayList<>();
         List<Bond> bonds = player.getBonds();
-        bonds.forEach(x -> {
-            if(x.canBeCharged(player.getCurrentMonth())) {
-                Transaction shareTransaction = new Transaction("Charged Bond of " + x.getSmallDescription(),
-                        INCOMES, NUMBER, CURRENT, x.charge());
+        bonds.forEach(bond -> {
+            if(bond.canBeCharged(player.getCurrentMonth())) {
+                Transaction shareTransaction = new Transaction("Charged Bond of " + bond.getSmallDescription(),
+                        INCOMES, NUMBER, CURRENT, bond.charge());
                 thisMonthBondsDividends.add(shareTransaction);
             };
         });
         return thisMonthBondsDividends;
     }
+     */
 
 
     @Override
     public Object showPlayerOwnerships(Long playerId) {
         Player player = playerRepository.getOne(playerId);
 
-        List<Share> shares = shareRepository.findByPlayer(player);
-        List<Bond> bonds = bondRepository.findByPlayer(player);
-        List<Property> properties = propertyRepository.findByPlayer(player)
-                .stream()
-                .filter(Property::notSold)
-                .collect(Collectors.toList());
+        List<Share> shares = player.getActiveShares();
+        List<Bond> bonds = player.getActiveBonds();
+        List<Property> properties = player.getActiveProperties();
 
         Map responseMap = new HashMap();
         responseMap.put("Properties", properties.stream().map(Property::toDto));
@@ -184,7 +221,7 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = playerRepository.getOne(playerId);
 
         Property property = player.getPropertyByPropertyId(propertyId);
-        property.rent();
+        property.putOnRent();
 
         playerRepository.save(player);
 

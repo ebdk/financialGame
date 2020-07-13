@@ -73,6 +73,15 @@ public class Bond {
         return returnValue;
     }
 
+    public int charge(int monthReference) {
+        return canBeCharged(monthReference) ? charge() : 0;
+    }
+
+
+    public boolean notCharged() {
+        return !charged;
+    }
+
 	public BondResponse toDto() {
         return new BondResponse(this);
 	}

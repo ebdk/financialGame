@@ -54,7 +54,7 @@ public class TransactionList {
 
     public TransactionList(TransactionListRequest transactionListRequest) {
         this.transactions = transactionListRequest.getTransactions();
-        transactions.forEach(x -> x.setTransactionList(this));
+        transactions.forEach(transaction -> transaction.setTransactionList(this));
     }
 
     //METHODS
@@ -69,7 +69,7 @@ public class TransactionList {
 
     public void addTransactions(List<Transaction> transactionList) {
         transactions.addAll(transactionList);
-        transactionList.forEach(x -> x.setTransactionList(this));
+        transactionList.forEach(transaction -> transaction.setTransactionList(this));
     }
 
     public List<Transaction> getMonthlyExpenses() {
