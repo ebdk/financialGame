@@ -15,4 +15,5 @@ public interface CompanyDAO extends JpaRepository<Company, Long> {
 	List<Company> findBySaveType(Company.SaveType saveType);
 
 	//List<Company> findByCompanyId(Collection<Long> ids);
+
 }
