@@ -33,11 +33,11 @@ public class PlayerResponse implements Response {
             this.balance = player.getBalance() != null ?
                     player.getBalance().toDto() : null;
             this.shares = player.getShares() != null
-                    ? player.getShares().stream().map(Share::toDto).collect(Collectors.toList()) : null;
+                    ? player.getActiveShares().stream().map(Share::toDto).collect(Collectors.toList()) : null;
             this.bonds = player.getBonds() != null
-                    ? player.getBonds().stream().map(Bond::toDto).collect(Collectors.toList()) : null;
+                    ? player.getActiveBonds().stream().map(Bond::toDto).collect(Collectors.toList()) : null;
             this.properties = player.getProperties() != null
-                    ? player.getProperties().stream().map(Property::toDto).collect(Collectors.toList()) : null;
+                    ? player.getActiveProperties().stream().map(Property::toDto).collect(Collectors.toList()) : null;
         }
     }
 
