@@ -220,6 +220,17 @@ public class GameServiceImpl implements GameService {
         return companies.stream().map(Company::toDto).collect(toList());
     }
 
+    @Override
+    public Object getPlayers(Long gameId) {
+        Game game = gameRepository.getOne(gameId);
+
+        return game.getPlayers().stream().map(Player::toDto).collect(toList());
+    }
+
+    @Override
+    public Object getGame(Long gameId) {
+        return gameRepository.getOne(gameId).toDto();
+    }
 
 
 }

@@ -150,7 +150,12 @@ public class TurnServiceImpl implements TurnService {
         turnRepository.save(turn);
         playerRepository.save(player);
 
-        return turn.toDto();
+
+        if(COMPANY_VALUE_CHANGE.equals(card.getEffectType())) {
+            return companyRepository.findByGame(player.getGame()).stream().map(Company::toDto).collect(toList());
+        }
+
+        return player.toDto();
     }
 
     private List<Bond> cloneBonds(List<Bond> cardBonds) {

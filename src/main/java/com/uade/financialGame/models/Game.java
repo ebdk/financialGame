@@ -1,5 +1,6 @@
 package com.uade.financialGame.models;
 
+import com.uade.financialGame.messages.responses.GameMiniResponse;
 import com.uade.financialGame.messages.responses.GameResponse;
 import lombok.Getter;
 
@@ -30,7 +31,11 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Company> companies;
 
-    public enum GameType {
+	public GameMiniResponse toMiniDto() {
+        return new GameMiniResponse(this);
+	}
+
+	public enum GameType {
         NORMAL
     }
 

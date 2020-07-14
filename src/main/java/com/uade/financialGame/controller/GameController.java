@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     public Object startGame(@ApiParam(value = "The game's id", required = true)
                                                @PathVariable("gameId") Long gameId) {
-        return org.springframework.http.ResponseEntity.ok(service.startGame(gameId));
+        return ResponseEntity.ok(service.startGame(gameId));
     }
 
     @ApiOperation(
@@ -77,7 +78,33 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     public Object showGameCompanies(@ApiParam(value = "The game's id", required = true)
                                            @PathVariable("gameId") Long gameId) {
-        return org.springframework.http.ResponseEntity.ok(service.showGameCompanies(gameId));
+        return ResponseEntity.ok(service.showGameCompanies(gameId));
+    }
+
+    @ApiOperation(
+            value = "Gets Players from a Game",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The companies were retreived succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="players/{gameId}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object getPlayers(@ApiParam(value = "The game's id", required = true)
+                                    @PathVariable("gameId") Long gameId) {
+        return ResponseEntity.ok(service.getPlayers(gameId));
+    }
+
+    @ApiOperation(
+            value = "Gets a Game",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The companies were retreived succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="{gameId}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object getGame(@ApiParam(value = "The game's id", required = true)
+                             @PathVariable("gameId") Long gameId) {
+        return ResponseEntity.ok(service.getGame(gameId));
     }
 
     @ApiOperation(
@@ -89,7 +116,7 @@ public class GameController {
     @PostMapping(path="post_company", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Object postCompanies(@RequestBody List<CompanyRequest> companyRequests) {
-        return org.springframework.http.ResponseEntity.ok(service.postCompanies(companyRequests));
+        return ResponseEntity.ok(service.postCompanies(companyRequests));
     }
 
 }

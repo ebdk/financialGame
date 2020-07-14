@@ -15,7 +15,7 @@ public class ProfessionResponse implements Response {
     private String name;
     private String imgUrl;
     private String description;
-    private List<Long> playerIds;
+    //private List<Long> playerIds;
     private TransactionListResponse transactions;
 
     public ProfessionResponse(Profession profession) {
@@ -24,8 +24,6 @@ public class ProfessionResponse implements Response {
             this.name = profession.getName() != null ? profession.getName() : null;
             this.imgUrl = profession.getImgUrl() != null ? profession.getImgUrl() : null;
             this.description = profession.getDescription() != null ?  profession.getDescription() : null;
-            this.playerIds = profession.getPlayer() != null ?
-                    profession.getPlayer().stream().map(Player::getPlayerId).collect(Collectors.toList()) : null;
             this.transactions = profession.getTransactionList() != null ?
                     profession.getTransactionList().toDto() : null;
         }

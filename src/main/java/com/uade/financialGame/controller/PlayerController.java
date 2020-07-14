@@ -63,6 +63,20 @@ public class PlayerController {
     }
 
     @ApiOperation(
+            value = "Gets Player's Transaction Balance",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="balance/{playerId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object getBalance(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId) {
+        return service.getBalance(playerId);
+    }
+
+    @ApiOperation(
             value = "Gets all of Player's ownerships",
             notes = "Self explanatory")
     @ApiResponses({
@@ -74,6 +88,20 @@ public class PlayerController {
             @ApiParam(value = "The player's id", required = true)
             @PathVariable("playerId") Long playerId) {
         return service.showPlayerOwnerships(playerId);
+    }
+
+    @ApiOperation(
+            value = "Get Player",
+            notes = "Self explanatory")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "The Player's ownerships were retrieved succesfuly", response = UserResponse.class),
+    })
+    @GetMapping(path="{playerId}",produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Object getPlayer(
+            @ApiParam(value = "The player's id", required = true)
+            @PathVariable("playerId") Long playerId) {
+        return service.getPlayer(playerId);
     }
 
     @ApiOperation(

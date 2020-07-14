@@ -250,5 +250,18 @@ public class PlayerServiceImpl implements PlayerService {
         return player.getBalance().toDto();
     }
 
+    @Override
+    public Object getBalance(Long playerId) {
+
+        Player player = playerRepository.getOne(playerId);
+
+        return player.getBalance().toDto();
+    }
+
+    @Override
+    public Object getPlayer(Long playerId) {
+        return playerRepository.getOne(playerId).toDto();
+    }
+
 
 }
