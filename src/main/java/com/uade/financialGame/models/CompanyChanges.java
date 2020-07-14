@@ -1,6 +1,8 @@
 package com.uade.financialGame.models;
 
 import com.uade.financialGame.messages.requests.CompanyChangesRequest;
+import com.uade.financialGame.messages.responses.BondResponse;
+import com.uade.financialGame.messages.responses.CompanyChangesResponse;
 import com.uade.financialGame.models.Company.CompanyAttribute;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,5 +47,10 @@ public class CompanyChanges {
 	}
 
 	public CompanyChanges() {
+	}
+
+
+	public CompanyChangesResponse toDto() {
+		return new CompanyChangesResponse(this);
 	}
 }
