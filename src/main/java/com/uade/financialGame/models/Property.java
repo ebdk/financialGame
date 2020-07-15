@@ -52,11 +52,11 @@ public class Property {
 
 
 	public enum PropertyName {
-		HOUSE,
-		BLOCK,
-		YACHT,
-		TRUCK,
-		CAR
+		CASA,
+		DEPARTAMENTO,
+		YATE,
+		CAMION,
+		AUTO
 	}
 
     @ManyToOne
