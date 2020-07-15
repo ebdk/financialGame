@@ -41,8 +41,8 @@ public class PlayerServiceImpl implements PlayerService {
     public Object payDebt(Long playerId, Integer amount) {
         Player player = playerRepository.getOne(playerId);
 
-        Transaction passiveTransaction = new Transaction("Pay Debt", PASSIVE, NUMBER, CURRENT, (-1) * amount);
-        Transaction expensesTransaction = new Transaction("Pay Debt", EXPENSES, NUMBER, CURRENT, amount);
+        Transaction passiveTransaction = new Transaction("Pago de Deuda", PASSIVE, NUMBER, CURRENT, (-1) * amount);
+        Transaction expensesTransaction = new Transaction("Pago de Deuda", EXPENSES, NUMBER, CURRENT, amount);
         List<Transaction> transactions = asList(passiveTransaction, expensesTransaction);
 
         player.addTransactionsToBalance(transactions);
@@ -61,7 +61,7 @@ public class PlayerServiceImpl implements PlayerService {
         Integer playerSalary = player.getBalanceValuesMap().get(INCOMES);
         Integer amount = getPercentage(playerSalary, 10);
 
-        Transaction expensesTransaction = new Transaction("Charity", EXPENSES, NUMBER, CURRENT, amount);
+        Transaction expensesTransaction = new Transaction("Caridad", EXPENSES, NUMBER, CURRENT, amount);
 
         player.setHasDonated(true);
 
@@ -96,7 +96,7 @@ public class PlayerServiceImpl implements PlayerService {
             }
         } else {//SI JUGADOR NO ESTA EMPLEADO, NO TIENE INGRESOS ESE MES
             player.setEmployed(true);
-            Transaction newTransaction = new Transaction("No job for Month " + monthNumber, INCOMES, NUMBER, CURRENT, 0);
+            Transaction newTransaction = new Transaction("Desempleado en el Mes " + monthNumber, INCOMES, NUMBER, CURRENT, 0);
             thisMonthIncomes.add(newTransaction);
         }//GASTOS MENSUALES
         for(Transaction transaction : monthlyExpenses) {
