@@ -85,5 +85,37 @@ public class Company {
         return new CompanyResponse(this);
     }
 
+    /*
+    public void ifIsCompanyApplyChange(String companyName, CompanyAttribute attribute, Integer value) {
+        if(companyName.equals(name)){
+            switch(attribute) {
+                case SHARE_DIVIDEND:
+                    setShareDividendValue(shareDividendValue + value);
+                    break;
+                case SHARE:
+                default:
+                    setShareValue(shareValue + value);
+            }
+        }
+    }
+
+    public void ifIsCompanyApplyChange(CompanyChanges companyChanges) {
+        String companyName = companyChanges.getCompany().getName();
+        CompanyAttribute attribute = companyChanges.getAttribute();
+        Integer value = companyChanges.getValue();
+        if(companyName.equals(name)){
+            switch(attribute) {
+                case SHARE_DIVIDEND:
+                    setShareDividendValue(shareDividendValue + value);
+                    break;
+                case SHARE:
+                default:
+                    setShareValue(shareValue + value);
+            }
+        }
+    }
+     */
+
+
 
 }

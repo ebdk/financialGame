@@ -121,15 +121,19 @@ public class TurnServiceImpl implements TurnService {
             List<CompanyChanges> companyChanges = card.getCompanyChanges();
             List<Company> companies = companyRepository.findByGame(player.getGame());
 
+
             companyChanges.forEach(companyChange -> {
                 Company companyToBeChanged = companies
                         .stream()
                         .filter(company -> companyChange.getCompany().getName().equals(company.getName()))
                         .collect(toList()).get(0);
                 companyToBeChanged.changeCompanyAttribute(companyChange.getAttribute(), companyChange.getValue());
-
-                companyRepository.save(companyToBeChanged);
             });
+
+            //companyChanges.forEach(companyChange -> companies.forEach(company -> company.ifIsCompanyApplyChange(companyChange)));
+            companyRepository.saveAll(companies);
+
+            return companies.stream().map(Company::toDto).collect(toList());
         }
         if(TRANSACTION_ONLY.equals(card.getEffectType())) {
             if(card.getTargetType().equals(Card.TargetType.PERSONAL)) {
@@ -152,7 +156,6 @@ public class TurnServiceImpl implements TurnService {
 
 
         if(COMPANY_VALUE_CHANGE.equals(card.getEffectType())) {
-            return companyRepository.findByGame(player.getGame()).stream().map(Company::toDto).collect(toList());
         }
 
         return player.toDto();
