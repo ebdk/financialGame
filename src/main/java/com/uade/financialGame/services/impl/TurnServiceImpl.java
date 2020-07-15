@@ -84,7 +84,7 @@ public class TurnServiceImpl implements TurnService {
 
             List<Transaction> transactions = cardProperties
                     .stream()
-                    .map(property -> new Transaction("Compra de " + property.getPropertyName().toString(), EXPENSES, NUMBER, CURRENT, property.getBuyValue()))
+                    .map(property -> new Transaction("Compra de " + property.getPropertyName(), EXPENSES, NUMBER, CURRENT, property.getBuyValue()))
                     .collect(toList());
 
             thisTurnTransactions.addAll(transactions);

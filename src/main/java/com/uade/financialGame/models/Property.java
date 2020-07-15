@@ -21,7 +21,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long propertyId;
 
-    private PropertyName propertyName;
+    private String propertyName;
     private Integer buyValue;
     private Integer sellValue;
     private Integer rentValue;
@@ -51,6 +51,7 @@ public class Property {
 	}
 
 
+	/*
 	public enum PropertyName {
 		CASA,
 		DEPARTAMENTO,
@@ -58,6 +59,7 @@ public class Property {
 		CAMION,
 		AUTO
 	}
+	 */
 
     @ManyToOne
     private Player player;
@@ -69,7 +71,7 @@ public class Property {
 	}
 
 	public Property(PropertyRequest propertyRequest, Card card) {
-	    this.propertyName = PropertyName.valueOf(propertyRequest.getPropertyName());
+	    this.propertyName = propertyRequest.getPropertyName();
 	    this.buyValue = propertyRequest.getBuyValue();
 	    this.sellValue = propertyRequest.getSellValue();
 	    this.rentValue = propertyRequest.getRentValue();
