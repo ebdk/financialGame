@@ -118,6 +118,11 @@ public class Transaction {
         return CURRENT.equals(transactionTime) && NUMBER.equals(numericType);
     }
 
+    public boolean isPercentagePassive() {
+        return PERCENTAGE.equals(numericType) && PASSIVE.equals(transactionType);
+    }
+
+
     public boolean isPercentage() {
         return PERCENTAGE.equals(numericType);
     }

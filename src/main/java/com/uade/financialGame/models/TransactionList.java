@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -140,7 +141,9 @@ public class TransactionList {
         return newTransactions;
     }
 
-
+    public List<Transaction> getPassivePercentage() {
+        return transactions.stream().filter(Transaction::isPercentagePassive).collect(Collectors.toList());
+    }
 
 
 

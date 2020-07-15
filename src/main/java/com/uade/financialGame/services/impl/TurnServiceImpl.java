@@ -15,7 +15,8 @@ import java.util.Optional;
 import static com.uade.financialGame.models.Card.EffectType.*;
 import static com.uade.financialGame.models.Transaction.NumericType.NUMBER;
 import static com.uade.financialGame.models.Transaction.TransactionTime.CURRENT;
-import static com.uade.financialGame.models.Transaction.TransactionType.EXPENSES;
+import static com.uade.financialGame.models.Transaction.TransactionType.*;
+import static com.uade.financialGame.utils.MathUtils.getPercentage;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -140,11 +141,27 @@ public class TurnServiceImpl implements TurnService {
                 thisTurnTransactions = card.getTransactionList().cloneList();
             } else if (card.getTargetType().equals(Card.TargetType.GLOBAL)) {
                 List<Player> players = playerRepository.findByGame(player.getGame());
-                players.forEach(player1 -> {
-                    if(!player.getPlayerId().equals(player1.getPlayerId())) {
-                        player1.addTransactionsToBalance(card.getTransactionList().getTransactions());
-                    }
-                });
+
+                if(!card.getTransactionList().getPassivePercentage().isEmpty()){
+
+                    Transaction percentagePassive = card.getTransactionList().getPassivePercentage().get(0);
+
+                    players.forEach(player1 ->  {
+                        Integer playerDebt = player.getBalanceValuesMap().get(PASSIVE);
+                        Integer amount = getPercentage(playerDebt, percentagePassive.getValue());
+                        Transaction passiveTransaction = new Transaction(String.format("Aumento de valor de Deudas por Inflacion del %s", percentagePassive.getValue()), PASSIVE, NUMBER, CURRENT, amount);
+                        player1.addTransactionsToBalance(passiveTransaction);
+                    });
+
+                } else {
+                    thisTurnTransactions = card.getTransactionList().cloneList();
+                    players.forEach(player1 -> {
+                        if(!player.getPlayerId().equals(player1.getPlayerId())) {
+                            player1.addTransactionsToBalance(card.getTransactionList().cloneList());
+                        }
+                    });
+                }
+
                 playerRepository.saveAll(players);
             }
         }

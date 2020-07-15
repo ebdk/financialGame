@@ -56,6 +56,7 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade=CascadeType.ALL)
     private List<Share> shares;
 
+
     public enum PlayerType {
         HUMAN,
         CPU
@@ -229,4 +230,10 @@ public class Player {
     public void addTransactionsToBalance(List<Transaction> transactions) {
         balance.addTransactions(transactions);
     }
+
+
+    public void addTransactionsToBalance(Transaction transaction) {
+        balance.addTransaction(transaction);
+    }
+
 }
